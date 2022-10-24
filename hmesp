@@ -249,15 +249,15 @@ UIS.InputBegan:Connect(function(input, gpe)
 		elseif input.KeyCode == Enum.KeyCode.J then
 			if visible == true then
 				visible = false
-				for i, plr in pairs(tracking) do
-					tFolder[plr.Name].Enabled = false
-					tFolder[plr.Name].Tag.Enabled = false
+				for i, v in pairs(tFolder:GetChildren()) do
+					v.Enabled = false
+					v.Tag.Enabled = false
 				end
 			elseif visible == false then
 				visible = true
-				for i, plr in pairs(tracking) do
-					tFolder[plr.Name].Enabled = true
-					tFolder[plr.Name].Tag.Enabled = true
+				for i, v in pairs(tFolder:GetChildren()) do
+					v.Enabled = true
+					v.Tag.Enabled = true
 				end
 			end
 		end
