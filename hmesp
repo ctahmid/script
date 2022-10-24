@@ -1,0 +1,330 @@
+local plrs = game:GetService("Players")
+local sgui = game:GetService("StarterGui")
+local UIS = game:GetService('UserInputService')
+
+local LPlr = plrs.LocalPlayer
+
+if game.CoreGui:FindFirstChild("macro") then
+	game.CoreGui:FindFirstChild("macro"):Destroy()
+end
+
+local macro = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local UIGradient = Instance.new("UIGradient")
+local Scroll = Instance.new("ScrollingFrame")
+local UIListLayout = Instance.new("UIListLayout")
+local UIPadding = Instance.new("UIPadding")
+
+macro.Name = "macro"
+macro.Parent = game.CoreGui
+macro.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = macro
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.8, 0, 0.3, 0)
+Frame.Size = UDim2.new(0, 265, 0, 349)
+
+Title.Name = "Title"
+Title.Parent = Frame
+Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title.BackgroundTransparency = 1.000
+Title.Position = UDim2.new(0.0676329434, 0, 0.0275862291, 0)
+Title.Size = UDim2.new(0.867924511, 0, 0.0793103427, 0)
+Title.Font = Enum.Font.GothamMedium
+Title.Text = "K TO HIDE, J TO TOGGLE ESP"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextScaled = true
+Title.TextSize = 14.000
+Title.TextWrapped = true
+
+UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(25, 27, 29)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(35, 37, 39))}
+UIGradient.Rotation = 90
+UIGradient.Parent = Frame
+
+Scroll.Name = "Scroll"
+Scroll.Parent = Frame
+Scroll.Active = true
+Scroll.AutomaticCanvasSize = "Y"
+Scroll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Scroll.BackgroundTransparency = 0.950
+Scroll.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Scroll.BorderSizePixel = 0
+Scroll.Position = UDim2.new(0.0676329434, 0, 0.125303775, 0)
+Scroll.Size = UDim2.new(0, 230, 0, 289)
+Scroll.VerticalScrollBarInset = Enum.ScrollBarInset.Always
+
+UIListLayout.Parent = Scroll
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 1)
+
+UIPadding.Parent = Scroll
+UIPadding.PaddingTop = UDim.new(0, 1)
+
+local Top = Instance.new("Frame")
+local All = Instance.new("TextButton")
+local None = Instance.new("TextButton")
+
+Top.Name = "Top"
+Top.Parent = Scroll
+Top.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+Top.BackgroundTransparency = 0.900
+Top.BorderColor3 = Color3.fromRGB(255, 255, 255)
+Top.Size = UDim2.new(1, 0, 0, 30)
+
+All.Name = "All"
+All.Parent = Top
+All.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+All.BackgroundTransparency = 0.900
+All.BorderColor3 = Color3.fromRGB(255, 255, 255)
+All.Size = UDim2.new(0.5, 0, 1, 0)
+All.Font = Enum.Font.GothamMedium
+All.Text = "ESP ALL"
+All.TextColor3 = Color3.fromRGB(255, 255, 255)
+All.TextSize = 16.000
+
+None.Name = "Plr"
+None.Parent = Top
+None.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+None.BackgroundTransparency = 0.900
+None.BorderColor3 = Color3.fromRGB(255, 255, 255)
+None.Position = UDim2.new(0.5, 0, 0, 0)
+None.Size = UDim2.new(0.5, 0, 1, 0)
+None.Font = Enum.Font.GothamMedium
+None.Text = "UNESP ALL"
+None.TextColor3 = Color3.fromRGB(255, 255, 255)
+None.TextSize = 16.000
+
+local tFolder = Instance.new("Folder")
+tFolder.Name = "Tracking"
+tFolder.Parent = macro
+
+local visible = true
+
+local tracking = {}
+
+local function trackChar(char)
+	if tFolder:FindFirstChild(char.Name) then
+		tFolder:FindFirstChild(char.Name).Adornee = char
+		tFolder:FindFirstChild(char.Name).Tag.Adornee = char:WaitForChild("Head")
+	else
+		local h = Instance.new("Highlight")
+		h.FillTransparency = 1
+		h.OutlineColor = Color3.fromRGB(0, 255, 255)
+		h.OutlineTransparency = 0.2
+		h.Name = char.Name
+		h.Parent = tFolder
+		h.Adornee = char
+		local tag = Instance.new("BillboardGui")
+		tag.Name = "Tag"
+		tag.Parent = h
+		tag.Adornee = char:WaitForChild("Head")
+		tag.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+		tag.Active = true
+		tag.AlwaysOnTop = true
+		tag.Size = UDim2.new(0, 200, 0, 25)
+		tag.StudsOffset = Vector3.new(0, 3, 0)
+		local txt = Instance.new("TextLabel")
+		txt.Name = "Txt"
+		txt.Parent = tag
+		txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		txt.BackgroundTransparency = 1.000
+		txt.Size = UDim2.new(1, 0, 1, 0)
+		txt.Font = Enum.Font.GothamMedium
+		txt.Text = char.Name
+		txt.TextColor3 = Color3.fromRGB(255, 255, 255)
+		txt.TextSize = 16.000
+		txt.TextStrokeTransparency = 0.500
+		txt.TextWrapped = true
+	end
+end
+
+local function createBtn(plr)
+	if Scroll:FindFirstChild(plr.Name) then
+		Scroll:FindFirstChild(plr.Name):Destroy()
+	end
+	
+	local Plr = Instance.new("TextButton")
+	local Img = Instance.new("ImageLabel")
+	local User = Instance.new("TextLabel")
+	local Disp = Instance.new("TextLabel")
+	
+	Plr.Name = plr.Name
+	Plr.LayoutOrder = 2
+	Plr.Parent = Scroll
+	Plr.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+	Plr.BackgroundTransparency = 0.900
+	Plr.BorderColor3 = Color3.fromRGB(255, 255, 255)
+	Plr.Size = UDim2.new(1, 0, 0, 50)
+	Plr.Font = Enum.Font.Gotham
+	Plr.Text = ""
+	Plr.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Plr.TextSize = 20.000
+
+	Img.Name = "Img"
+	Img.Parent = Plr
+	Img.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+	Img.BackgroundTransparency = 0.900
+	Img.BorderColor3 = Color3.fromRGB(255, 255, 255)
+	Img.Size = UDim2.new(0, 50, 0, 50)
+	Img.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=100&h=100"
+
+	User.Name = "User"
+	User.Parent = Plr
+	User.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	User.BackgroundTransparency = 1.000
+	User.Position = UDim2.new(0, 54, 0.5, 0)
+	User.Size = UDim2.new(1, -58, 0.449999988, 0)
+	User.Font = Enum.Font.GothamMedium
+	User.Text = plr.Name
+	User.TextColor3 = Color3.fromRGB(185, 190, 190)
+	User.TextScaled = true
+	User.TextSize = 14.000
+	User.TextWrapped = true
+
+	Disp.Name = "Disp"
+	Disp.Parent = Plr
+	Disp.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Disp.BackgroundTransparency = 1.000
+	Disp.Position = UDim2.new(0, 54, 0.0500000007, 0)
+	Disp.Size = UDim2.new(1, -58, 0.449999988, 0)
+	Disp.Font = Enum.Font.GothamMedium
+	Disp.Text = plr.DisplayName
+	Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Disp.TextScaled = true
+	Disp.TextSize = 14.000
+	Disp.TextWrapped = true
+	
+	if LPlr:IsFriendsWith(plr.UserId) then
+		Plr.LayoutOrder = 1
+	end
+	
+	Plr.MouseButton1Click:Connect(function()
+		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
+			tFolder[plr.Name]:Destroy()
+			Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+			table.remove(tracking, plr.Name)
+		else
+			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+			table.insert(tracking, plr.Name)
+			trackChar(plr.Character)
+		end
+	end)
+end
+
+for i, plr in pairs(plrs:GetPlayers()) do
+	createBtn(plr)
+end
+
+workspace.Characters.ChildAdded:Connect(function(char)
+	if table.find(tracking, char.Name) then
+		trackChar(char)
+	end
+end)
+
+All.MouseButton1Click:Connect(function()
+	for i, plr in pairs(plrs:GetPlayers()) do
+		table.insert(tracking, plr.Name)
+		trackChar(plr.Character or plr.Character:Wait())
+		Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+	end
+end)
+
+None.MouseButton1Click:Connect(function()
+	table.clear(tracking)
+	tFolder:ClearAllChildren()
+	for i, plr in pairs(plrs:GetPlayers()) do
+		Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+	end
+end)
+
+-- KEYBINDS
+
+UIS.InputBegan:Connect(function(input, gpe)
+	if gpe then return end
+	if input.UserInputType == Enum.UserInputType.Keyboard then
+		if input.KeyCode == Enum.KeyCode.K then
+			macro.Enabled = not macro.Enabled
+		elseif input.KeyCode == Enum.KeyCode.J then
+			if visible == true then
+				visible = false
+				for i, plr in pairs(tracking) do
+					tFolder[plr.Name].Enabled = false
+					tFolder[plr.Name].Tag.Enabled = false
+				end
+			elseif visible == false then
+				visible = true
+				for i, plr in pairs(tracking) do
+					tFolder[plr.Name].Enabled = true
+					tFolder[plr.Name].Tag.Enabled = true
+				end
+			end
+		end
+	end
+end)
+
+-- DRAGGING
+
+local frame = Frame
+local dragToggle = nil
+local dragSpeed = 0.25
+local dragStart = nil
+local startPos = nil
+
+local function updateInput(input)
+	local delta = input.Position - dragStart
+	local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+		startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	game:GetService('TweenService'):Create(frame, TweenInfo.new(dragSpeed), {Position = position}):Play()
+end
+
+frame.InputBegan:Connect(function(input)
+	if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
+		dragToggle = true
+		dragStart = input.Position
+		startPos = frame.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragToggle = false
+			end
+		end)
+	end
+end)
+
+UIS.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+		if dragToggle then
+			updateInput(input)
+		end
+	end
+end)
+
+-- ADMIN CHECK
+
+for i, plr in pairs(plrs:GetChildren()) do
+	if plr:GetRankInGroup(10878346) >= 5 then
+		sgui:SetCore("SendNotification", {
+			Title = plr:GetRoleInGroup(10878346);
+			Text = plr.Name;
+			Icon = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150";
+			Duration = 5
+		})
+	end
+end
+
+plrs.PlayerAdded:Connect(function(plr)
+	createBtn(plr)
+	if plr:GetRankInGroup(10878346) >= 5 then
+		sgui:SetCore("SendNotification", {
+			Title = plr:GetRoleInGroup(10878346);
+			Text = plr.Name;
+			Icon = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150";
+			Duration = 5
+		})
+	end
+end)
+
+plrs.PlayerRemoving:Connect(function(plr)
+	Scroll[plr.Name]:Destroy()
+end)
