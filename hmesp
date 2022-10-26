@@ -30,8 +30,8 @@ Title.Name = "Title"
 Title.Parent = Frame
 Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Title.BackgroundTransparency = 1.000
-Title.Position = UDim2.new(0.0676329434, 0, 0.0275862291, 0)
-Title.Size = UDim2.new(0.867924511, 0, 0.0793103427, 0)
+Title.Position = UDim2.new(0.068, 0, 0.028, 0)
+Title.Size = UDim2.new(0.867924511, 0, 0.048, 0)
 Title.Font = Enum.Font.GothamMedium
 Title.Text = "K TO HIDE, J TO TOGGLE ESP"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -51,8 +51,8 @@ Scroll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Scroll.BackgroundTransparency = 0.950
 Scroll.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Scroll.BorderSizePixel = 0
-Scroll.Position = UDim2.new(0.0676329434, 0, 0.125303775, 0)
-Scroll.Size = UDim2.new(0, 230, 0, 289)
+Scroll.Position = UDim2.new(0.068, 0, 0.097, 0)
+Scroll.Size = UDim2.new(0, 230, 0, 300)
 Scroll.VerticalScrollBarInset = Enum.ScrollBarInset.Always
 
 UIListLayout.Parent = Scroll
@@ -65,20 +65,22 @@ UIPadding.PaddingTop = UDim.new(0, 1)
 local Top = Instance.new("Frame")
 local All = Instance.new("TextButton")
 local None = Instance.new("TextButton")
+local Full = Instance.new("TextButton")
+local Lock = Instance.new("TextButton")
 
 Top.Name = "Top"
 Top.Parent = Scroll
 Top.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 Top.BackgroundTransparency = 0.900
 Top.BorderColor3 = Color3.fromRGB(255, 255, 255)
-Top.Size = UDim2.new(1, 0, 0, 30)
+Top.Size = UDim2.new(1, 0, 0, 60)
 
 All.Name = "All"
 All.Parent = Top
 All.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 All.BackgroundTransparency = 0.900
 All.BorderColor3 = Color3.fromRGB(255, 255, 255)
-All.Size = UDim2.new(0.5, 0, 1, 0)
+All.Size = UDim2.new(0.5, 0, 0, 30)
 All.Font = Enum.Font.GothamMedium
 All.Text = "ESP ALL"
 All.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -90,11 +92,35 @@ None.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 None.BackgroundTransparency = 0.900
 None.BorderColor3 = Color3.fromRGB(255, 255, 255)
 None.Position = UDim2.new(0.5, 0, 0, 0)
-None.Size = UDim2.new(0.5, 0, 1, 0)
+None.Size = UDim2.new(0.5, 0, 0, 30)
 None.Font = Enum.Font.GothamMedium
 None.Text = "UNESP ALL"
 None.TextColor3 = Color3.fromRGB(255, 255, 255)
 None.TextSize = 16.000
+
+Full.Name = "Full"
+Full.Parent = Top
+Full.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+Full.BackgroundTransparency = 0.900
+Full.BorderColor3 = Color3.fromRGB(255, 255, 255)
+Full.Position = UDim2.new(0, 0, 0, 30)
+Full.Size = UDim2.new(0.5, 0, 0, 30)
+Full.Font = Enum.Font.GothamMedium
+Full.Text = "FULLBRIGHT"
+Full.TextColor3 = Color3.fromRGB(255, 255, 255)
+Full.TextSize = 16.000
+
+Lock.Name = "Lock"
+Lock.Parent = Top
+Lock.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+Lock.BackgroundTransparency = 0.900
+Lock.BorderColor3 = Color3.fromRGB(255, 255, 255)
+Lock.Position = UDim2.new(0.5, 0, 0, 30)
+Lock.Size = UDim2.new(0.5, 0, 0, 30)
+Lock.Font = Enum.Font.GothamMedium
+Lock.Text = "AIMLOCK"
+Lock.TextColor3 = Color3.fromRGB(255, 255, 255)
+Lock.TextSize = 16.000
 
 local tFolder = Instance.new("Folder")
 tFolder.Name = "Tracking"
@@ -134,9 +160,13 @@ local function trackChar(char)
 		txt.Font = Enum.Font.GothamMedium
 		txt.Text = char.Name
 		txt.TextColor3 = Color3.fromRGB(255, 255, 255)
-		txt.TextSize = 16.000
+		txt.TextSize = 14.000
 		txt.TextStrokeTransparency = 0.500
 		txt.TextWrapped = true
+		if visible == false then
+			h.Enabled = false
+			tag.Enabled = false
+		end
 	end
 end
 
@@ -198,6 +228,7 @@ local function createBtn(plr)
 	
 	if LPlr:IsFriendsWith(plr.UserId) then
 		Plr.LayoutOrder = 1
+		Img.BackgroundColor3 = Color3.fromRGB(2, 234, 255)
 	end
 	
 	Plr.MouseButton1Click:Connect(function()
@@ -209,6 +240,14 @@ local function createBtn(plr)
 			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 			table.insert(tracking, plr.Name)
 			trackChar(plr.Character)
+		end
+	end)
+	
+	Plr.MouseButton2Click:Connect(function()
+		if workspace.CurrentCamera.CameraSubject ~= LPlr.Character and workspace.CurrentCamera.CameraSubject ~= LPlr.Character.Humanoid then
+			workspace.CurrentCamera.CameraSubject = LPlr.Character
+		else
+			workspace.CurrentCamera.CameraSubject = plr.Character
 		end
 	end)
 end
@@ -236,6 +275,32 @@ None.MouseButton1Click:Connect(function()
 	tFolder:ClearAllChildren()
 	for i, plr in pairs(plrs:GetPlayers()) do
 		Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+	end
+end)
+
+Full.MouseButton1Click:Connect(function()
+	if Full.BackgroundColor3 == Color3.fromRGB(138, 138, 138) then
+		Full.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		game.Lighting.GlobalShadows = false
+		game.Lighting.OutdoorAmbient = Color3.fromRGB(128, 128, 128)
+		game.Lighting.Brightness = 2
+		game.Lighting.FogEnd = 0
+		game.Lighting.FogColor = Color3.fromRGB(0, 0, 0)
+	else
+		Full.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		game.Lighting.GlobalShadows = true
+		game.Lighting.OutdoorAmbient = Color3.fromRGB(94, 94, 90)
+		game.Lighting.Brightness = 1
+		game.Lighting.FogEnd = 500
+		game.Lighting.FogColor = Color3.fromRGB(100, 87, 72)
+	end
+end)
+
+Lock.MouseButton1Click:Connect(function()
+	if Lock.BackgroundColor3 == Color3.fromRGB(138, 138, 138) then
+		Lock.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+	else
+		Lock.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 	end
 end)
 
@@ -326,5 +391,7 @@ plrs.PlayerAdded:Connect(function(plr)
 end)
 
 plrs.PlayerRemoving:Connect(function(plr)
+	table.remove(tracking, plr.Name)
 	Scroll[plr.Name]:Destroy()
+	tFolder[plr.Name]:Destroy()
 end)
