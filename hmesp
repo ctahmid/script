@@ -391,7 +391,9 @@ plrs.PlayerAdded:Connect(function(plr)
 end)
 
 plrs.PlayerRemoving:Connect(function(plr)
-	table.remove(tracking, plr.Name)
 	Scroll[plr.Name]:Destroy()
+	if table.find(tracking, plr.Name) then
+    	table.remove(tracking, plr.Name)
+	end
 	tFolder[plr.Name]:Destroy()
 end)
