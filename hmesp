@@ -235,7 +235,10 @@ local function createBtn(plr)
 		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 			tFolder[plr.Name]:Destroy()
 			Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
-			table.remove(tracking, plr.Name)
+			local found = table.find(tracking, plr.Name)
+            if found then
+    	        table.remove(tracking, found)
+	        end
 		else
 			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 			table.insert(tracking, plr.Name)
@@ -392,8 +395,9 @@ end)
 
 plrs.PlayerRemoving:Connect(function(plr)
 	Scroll[plr.Name]:Destroy()
-	if table.find(tracking, plr.Name) then
-    	table.remove(tracking, plr.Name)
+	local found = table.find(tracking, plr.Name)
+    if found then
+    	table.remove(tracking, found)
 	end
 	tFolder[plr.Name]:Destroy()
 end)
