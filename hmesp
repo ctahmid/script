@@ -8,6 +8,19 @@ if game.CoreGui:FindFirstChild("macro") then
 	game.CoreGui:FindFirstChild("macro"):Destroy()
 end
 
+local gameIs = nil
+
+-- HM MAIN, VC, BANLAND, RANKED
+-- DH MAIN, VC
+
+if game.PlaceId == 5602055394 or game.PlaceId == 7951883376 or game.PlaceId == 9610943121 or game.PlaceId == 9293553078 then
+	gameIs = "HM"
+elseif game.PlaceId == 2788229376 or game.PlaceId == 7213786345 then
+	gameIs = "DH"
+else
+	gameIs = nil
+end
+
 local macro = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
@@ -174,12 +187,12 @@ local function createBtn(plr)
 	if Scroll:FindFirstChild(plr.Name) then
 		Scroll:FindFirstChild(plr.Name):Destroy()
 	end
-	
+
 	local Plr = Instance.new("TextButton")
 	local Img = Instance.new("ImageLabel")
 	local User = Instance.new("TextLabel")
 	local Disp = Instance.new("TextLabel")
-	
+
 	Plr.Name = plr.Name
 	Plr.LayoutOrder = 2
 	Plr.Parent = Scroll
@@ -225,27 +238,27 @@ local function createBtn(plr)
 	Disp.TextScaled = true
 	Disp.TextSize = 14.000
 	Disp.TextWrapped = true
-	
+
 	if LPlr:IsFriendsWith(plr.UserId) then
 		Plr.LayoutOrder = 1
 		Img.BackgroundColor3 = Color3.fromRGB(2, 234, 255)
 	end
-	
+
 	Plr.MouseButton1Click:Connect(function()
 		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 			tFolder[plr.Name]:Destroy()
 			Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
 			local found = table.find(tracking, plr.Name)
-            if found then
-    	        table.remove(tracking, found)
-	        end
+			if found then
+				table.remove(tracking, found)
+			end
 		else
 			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 			table.insert(tracking, plr.Name)
 			trackChar(plr.Character)
 		end
 	end)
-	
+
 	Plr.MouseButton2Click:Connect(function()
 		if workspace.CurrentCamera.CameraSubject ~= LPlr.Character and workspace.CurrentCamera.CameraSubject ~= LPlr.Character.Humanoid then
 			workspace.CurrentCamera.CameraSubject = LPlr.Character
@@ -259,11 +272,25 @@ for i, plr in pairs(plrs:GetPlayers()) do
 	createBtn(plr)
 end
 
-workspace.Characters.ChildAdded:Connect(function(char)
-	if table.find(tracking, char.Name) then
-		trackChar(char)
-	end
-end)
+if gameIs == "HM" then
+	workspace.Characters.ChildAdded:Connect(function(char)
+		if table.find(tracking, char.Name) then
+			trackChar(char)
+		end
+	end)
+elseif gameIs == "DH" then
+	workspace.Players.ChildAdded:Connect(function(char)
+		if table.find(tracking, char.Name) then
+			trackChar(char)
+		end
+	end)
+else
+	workspace.ChildAdded:Connect(function(char)
+		if table.find(tracking, char.Name) then
+			trackChar(char)
+		end
+	end)
+end
 
 All.MouseButton1Click:Connect(function()
 	for i, plr in pairs(plrs:GetPlayers()) do
@@ -370,34 +397,38 @@ end)
 
 -- ADMIN CHECK
 
-for i, plr in pairs(plrs:GetChildren()) do
-	if plr:GetRankInGroup(10878346) >= 5 then
-		sgui:SetCore("SendNotification", {
-			Title = plr:GetRoleInGroup(10878346);
-			Text = plr.Name;
-			Icon = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150";
-			Duration = 5
-		})
+if gameIs == "HM" then
+	for i, plr in pairs(plrs:GetChildren()) do
+		if plr:GetRankInGroup(10878346) >= 5 then
+			sgui:SetCore("SendNotification", {
+				Title = plr:GetRoleInGroup(10878346);
+				Text = plr.Name;
+				Icon = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150";
+				Duration = 5
+			})
+		end
 	end
 end
 
 plrs.PlayerAdded:Connect(function(plr)
 	createBtn(plr)
-	if plr:GetRankInGroup(10878346) >= 5 then
-		sgui:SetCore("SendNotification", {
-			Title = plr:GetRoleInGroup(10878346);
-			Text = plr.Name;
-			Icon = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150";
-			Duration = 5
-		})
+	if gameIs == "HM" then
+		if plr:GetRankInGroup(10878346) >= 5 then
+			sgui:SetCore("SendNotification", {
+				Title = plr:GetRoleInGroup(10878346);
+				Text = plr.Name;
+				Icon = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150";
+				Duration = 5
+			})
+		end
 	end
 end)
 
 plrs.PlayerRemoving:Connect(function(plr)
 	Scroll[plr.Name]:Destroy()
 	local found = table.find(tracking, plr.Name)
-    if found then
-    	table.remove(tracking, found)
+	if found then
+		table.remove(tracking, found)
 	end
 	tFolder[plr.Name]:Destroy()
 end)
