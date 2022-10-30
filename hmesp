@@ -101,7 +101,7 @@ All.Text = "ESP ALL"
 All.TextColor3 = Color3.fromRGB(255, 255, 255)
 All.TextSize = 16.000
 
-None.Name = "Plr"
+None.Name = "None"
 None.Parent = Top
 None.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 None.BackgroundTransparency = 0.900
@@ -186,7 +186,7 @@ local function trackChar(char)
 		txt.BackgroundTransparency = 1.000
 		txt.Size = UDim2.new(1, 0, 1, 0)
 		txt.Font = Enum.Font.GothamMedium
-		txt.Text = char.Name
+		txt.Text = plrs[char.Name].DisplayName
 		txt.TextColor3 = Color3.fromRGB(255, 255, 255)
 		txt.TextSize = 14.000
 		txt.TextStrokeTransparency = 0.500
@@ -199,8 +199,8 @@ local function trackChar(char)
 end
 
 local function createBtn(plr)
-	if Scroll:FindFirstChild(plr.DisplayName) then
-		Scroll:FindFirstChild(plr.DisplayName):Destroy()
+	if Scroll:FindFirstChild(plr.Name) then
+		Scroll:FindFirstChild(plr.Name):Destroy()
 	end
 
 	local Plr = Instance.new("TextButton")
@@ -208,16 +208,15 @@ local function createBtn(plr)
 	local User = Instance.new("TextLabel")
 	local Disp = Instance.new("TextLabel")
 
-	Plr.Name = plr.DisplayName
+	Plr.Name = plr.Name
 	Plr.LayoutOrder = 2
 	Plr.Parent = Scroll
 	Plr.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 	Plr.BackgroundTransparency = 0.900
 	Plr.BorderColor3 = Color3.fromRGB(255, 255, 255)
 	Plr.Size = UDim2.new(1, 0, 0, 50)
-	Plr.Font = Enum.Font.Gotham
-	Plr.Text = ""
-	Plr.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Plr.Text = plr.DisplayName
+	Plr.TextTransparency = 1
 	Plr.TextSize = 20.000
 
 	Img.Name = "Img"
@@ -309,9 +308,9 @@ end
 
 All.MouseButton1Click:Connect(function()
 	for i, plr in pairs(plrs:GetPlayers()) do
-		table.insert(tracking, plr.DisplayName)
+		table.insert(tracking, plr.Name)
 		trackChar(plr.Character or plr.Character:Wait())
-		Scroll[plr.DisplayName].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+		Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 	end
 end)
 
@@ -319,7 +318,7 @@ None.MouseButton1Click:Connect(function()
 	table.clear(tracking)
 	tFolder:ClearAllChildren()
 	for i, plr in pairs(plrs:GetPlayers()) do
-		Scroll[plr.DisplayName].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
 	end
 end)
 
@@ -353,7 +352,7 @@ function UpdateInputOfSearchText()
 	local InputText = string.upper(Search.Text)
 	for _, button in pairs(Scroll:GetChildren()) do
 		if button:IsA("TextButton") then
-			if InputText == "" or string.find(string.upper(button.Name), InputText) ~= nil then
+			if InputText == "" or string.find(string.upper(button.Name), InputText) ~= nil or string.find(string.upper(button.Text), InputText) ~= nil then
 				button.Visible = true
 			else
 				button.Visible = false
@@ -455,7 +454,7 @@ plrs.PlayerAdded:Connect(function(plr)
 end)
 
 plrs.PlayerRemoving:Connect(function(plr)
-	Scroll[plr.DisplayName]:Destroy()
+	Scroll[plr.Name]:Destroy()
 	local found = table.find(tracking, plr.Name)
 	if found then
 		table.remove(tracking, found)
