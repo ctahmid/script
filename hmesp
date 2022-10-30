@@ -283,7 +283,9 @@ local function createBtn(plr)
 end
 
 for i, plr in pairs(plrs:GetPlayers()) do
-	createBtn(plr)
+    if plr ~= LPlr then
+    	createBtn(plr)
+    end
 end
 
 if gameIs == "HM" then
