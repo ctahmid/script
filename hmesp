@@ -37,14 +37,14 @@ Frame.Parent = macro
 Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Frame.BorderSizePixel = 0
 Frame.Position = UDim2.new(0.8, 0, 0.3, 0)
-Frame.Size = UDim2.new(0, 265, 0, 349)
+Frame.Size = UDim2.new(0, 265, 0, 350)
 
 Title.Name = "Title"
 Title.Parent = Frame
 Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Title.BackgroundTransparency = 1.000
-Title.Position = UDim2.new(0.068, 0, 0.028, 0)
-Title.Size = UDim2.new(0.867924511, 0, 0.048, 0)
+Title.Position = UDim2.new(0.064, 0, 0.012, 0)
+Title.Size = UDim2.new(0.868, 0, 0.036, 0)
 Title.Font = Enum.Font.GothamMedium
 Title.Text = "K TO HIDE, J TO TOGGLE ESP"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -64,8 +64,9 @@ Scroll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Scroll.BackgroundTransparency = 0.950
 Scroll.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Scroll.BorderSizePixel = 0
-Scroll.Position = UDim2.new(0.068, 0, 0.097, 0)
-Scroll.Size = UDim2.new(0, 230, 0, 300)
+Scroll.AnchorPoint = Vector2.new(0.5, 0.5)
+Scroll.Position = UDim2.new(0.5, 0, 0.514, 0)
+Scroll.Size = UDim2.new(0, 240, 0, 320)
 Scroll.VerticalScrollBarInset = Enum.ScrollBarInset.Always
 
 UIListLayout.Parent = Scroll
@@ -80,20 +81,21 @@ local All = Instance.new("TextButton")
 local None = Instance.new("TextButton")
 local Full = Instance.new("TextButton")
 local Lock = Instance.new("TextButton")
+local Search = Instance.new("TextBox")
 
 Top.Name = "Top"
 Top.Parent = Scroll
 Top.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 Top.BackgroundTransparency = 0.900
 Top.BorderColor3 = Color3.fromRGB(255, 255, 255)
-Top.Size = UDim2.new(1, 0, 0, 60)
+Top.Size = UDim2.new(1, 0, 0, 80)
 
 All.Name = "All"
 All.Parent = Top
 All.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 All.BackgroundTransparency = 0.900
 All.BorderColor3 = Color3.fromRGB(255, 255, 255)
-All.Size = UDim2.new(0.5, 0, 0, 30)
+All.Size = UDim2.new(0.5, 0, 0, 25)
 All.Font = Enum.Font.GothamMedium
 All.Text = "ESP ALL"
 All.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -105,7 +107,7 @@ None.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 None.BackgroundTransparency = 0.900
 None.BorderColor3 = Color3.fromRGB(255, 255, 255)
 None.Position = UDim2.new(0.5, 0, 0, 0)
-None.Size = UDim2.new(0.5, 0, 0, 30)
+None.Size = UDim2.new(0.5, 0, 0, 25)
 None.Font = Enum.Font.GothamMedium
 None.Text = "UNESP ALL"
 None.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -116,8 +118,8 @@ Full.Parent = Top
 Full.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 Full.BackgroundTransparency = 0.900
 Full.BorderColor3 = Color3.fromRGB(255, 255, 255)
-Full.Position = UDim2.new(0, 0, 0, 30)
-Full.Size = UDim2.new(0.5, 0, 0, 30)
+Full.Position = UDim2.new(0, 0, 0, 25)
+Full.Size = UDim2.new(0.5, 0, 0, 25)
 Full.Font = Enum.Font.GothamMedium
 Full.Text = "FULLBRIGHT"
 Full.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -128,12 +130,25 @@ Lock.Parent = Top
 Lock.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 Lock.BackgroundTransparency = 0.900
 Lock.BorderColor3 = Color3.fromRGB(255, 255, 255)
-Lock.Position = UDim2.new(0.5, 0, 0, 30)
-Lock.Size = UDim2.new(0.5, 0, 0, 30)
+Lock.Position = UDim2.new(0.5, 0, 0, 25)
+Lock.Size = UDim2.new(0.5, 0, 0, 25)
 Lock.Font = Enum.Font.GothamMedium
 Lock.Text = "AIMLOCK"
 Lock.TextColor3 = Color3.fromRGB(255, 255, 255)
 Lock.TextSize = 16.000
+
+Search.Name = "Search"
+Search.Parent = Top
+Search.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+Search.BackgroundTransparency = 0.95
+Search.BorderColor3 = Color3.fromRGB(255, 255, 255)
+Search.Position = UDim2.new(0, 0, 0, 50)
+Search.Size = UDim2.new(1, 0, 0, 30)
+Search.Font = Enum.Font.GothamMedium
+Search.Text = ""
+Search.PlaceholderText = "SEARCH"
+Search.TextColor3 = Color3.fromRGB(255, 255, 255)
+Search.TextSize = 16.000
 
 local tFolder = Instance.new("Folder")
 tFolder.Name = "Tracking"
@@ -184,8 +199,8 @@ local function trackChar(char)
 end
 
 local function createBtn(plr)
-	if Scroll:FindFirstChild(plr.Name) then
-		Scroll:FindFirstChild(plr.Name):Destroy()
+	if Scroll:FindFirstChild(plr.DisplayName) then
+		Scroll:FindFirstChild(plr.DisplayName):Destroy()
 	end
 
 	local Plr = Instance.new("TextButton")
@@ -193,7 +208,7 @@ local function createBtn(plr)
 	local User = Instance.new("TextLabel")
 	local Disp = Instance.new("TextLabel")
 
-	Plr.Name = plr.Name
+	Plr.Name = plr.DisplayName
 	Plr.LayoutOrder = 2
 	Plr.Parent = Scroll
 	Plr.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
@@ -294,9 +309,9 @@ end
 
 All.MouseButton1Click:Connect(function()
 	for i, plr in pairs(plrs:GetPlayers()) do
-		table.insert(tracking, plr.Name)
+		table.insert(tracking, plr.DisplayName)
 		trackChar(plr.Character or plr.Character:Wait())
-		Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+		Scroll[plr.DisplayName].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 	end
 end)
 
@@ -304,7 +319,7 @@ None.MouseButton1Click:Connect(function()
 	table.clear(tracking)
 	tFolder:ClearAllChildren()
 	for i, plr in pairs(plrs:GetPlayers()) do
-		Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Scroll[plr.DisplayName].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
 	end
 end)
 
@@ -333,6 +348,21 @@ Lock.MouseButton1Click:Connect(function()
 		Lock.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 	end
 end)
+
+function UpdateInputOfSearchText()
+	local InputText = string.upper(Search.Text)
+	for _, button in pairs(Scroll:GetChildren()) do
+		if button:IsA("TextButton") then
+			if InputText == "" or string.find(string.upper(button.Name), InputText) ~= nil then
+				button.Visible = true
+			else
+				button.Visible = false
+			end
+		end
+	end
+end
+
+Search.Changed:Connect(UpdateInputOfSearchText)
 
 -- KEYBINDS
 
@@ -425,7 +455,7 @@ plrs.PlayerAdded:Connect(function(plr)
 end)
 
 plrs.PlayerRemoving:Connect(function(plr)
-	Scroll[plr.Name]:Destroy()
+	Scroll[plr.DisplayName]:Destroy()
 	local found = table.find(tracking, plr.Name)
 	if found then
 		table.remove(tracking, found)
