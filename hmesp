@@ -432,18 +432,20 @@ end)
 
 -- ADMIN CHECK
 
-if gameIs == "HM" then
-	for i, plr in pairs(plrs:GetChildren()) do
-		if plr:GetRankInGroup(10878346) >= 5 then
-			sgui:SetCore("SendNotification", {
-				Title = plr:GetRoleInGroup(10878346);
-				Text = plr.Name;
-				Icon = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150";
-				Duration = 5
-			})
-		end
-	end
-end
+local success, err = pcall(function()
+    if gameIs == "HM" then
+    	for i, plr in pairs(plrs:GetChildren()) do
+    		if plr:GetRankInGroup(10878346) >= 5 then
+    			sgui:SetCore("SendNotification", {
+    				Title = plr:GetRoleInGroup(10878346);
+    				Text = plr.Name;
+    				Icon = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150";
+    				Duration = 5
+    			})
+    		end
+    	end
+    end
+end)
 
 plrs.PlayerAdded:Connect(function(plr)
 	createBtn(plr)
