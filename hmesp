@@ -328,21 +328,24 @@ None.MouseButton1Click:Connect(function()
 	end
 end)
 
+local LightingCache = {}
+
 Full.MouseButton1Click:Connect(function()
 	if Full.BackgroundColor3 == Color3.fromRGB(138, 138, 138) then
 		Full.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		LightingCache = {game.Lighting.OutdoorAmbient, game.Lighting.Brightness, game.Lighting.FogEnd, game.Lighting.ClockTime}
 		game.Lighting.GlobalShadows = false
 		game.Lighting.OutdoorAmbient = Color3.fromRGB(128, 128, 128)
 		game.Lighting.Brightness = 2
-		game.Lighting.FogEnd = 0
-		game.Lighting.FogColor = Color3.fromRGB(0, 0, 0)
+		game.Lighting.FogEnd = 100000
+		game.Lighting.ClockTime = 14
 	else
 		Full.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 		game.Lighting.GlobalShadows = true
-		game.Lighting.OutdoorAmbient = Color3.fromRGB(94, 94, 90)
-		game.Lighting.Brightness = 1
-		game.Lighting.FogEnd = 500
-		game.Lighting.FogColor = Color3.fromRGB(100, 87, 72)
+		game.Lighting.OutdoorAmbient = LightingCache[1]
+		game.Lighting.Brightness = LightingCache[2]
+		game.Lighting.FogEnd = LightingCache[3]
+		game.Lighting.ClockTime = LightingCache[4]
 	end
 end)
 
