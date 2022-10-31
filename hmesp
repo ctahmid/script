@@ -310,9 +310,11 @@ end
 
 All.MouseButton1Click:Connect(function()
 	for i, plr in pairs(plrs:GetPlayers()) do
-		table.insert(tracking, plr.Name)
-		trackChar(plr.Character or plr.Character:Wait())
-		Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+	    if plr.Name ~= LPlr.Name then
+	    	table.insert(tracking, plr.Name)
+	    	trackChar(plr.Character or plr.Character:Wait())
+	    	Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+	    end
 	end
 end)
 
@@ -320,7 +322,9 @@ None.MouseButton1Click:Connect(function()
 	table.clear(tracking)
 	tFolder:ClearAllChildren()
 	for i, plr in pairs(plrs:GetPlayers()) do
-		Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+	    if plr.Name ~= LPlr.Name then
+    		Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+    	end
 	end
 end)
 
