@@ -1,5 +1,6 @@
 local plrs = game:GetService("Players")
 local sgui = game:GetService("StarterGui")
+local tws = game:GetService("TweenService")
 local UIS = game:GetService('UserInputService')
 
 local LPlr = plrs.LocalPlayer
@@ -80,7 +81,7 @@ local Top = Instance.new("Frame")
 local All = Instance.new("TextButton")
 local None = Instance.new("TextButton")
 local Full = Instance.new("TextButton")
-local Lock = Instance.new("TextButton")
+local Opts = Instance.new("TextButton")
 local Search = Instance.new("TextBox")
 
 Top.Name = "Top"
@@ -113,29 +114,29 @@ None.Text = "UNESP ALL"
 None.TextColor3 = Color3.fromRGB(255, 255, 255)
 None.TextSize = 16.000
 
+Opts.Name = "Opts"
+Opts.Parent = Top
+Opts.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+Opts.BackgroundTransparency = 0.900
+Opts.BorderColor3 = Color3.fromRGB(255, 255, 255)
+Opts.Position = UDim2.new(0, 0, 0, 25)
+Opts.Size = UDim2.new(0.5, 0, 0, 25)
+Opts.Font = Enum.Font.GothamMedium
+Opts.Text = "OPTIONS"
+Opts.TextColor3 = Color3.fromRGB(255, 255, 255)
+Opts.TextSize = 16.000
+
 Full.Name = "Full"
 Full.Parent = Top
 Full.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 Full.BackgroundTransparency = 0.900
 Full.BorderColor3 = Color3.fromRGB(255, 255, 255)
-Full.Position = UDim2.new(0, 0, 0, 25)
+Full.Position = UDim2.new(0.5, 0, 0, 25)
 Full.Size = UDim2.new(0.5, 0, 0, 25)
 Full.Font = Enum.Font.GothamMedium
 Full.Text = "FULLBRIGHT"
 Full.TextColor3 = Color3.fromRGB(255, 255, 255)
 Full.TextSize = 16.000
-
-Lock.Name = "Lock"
-Lock.Parent = Top
-Lock.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-Lock.BackgroundTransparency = 0.900
-Lock.BorderColor3 = Color3.fromRGB(255, 255, 255)
-Lock.Position = UDim2.new(0.5, 0, 0, 25)
-Lock.Size = UDim2.new(0.5, 0, 0, 25)
-Lock.Font = Enum.Font.GothamMedium
-Lock.Text = "AIMLOCK"
-Lock.TextColor3 = Color3.fromRGB(255, 255, 255)
-Lock.TextSize = 16.000
 
 Search.Name = "Search"
 Search.Parent = Top
@@ -150,19 +151,124 @@ Search.PlaceholderText = "SEARCH"
 Search.TextColor3 = Color3.fromRGB(255, 255, 255)
 Search.TextSize = 16.000
 
+--
+
 local tFolder = Instance.new("Folder")
 tFolder.Name = "Tracking"
 tFolder.Parent = macro
 
-local visible = true
-
 local tracking = {}
+--local connections = {}
+
+local visible = true
+local plrNoti = true
+
+--
+
+local Clip = Instance.new("Frame")
+Clip.Name = "Clip"
+Clip.Size = UDim2.new(0.6490566, 0, 1, 0)
+Clip.ClipsDescendants = true
+Clip.BackgroundTransparency = 1
+Clip.Position = UDim2.new(-0.6490566, 0, 0, 0)
+Clip.BorderSizePixel = 0
+Clip.ClipsDescendants = true
+Clip.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Clip.Parent = Frame
+
+local Target = Instance.new("Frame")
+Target.Name = "Target"
+Target.Position = UDim2.new(1, 0, 0, 0)
+Target.Size = UDim2.new(1, 0, 1, 0)
+Target.ClipsDescendants = true
+Target.BorderSizePixel = 0
+Target.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Target.Parent = Clip
+
+task.spawn(function()
+	local UIGradient = Instance.new("UIGradient")
+	UIGradient.Rotation = 90
+	UIGradient.Color = ColorSequence.new(Color3.fromRGB(77, 37, 109), Color3.fromRGB(149, 84, 85))
+	UIGradient.Parent = Target
+
+	local Title = Instance.new("TextLabel")
+	Title.Name = "Title"
+	Title.AnchorPoint = Vector2.new(0.5, 0)
+	Title.Size = UDim2.new(0.9283019, 0, 0.0467965, 0)
+	Title.BackgroundTransparency = 1
+	Title.Position = UDim2.new(0.5, 0, 0.0262857, 0)
+	Title.BorderSizePixel = 0
+	Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Title.FontSize = Enum.FontSize.Size14
+	Title.TextSize = 14
+	Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Title.Text = "JOIN/LEAVE LOG"
+	Title.TextWrapped = true
+	Title.Font = Enum.Font.GothamMedium
+	Title.TextWrap = true
+	Title.TextXAlignment = Enum.TextXAlignment.Right
+	Title.TextScaled = true
+	Title.Parent = Target
+
+	local ToggleLog = Instance.new("Frame")
+	ToggleLog.Name = "ToggleLog"
+	ToggleLog.Size = UDim2.new(0.4310443, 0, 0.0829304, 0)
+	ToggleLog.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	ToggleLog.BackgroundTransparency = 0.9
+	ToggleLog.Position = UDim2.new(0.5331066, 0, 0.0819676, 0)
+	ToggleLog.BorderSizePixel = 0
+	ToggleLog.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	ToggleLog.Parent = Target
+
+	local UICorner = Instance.new("UICorner")
+	UICorner.CornerRadius = UDim.new(1, 0)
+	UICorner.Parent = ToggleLog
+
+	local Btn = Instance.new("TextButton")
+	Btn.Name = "Btn"
+	Btn.Size = UDim2.new(1, 0, 1, 0)
+	Btn.BackgroundTransparency = 1
+	Btn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Btn.FontSize = Enum.FontSize.Size14
+	Btn.TextSize = 14
+	Btn.TextColor3 = Color3.fromRGB(0, 0, 0)
+	Btn.Text = ""
+	Btn.Font = Enum.Font.SourceSans
+	Btn.Parent = ToggleLog
+
+	local Colour = Instance.new("Frame")
+	Colour.Name = "Colour"
+	Colour.Size = UDim2.new(0.4, 0, 0.8, 0)
+	Colour.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Colour.BackgroundTransparency = 0.2
+	Colour.Position = UDim2.new(0.0499998, 0, 0.1000001, 0)
+	Colour.BorderSizePixel = 0
+	Colour.BackgroundColor3 = Color3.fromRGB(47, 255, 0)
+	Colour.Parent = ToggleLog
+
+	local UICorner1 = Instance.new("UICorner")
+	UICorner1.CornerRadius = UDim.new(1, 0)
+	UICorner1.Parent = Colour
+
+	Btn.MouseButton1Click:Connect(function()
+		if plrNoti == true then
+			plrNoti = false
+			tws:Create(Colour, TweenInfo.new(.3), {BackgroundColor3 = Color3.fromRGB(255, 0, 4), Position = UDim2.new(0.55, 0, 0.1, 0)}):Play()
+		else
+			plrNoti = true
+			tws:Create(Colour, TweenInfo.new(.3), {BackgroundColor3 = Color3.fromRGB(47, 255, 0), Position = UDim2.new(0.05, 0, 0.1, 0)}):Play()
+		end
+	end)
+end)
+
+--
 
 local function trackChar(char)
 	if tFolder:FindFirstChild(char.Name) then
 		tFolder:FindFirstChild(char.Name).Adornee = char
 		tFolder:FindFirstChild(char.Name).Tag.Adornee = char:WaitForChild("Head")
 	else
+		local plr = plrs[char.Name]
 		local h = Instance.new("Highlight")
 		h.FillTransparency = 1
 		h.OutlineColor = Color3.fromRGB(0, 255, 255)
@@ -186,15 +292,19 @@ local function trackChar(char)
 		txt.BackgroundTransparency = 1.000
 		txt.Size = UDim2.new(1, 0, 1, 0)
 		txt.Font = Enum.Font.GothamMedium
-		txt.Text = plrs[char.Name].DisplayName
+		txt.Text = plr.DisplayName
+		--txt.Text = "<b><font color=\"rgb(0,255,255)\">"..plr:WaitForChild("Information"):WaitForChild("Armor").Value.."</font></b>  "..plr.DisplayName
 		txt.TextColor3 = Color3.fromRGB(255, 255, 255)
 		txt.TextSize = 14.000
 		txt.TextStrokeTransparency = 0.500
-		txt.TextWrapped = true
+		txt.RichText = true
 		if visible == false then
 			h.Enabled = false
 			tag.Enabled = false
 		end
+		--[[connections[plr.Name] = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
+			txt.Text = "<b><font color=\"rgb(0,255,255)\">"..plr.Information.Armor.Value.."</font></b>  "..plr.DisplayName
+		end)]]
 	end
 end
 
@@ -207,6 +317,7 @@ local function createBtn(plr)
 	local Img = Instance.new("ImageLabel")
 	local User = Instance.new("TextLabel")
 	local Disp = Instance.new("TextLabel")
+	local Crew = Instance.new("ImageLabel")
 
 	Plr.Name = plr.Name
 	Plr.LayoutOrder = 2
@@ -226,6 +337,16 @@ local function createBtn(plr)
 	Img.BorderColor3 = Color3.fromRGB(255, 255, 255)
 	Img.Size = UDim2.new(0, 50, 0, 50)
 	Img.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=100&h=100"
+	
+	Crew.Name = "Crew"
+	Crew.Size = UDim2.new(0, 20, 0, 20)
+	Crew.BorderColor3 = Color3.fromRGB(255, 255, 255)
+	Crew.BackgroundTransparency = 1
+	Crew.ImageTransparency = 0.2
+	Crew.Position = UDim2.new(1, -20, 0, 0)
+	Crew.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+	Crew.LayoutOrder = 2
+	Crew.Parent = Plr
 
 	User.Name = "User"
 	User.Parent = Plr
@@ -257,7 +378,7 @@ local function createBtn(plr)
 		Plr.LayoutOrder = 1
 		Img.BackgroundColor3 = Color3.fromRGB(2, 234, 255)
 	end
-
+	
 	Plr.MouseButton1Click:Connect(function()
 		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 			tFolder[plr.Name]:Destroy()
@@ -280,12 +401,19 @@ local function createBtn(plr)
 			workspace.CurrentCamera.CameraSubject = plr.Character
 		end
 	end)
+	
+	if table.find(tracking, plr.Name) then
+		Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+		trackChar(plr.Character)
+	end
+	
+	Crew.Image = "rbxthumb://type=GroupIcon&id="..plr:WaitForChild("Information"):WaitForChild("Crew").Value.."&w=150&h=150"
 end
 
 for i, plr in pairs(plrs:GetPlayers()) do
-    if plr ~= LPlr then
-    	createBtn(plr)
-    end
+	if plr ~= LPlr then
+		createBtn(plr)
+	end
 end
 
 if gameIs == "HM" then
@@ -310,11 +438,11 @@ end
 
 All.MouseButton1Click:Connect(function()
 	for i, plr in pairs(plrs:GetPlayers()) do
-	    if plr.Name ~= LPlr.Name then
-	    	table.insert(tracking, plr.Name)
-	    	trackChar(plr.Character or plr.Character:Wait())
-	    	Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
-	    end
+		if plr.Name ~= LPlr.Name then
+			table.insert(tracking, plr.Name)
+			trackChar(plr.Character or plr.Character:Wait())
+			Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+		end
 	end
 end)
 
@@ -322,9 +450,9 @@ None.MouseButton1Click:Connect(function()
 	table.clear(tracking)
 	tFolder:ClearAllChildren()
 	for i, plr in pairs(plrs:GetPlayers()) do
-	    if plr.Name ~= LPlr.Name then
-    		Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
-    	end
+		if plr.Name ~= LPlr.Name then
+			Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+		end
 	end
 end)
 
@@ -349,11 +477,13 @@ Full.MouseButton1Click:Connect(function()
 	end
 end)
 
-Lock.MouseButton1Click:Connect(function()
-	if Lock.BackgroundColor3 == Color3.fromRGB(138, 138, 138) then
-		Lock.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+Opts.MouseButton1Click:Connect(function()
+	if Opts.BackgroundColor3 == Color3.fromRGB(138, 138, 138) then
+		Opts.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		Target:TweenPosition(UDim2.new(0, 0, 0, 0), "Out", "Quint", 0.5, true)
 	else
-		Lock.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		Opts.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		Target:TweenPosition(UDim2.new(1, 0, 0, 0), "Out", "Quint", 0.5, true)
 	end
 end)
 
@@ -436,21 +566,31 @@ end)
 -- ADMIN CHECK
 
 local success, err = pcall(function()
-    if gameIs == "HM" then
-    	for i, plr in pairs(plrs:GetChildren()) do
-    		if plr:GetRankInGroup(10878346) >= 5 then
-    			sgui:SetCore("SendNotification", {
-    				Title = plr:GetRoleInGroup(10878346);
-    				Text = plr.Name;
-    				Icon = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150";
-    				Duration = 5
-    			})
-    		end
-    	end
-    end
+	if gameIs == "HM" then
+		for i, plr in pairs(plrs:GetChildren()) do
+			if plr:GetRankInGroup(10878346) >= 5 then
+				sgui:SetCore("SendNotification", {
+					Title = plr:GetRoleInGroup(10878346);
+					Text = plr.Name;
+					Icon = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150";
+					Duration = 5
+				})
+			end
+		end
+	end
 end)
 
 plrs.PlayerAdded:Connect(function(plr)
+	if table.find(tracking, plr.Name) then
+		if plrNoti then
+			sgui:SetCore("SendNotification", {
+				Title = plr.Name;
+				Text = "rejoined the game";
+				Icon = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150";
+				Duration = 5
+			})
+		end
+	end
 	createBtn(plr)
 	if gameIs == "HM" then
 		if plr:GetRankInGroup(10878346) >= 5 then
@@ -465,10 +605,22 @@ plrs.PlayerAdded:Connect(function(plr)
 end)
 
 plrs.PlayerRemoving:Connect(function(plr)
-	Scroll[plr.Name]:Destroy()
-	local found = table.find(tracking, plr.Name)
+	if Scroll:FindFirstChild(plr.Name) then
+		Scroll[plr.Name]:Destroy()
+	end
+	if tFolder:FindFirstChild(plr.Name) then
+		tFolder[plr.Name]:Destroy()
+		if plrNoti then
+			sgui:SetCore("SendNotification", {
+				Title = plr.Name;
+				Text = "left the game";
+				Icon = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150";
+				Duration = 5
+			})
+		end
+	end
+	--[[local found = table.find(tracking, plr.Name)
 	if found then
 		table.remove(tracking, found)
-	end
-	tFolder[plr.Name]:Destroy()
+	end]]
 end)
