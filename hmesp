@@ -407,7 +407,9 @@ local function createBtn(plr)
 		trackChar(plr.Character)
 	end
 	
-	Crew.Image = "rbxthumb://type=GroupIcon&id="..plr:WaitForChild("Information"):WaitForChild("Crew").Value.."&w=150&h=150"
+	if gameIs == "HM" or gameIs == "DH" then
+    	Crew.Image = "rbxthumb://type=GroupIcon&id="..plr:WaitForChild("Information"):WaitForChild("Crew").Value.."&w=150&h=150"
+    end
 end
 
 for i, plr in pairs(plrs:GetPlayers()) do
