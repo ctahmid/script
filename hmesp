@@ -1,6 +1,7 @@
 local plrs = game:GetService("Players")
 local sgui = game:GetService("StarterGui")
 local tws = game:GetService("TweenService")
+local gps = game:GetService("GroupService")
 local UIS = game:GetService('UserInputService')
 
 local LPlr = plrs.LocalPlayer
@@ -199,7 +200,6 @@ local function trackChar(char)
 		txt.Size = UDim2.new(1, 0, 1, 0)
 		txt.Font = Enum.Font.GothamMedium
 		txt.Text = plr.DisplayName
-		--txt.Text = "<b><font color=\"rgb(0,255,255)\">"..plr:WaitForChild("Information"):WaitForChild("Armor").Value.."</font></b>  "..plr.DisplayName
 		txt.TextColor3 = Color3.fromRGB(255, 255, 255)
 		txt.TextSize = 14.000
 		txt.TextStrokeTransparency = 0.500
@@ -208,9 +208,6 @@ local function trackChar(char)
 			h.Enabled = false
 			tag.Enabled = false
 		end
-		--[[connections[plr.Name] = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
-			txt.Text = "<b><font color=\"rgb(0,255,255)\">"..plr.Information.Armor.Value.."</font></b>  "..plr.DisplayName
-		end)]]
 	end
 end
 
@@ -631,71 +628,87 @@ local function createBtn(plr)
 	end)
 	
 	Img.MouseButton2Click:Connect(function()
-		if health then health:Disconnect() end
-		if armour then armour:Disconnect() end
-		Target.Crew.Text = "Crew Name"
-		Target.CrewID.Text = "Crew ID"
-		Target.User.Text = plr.Name
-		Target.Disp.Text = plr.DisplayName
-		Target.ImgPlr.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=100&h=100"
-		Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr:WaitForChild("Information"):WaitForChild("Crew").Value.."&w=150&h=150"
-		Target.CrewID.Text = plr.Information.Crew.Value
-		Target.Health.Text = math.round(plr.Character.Humanoid.Health)
-		Target.Armour.Text = math.round(plr.Information.Armor.Value)
-		health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
-			Target.Health.Text = math.round(plr.Character.Humanoid.Health)
-		end)
-		armour = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
-			Target.Armour.Text = math.round(plr.Information.Armor.Value)
-		end)
-		for i, v in pairs(Target.Scroll:GetChildren()) do
-			if v.Name ~= "UIListLayout" and v.Name ~= "UIPadding" then
-				v:Destroy()
-			end
-		end
-		for i, tool in pairs(plr.Backpack:GetChildren()) do
-			local Item = Instance.new("TextButton")
-			Item.Name = "Item"
-			Item.LayoutOrder = 1
-			Item.Size = UDim2.new(1, 0, 0, 30)
-			Item.BorderColor3 = Color3.fromRGB(255, 255, 255)
-			Item.BackgroundTransparency = 0.9
-			Item.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-			Item.FontSize = Enum.FontSize.Size24
-			Item.TextSize = 20
-			Item.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Item.Text = ""
-			Item.Font = Enum.Font.Gotham
-			Item.Parent = Target.Scroll
-			local Img = Instance.new("ImageLabel")
-			Img.Name = "Img"
-			Img.Size = UDim2.new(0, 30, 0, 30)
-			Img.BorderColor3 = Color3.fromRGB(255, 255, 255)
-			Img.BackgroundTransparency = 0.9
-			Img.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-			Img.Image = tool.TextureId
-			Img.Parent = Item
-			local Txt = Instance.new("TextLabel")
-			Txt.Name = "Txt"
-			Txt.AnchorPoint = Vector2.new(0, 0.5)
-			Txt.Size = UDim2.new(0.727, 0, 0.8, 0)
-			Txt.BackgroundTransparency = 1
-			Txt.Position = UDim2.new(-0.14, 54, 0.5, 0)
-			Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			Txt.FontSize = Enum.FontSize.Size14
-			Txt.TextSize = 14
-			Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Txt.Text = tool.Name
-			Txt.TextWrapped = true
-			Txt.Font = Enum.Font.GothamMedium
-			Txt.TextWrap = true
-			Txt.TextScaled = true
-			Txt.Parent = Item
-			if tool:FindFirstChild("GunScript") then
-				Item.LayoutOrder = 0
-			end
-		end
-		Target.Crew.Text = game:GetService("GroupService"):GetGroupInfoAsync(plr.Information.Crew.Value).Name
+	    if gameIs == "HM" or gameIs == "DH" then
+    		if health then health:Disconnect() end
+    		if armour then armour:Disconnect() end
+    		Target.Crew.Text = "Crew Name"
+    		Target.CrewID.Text = "Crew ID"
+    		Target.User.Text = plr.Name
+    		Target.Disp.Text = plr.DisplayName
+    		Target.ImgPlr.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=100&h=100"
+    		Target.Health.Text = math.round(plr.Character.Humanoid.Health)
+    		health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+        		Target.Health.Text = math.round(plr.Character.Humanoid.Health)
+        	end)
+    		if gameIs == "HM" then
+    		    Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr:WaitForChild("Information"):WaitForChild("Crew").Value.."&w=150&h=150"
+        		Target.CrewID.Text = plr.Information.Crew.Value
+        		Target.Armour.Text = math.round(plr.Information.Armor.Value)
+        		armour = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
+    			    Target.Armour.Text = math.round(plr.Information.Armor.Value)
+    	    	end)
+    	    	Target.Crew.Text = gps:GetGroupInfoAsync(plr.Information.Crew.Value).Name
+        	else
+        	    Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+        	    armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
+    			    Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+        	    end)
+        	    if plr:WaitForChild("DataFolder"):WaitForChild("Information"):FindFirstChild("Crew") then
+	    	        Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.DataFolder.Information.Crew.Value.."&w=150&h=150"
+	    	        Target.CrewID.Text = plr.DataFolder.Information.Crew.Value
+	    	        Target.Crew.Text = gps:GetGroupInfoAsync(plr.DataFolder.Information.Crew.Value).Name
+	            end
+    		end
+    		for i, v in pairs(Target.Scroll:GetChildren()) do
+    			if v.Name ~= "UIListLayout" and v.Name ~= "UIPadding" then
+    				v:Destroy()
+    			end
+    		end
+    		for i, tool in pairs(plr.Backpack:GetChildren()) do
+    		    if tool:IsA("Tool") then
+        			local Item = Instance.new("TextButton")
+        			Item.Name = "Item"
+        			Item.LayoutOrder = 1
+        			Item.Size = UDim2.new(1, 0, 0, 30)
+        			Item.BorderColor3 = Color3.fromRGB(255, 255, 255)
+        			Item.BackgroundTransparency = 0.9
+        			Item.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+        			Item.FontSize = Enum.FontSize.Size24
+        			Item.TextSize = 20
+        			Item.TextColor3 = Color3.fromRGB(255, 255, 255)
+        			Item.Text = ""
+        			Item.Font = Enum.Font.Gotham
+        			Item.Parent = Target.Scroll
+        			local Img = Instance.new("ImageLabel")
+        			Img.Name = "Img"
+        			Img.Size = UDim2.new(0, 30, 0, 30)
+        			Img.BorderColor3 = Color3.fromRGB(255, 255, 255)
+        			Img.BackgroundTransparency = 0.9
+        			Img.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+        			Img.Image = tool.TextureId
+        			Img.Parent = Item
+        			local Txt = Instance.new("TextLabel")
+        			Txt.Name = "Txt"
+        			Txt.AnchorPoint = Vector2.new(0, 0.5)
+        			Txt.Size = UDim2.new(0.727, 0, 0.8, 0)
+        			Txt.BackgroundTransparency = 1
+        			Txt.Position = UDim2.new(-0.14, 54, 0.5, 0)
+        			Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        			Txt.FontSize = Enum.FontSize.Size14
+        			Txt.TextSize = 14
+        			Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
+        			Txt.Text = tool.Name
+        			Txt.TextWrapped = true
+        			Txt.Font = Enum.Font.GothamMedium
+        			Txt.TextWrap = true
+        			Txt.TextScaled = true
+        			Txt.Parent = Item
+        			if tool:FindFirstChild("GunScript") then
+        				Item.LayoutOrder = 0
+        			end
+        		end
+    		end
+    	end
 	end)
 
 	if table.find(tracking, plr.Name) then
@@ -703,8 +716,12 @@ local function createBtn(plr)
 		trackChar(plr.Character)
 	end
 
-	if gameIs == "HM" or gameIs == "DH" then
+	if gameIs == "HM" then
 		Crew.Image = "rbxthumb://type=GroupIcon&id="..plr:WaitForChild("Information"):WaitForChild("Crew").Value.."&w=150&h=150"
+	elseif gameIs == "DH" then
+	    if plr:WaitForChild("DataFolder"):WaitForChild("Information"):FindFirstChild("Crew") then
+	    	Crew.Image = "rbxthumb://type=GroupIcon&id="..plr.DataFolder.Information.Crew.Value.."&w=150&h=150"
+	    end
 	end
 end
 
@@ -917,8 +934,4 @@ plrs.PlayerRemoving:Connect(function(plr)
 			})
 		end
 	end
-	--[[local found = table.find(tracking, plr.Name)
-	if found then
-		table.remove(tracking, found)
-	end]]
 end)
