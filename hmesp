@@ -629,6 +629,8 @@ local function createBtn(plr)
 	
 	Img.MouseButton2Click:Connect(function()
 	    if gameIs == "HM" or gameIs == "DH" then
+	        Target:TweenPosition(UDim2.new(0, 0, 0, 0), "Out", "Quint", 0.5, true)
+	        Opts.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
     		if health then health:Disconnect() end
     		if armour then armour:Disconnect() end
     		Target.Crew.Text = "Crew Name"
