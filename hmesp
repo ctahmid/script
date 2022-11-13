@@ -167,6 +167,7 @@ local chatLog = false
 
 local health
 local armour
+local died
 
 --
 
@@ -494,12 +495,14 @@ task.spawn(function()
 		if Scroll[plr.Name].Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 			tFolder[plr.Name]:Destroy()
 			Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 			local found = table.find(tracking, plr.Name)
 			if found then
 				table.remove(tracking, found)
 			end
 		else
 			Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+			Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 			table.insert(tracking, plr.Name)
 			trackChar(plr.Character)
 		end
@@ -510,8 +513,10 @@ task.spawn(function()
 		if not plr then return end
 		if workspace.CurrentCamera.CameraSubject ~= LPlr.Character and workspace.CurrentCamera.CameraSubject ~= LPlr.Character.Humanoid then
 			workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
+			View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 		else
 			workspace.CurrentCamera.CameraSubject = plr.Character.Humanoid
+			View.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 		end
 	end)
 end)
@@ -593,12 +598,18 @@ local function createBtn(plr)
 		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 			tFolder[plr.Name]:Destroy()
 			Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+			if Target.User.Text == plr.Name then
+			    Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+			end
 			local found = table.find(tracking, plr.Name)
 			if found then
 				table.remove(tracking, found)
 			end
 		else
 			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+			if Target.User.Text == plr.Name then
+			    Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+			end
 			table.insert(tracking, plr.Name)
 			trackChar(plr.Character)
 		end
@@ -607,8 +618,14 @@ local function createBtn(plr)
 	Plr.MouseButton2Click:Connect(function()
 		if workspace.CurrentCamera.CameraSubject ~= LPlr.Character and workspace.CurrentCamera.CameraSubject ~= LPlr.Character.Humanoid then
 			workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
+			if Target.User.Text == plr.Name then
+			    Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+			end
 		else
 			workspace.CurrentCamera.CameraSubject = plr.Character.Humanoid
+			if Target.User.Text == plr.Name then
+			    Target.View.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+			end
 		end
 	end)
 	
@@ -616,12 +633,18 @@ local function createBtn(plr)
 		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 			tFolder[plr.Name]:Destroy()
 			Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+			if Target.User.Text == plr.Name then
+			    Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+			end
 			local found = table.find(tracking, plr.Name)
 			if found then
 				table.remove(tracking, found)
 			end
 		else
 			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+			if Target.User.Text == plr.Name then
+			    Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+			end
 			table.insert(tracking, plr.Name)
 			trackChar(plr.Character)
 		end
@@ -631,6 +654,16 @@ local function createBtn(plr)
 	    if gameIs == "HM" or gameIs == "DH" then
 	        Target:TweenPosition(UDim2.new(0, 0, 0, 0), "Out", "Quint", 0.5, true)
 	        Opts.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+	        if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
+	            Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+	        else
+	            Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+	        end
+	        if workspace.CurrentCamera.CameraSubject == plr.Character.Humanoid then
+    			Target.View.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    		else
+			    Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+    		end
     		if health then health:Disconnect() end
     		if armour then armour:Disconnect() end
     		Target.Crew.Text = "Crew Name"
@@ -641,7 +674,11 @@ local function createBtn(plr)
     		Target.Health.Text = math.round(plr.Character.Humanoid.Health)
     		health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
         		Target.Health.Text = math.round(plr.Character.Humanoid.Health)
-        	end)
+    		end)
+    	    --[[died = plr.Character.Humanoid.Died:Connect(function()
+    	        health:Disconnect()
+    	        if gameIs == "DH" then armour:Disconnect() end
+    	    end)]]
     		if gameIs == "HM" then
     		    Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.Information.Crew.Value.."&w=150&h=150"
         		Target.CrewID.Text = plr.Information.Crew.Value
@@ -649,7 +686,9 @@ local function createBtn(plr)
         		armour = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
     			    Target.Armour.Text = math.round(plr.Information.Armor.Value)
     	    	end)
-    	    	Target.Crew.Text = gps:GetGroupInfoAsync(plr.Information.Crew.Value).Name
+    	    	pcall(function()
+    	    	     Target.Crew.Text = gps:GetGroupInfoAsync(plr.Information.Crew.Value).Name
+    	    	end)
         	else
         	    Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
         	    armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
@@ -658,7 +697,9 @@ local function createBtn(plr)
         	    if plr:WaitForChild("DataFolder"):WaitForChild("Information"):FindFirstChild("Crew") then
 	    	        Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.DataFolder.Information.Crew.Value.."&w=150&h=150"
 	    	        Target.CrewID.Text = plr.DataFolder.Information.Crew.Value
-	    	        Target.Crew.Text = gps:GetGroupInfoAsync(plr.DataFolder.Information.Crew.Value).Name
+	    	        pcall(function()
+                        Target.Crew.Text = gps:GetGroupInfoAsync(plr.DataFolder.Information.Crew.Value).Name
+                    end)
 	            end
     		end
     		for i, v in pairs(Target.Scroll:GetChildren()) do
