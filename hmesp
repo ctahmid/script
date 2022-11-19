@@ -202,7 +202,7 @@ local function trackChar(char)
 		txt.Font = Enum.Font.GothamMedium
 		txt.Text = plr.DisplayName
 		txt.TextColor3 = Color3.fromRGB(255, 255, 255)
-		txt.TextSize = 14.000
+		txt.TextSize = 13.000
 		txt.TextStrokeTransparency = 0.500
 		txt.RichText = true
 		if visible == false then
@@ -759,15 +759,15 @@ local function createBtn(plr)
 		trackChar(plr.Character)
 	end
 
-	coroutine.wrap(function()
+	pcall(function()
 	    if gameIs == "HM" then
-		    Crew.Image = "rbxthumb://type=GroupIcon&id="..plr:WaitForChild("Information"):FindFirstChild("Crew").Value.."&w=150&h=150"
-    	elseif gameIs == "DH" then
-    	    if plr:WaitForChild("DataFolder"):WaitForChild("Information"):FindFirstChild("Crew") then
-    	    	Crew.Image = "rbxthumb://type=GroupIcon&id="..plr.DataFolder.Information.Crew.Value.."&w=150&h=150"
-    	    end
-    	end
-	end)()
+    		Crew.Image = "rbxthumb://type=GroupIcon&id="..plr:WaitForChild("Information"):WaitForChild("Crew").Value.."&w=150&h=150"
+        elseif gameIs == "DH" then
+        	if plr:WaitForChild("DataFolder"):WaitForChild("Information"):WaitForChild("Crew") then
+        	   Crew.Image = "rbxthumb://type=GroupIcon&id="..plr.DataFolder.Information.Crew.Value.."&w=150&h=150"
+            end
+        end
+	end)
 end
 
 for i, plr in pairs(plrs:GetPlayers()) do
