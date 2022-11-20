@@ -6,6 +6,8 @@ local UIS = game:GetService('UserInputService')
 
 local LPlr = plrs.LocalPlayer
 
+local mouse = LPlr:GetMouse()
+
 if game.CoreGui:FindFirstChild("macro") then
 	game.CoreGui:FindFirstChild("macro"):Destroy()
 end
@@ -884,6 +886,32 @@ UIS.InputBegan:Connect(function(input, gpe)
 				end
 			end
 		end
+	elseif input.UserInputType == Enum.UserInputType.MouseButton3 then
+	    local plr = plrs:FindFirstChild(mouse.Target.Parent.Name)
+	    local plr2 = plrs:FindFirstChild(mouse.Target.Parent.Parent.Name)
+        if plr2 then
+            plr = plr2
+        end
+        if plr then
+            if Scroll[plr.Name].Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
+    			tFolder[plr.Name]:Destroy()
+    			Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+    			if Target.User.Text == plr.Name then
+    			    Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+    			end
+    			local found = table.find(tracking, plr.Name)
+    			if found then
+    				table.remove(tracking, found)
+    			end
+    		else
+    			Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+    			if Target.User.Text == plr.Name then
+    			    Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    			end
+    			table.insert(tracking, plr.Name)
+    			trackChar(plr.Character)
+    		end
+        end
 	end
 end)
 
