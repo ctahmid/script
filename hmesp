@@ -1,3 +1,5 @@
+-- == == --
+
 local plrs = game:GetService("Players")
 local sgui = game:GetService("StarterGui")
 local tws = game:GetService("TweenService")
@@ -480,6 +482,24 @@ task.spawn(function()
 	Armour.TextXAlignment = Enum.TextXAlignment.Left
 	Armour.TextScaled = true
 	Armour.Parent = Target
+	
+	local Rejoin = Instance.new("TextButton")
+	Rejoin.Name = "Track"
+	Rejoin.Size = UDim2.new(0, 25, 0, 25)
+	Rejoin.BorderColor3 = Color3.fromRGB(255, 255, 255)
+	Rejoin.BackgroundTransparency = 0.9
+	Rejoin.Position = UDim2.new(0, 135, 0, 35)
+	Rejoin.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+	Rejoin.FontSize = Enum.FontSize.Size18
+	Rejoin.TextSize = 16
+	Rejoin.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Rejoin.Text = "RJ"
+	Rejoin.Font = Enum.Font.GothamMedium
+	Rejoin.Parent = Target
+	
+	Rejoin.MouseButton1Click:Connect(function()
+	    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, LPlr)
+	end)
 
 	Btn.MouseButton1Click:Connect(function()
 		if plrNoti == true then
@@ -537,7 +557,7 @@ local function createBtn(plr)
 	local Crew = Instance.new("ImageLabel")
 
 	Plr.Name = plr.Name
-	Plr.LayoutOrder = 2
+	Plr.LayoutOrder = 3
 	Plr.Parent = Scroll
 	Plr.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 	Plr.BackgroundTransparency = 0.900
@@ -594,6 +614,13 @@ local function createBtn(plr)
 	if LPlr:IsFriendsWith(plr.UserId) then
 		Plr.LayoutOrder = 1
 		Img.BackgroundColor3 = Color3.fromRGB(2, 234, 255)
+	end
+	
+	if gameIs == "HM" then
+		if plr:GetRankInGroup(10878346) >= 5 then
+		    Plr.LayoutOrder = 2
+		    Img.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+		end
 	end
 
 	Plr.MouseButton1Click:Connect(function()
@@ -803,13 +830,7 @@ All.MouseButton1Click:Connect(function()
 		if plr.Name ~= LPlr.Name then
 			table.insert(tracking, plr.Name)
 			trackChar(plr.Character or plr.Character:Wait())
-			if Scroll:FindFirstChild(plr.Name) then
-			    Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
-			else
-			    createBtn(plr)
-			    print("Created missing button for "..plr.Name)
-			    Scroll:WaitForChild(plr.Name):WaitForChild("Disp").TextColor3 = Color3.fromRGB(17, 255, 0)
-			end
+			Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 		end
 	end
 end)
