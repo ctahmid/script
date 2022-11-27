@@ -1,4 +1,4 @@
--- == == --
+-- a1
 
 local plrs = game:GetService("Players")
 local sgui = game:GetService("StarterGui")
