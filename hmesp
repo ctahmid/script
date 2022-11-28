@@ -1,4 +1,4 @@
--- a1
+-- ab12
 
 local plrs = game:GetService("Players")
 local sgui = game:GetService("StarterGui")
@@ -617,10 +617,12 @@ local function createBtn(plr)
 	end
 	
 	if gameIs == "HM" then
-		if plr:GetRankInGroup(10878346) >= 5 then
-		    Plr.LayoutOrder = 2
-		    Img.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-		end
+	    pcall(function()
+    		if plr:GetRankInGroup(10878346) >= 5 then
+    		    Plr.LayoutOrder = 2
+    		    Img.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    		end
+    	end)
 	end
 
 	Plr.MouseButton1Click:Connect(function()
@@ -799,12 +801,6 @@ local function createBtn(plr)
 	end)
 end
 
-for i, plr in pairs(plrs:GetPlayers()) do
-	if plr ~= LPlr then
-		createBtn(plr)
-	end
-end
-
 if gameIs == "HM" then
 	workspace.Characters.ChildAdded:Connect(function(char)
 		if table.find(tracking, char.Name) then
@@ -978,11 +974,22 @@ UIS.InputChanged:Connect(function(input)
 	end
 end)
 
+--
+
+coroutine.wrap(function()
+    for i, plr in pairs(plrs:GetPlayers()) do
+	    if plr ~= LPlr then
+	    	createBtn(plr)
+	    end
+    end
+end)()
+
 -- ADMIN CHECK
 
 local success, err = pcall(function()
 	if gameIs == "HM" then
 		for i, plr in pairs(plrs:GetChildren()) do
+		    pcall(function()
 			if plr:GetRankInGroup(10878346) >= 5 then
 				sgui:SetCore("SendNotification", {
 					Title = plr:GetRoleInGroup(10878346);
@@ -991,6 +998,7 @@ local success, err = pcall(function()
 					Duration = 5
 				})
 			end
+			end)
 		end
 	end
 end)
@@ -1008,6 +1016,7 @@ plrs.PlayerAdded:Connect(function(plr)
 	end
 	createBtn(plr)
 	if gameIs == "HM" then
+	    pcall(function()
 		if plr:GetRankInGroup(10878346) >= 5 then
 			sgui:SetCore("SendNotification", {
 				Title = plr:GetRoleInGroup(10878346);
@@ -1016,6 +1025,7 @@ plrs.PlayerAdded:Connect(function(plr)
 				Duration = 5
 			})
 		end
+		end)
 	end
 end)
 
