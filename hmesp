@@ -493,6 +493,24 @@ task.spawn(function()
 	CrewID.TextXAlignment = Enum.TextXAlignment.Left
 	CrewID.TextScaled = true
 	CrewID.Parent = Target
+	
+	local CloXse = Instance.new("TextButton")
+	CloXse.Name = "CloXse"
+	CloXse.Size = UDim2.new(0, 20, 0, 20)
+	CloXse.BorderColor3 = Color3.fromRGB(255, 255, 255)
+	CloXse.BackgroundTransparency = 0.9
+	CloXse.Position = UDim2.new(0, 6, 0, 6)
+	CloXse.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+	CloXse.FontSize = Enum.FontSize.Size18
+	CloXse.TextSize = 16
+	CloXse.TextColor3 = Color3.fromRGB(255, 255, 255)
+	CloXse.Text = "X"
+	CloXse.Font = Enum.Font.GothamMedium
+	CloXse.Parent = Target
+	
+	CloXse.MouseButton1Click:Connect(function()
+	    Target.Visible = false
+	end)
 
 	local View = Instance.new("TextButton")
 	View.Name = "View"
