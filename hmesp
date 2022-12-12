@@ -429,11 +429,11 @@ task.spawn(function()
 	local UIListLayout = Instance.new("UIListLayout")
 	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	UIListLayout.Padding = UDim.new(0, 1)
-	UIListLayout.Parent = Scroll
+	UIListLayout.Parent = ScrollG
 
 	local UIPadding = Instance.new("UIPadding")
 	UIPadding.PaddingTop = UDim.new(0, 1)
-	UIPadding.Parent = Scroll
+	UIPadding.Parent = ScrollG
 
 	local ImgCrew = Instance.new("ImageLabel")
 	ImgCrew.Name = "ImgCrew"
@@ -838,6 +838,10 @@ function trackList(plr)
 	Item.MouseButton1Click:Connect(function()
 		trackRemove(plr)
 	end)
+	
+	Item.MouseButton2Click:Connect(function()
+	    
+	end)
 end
 
 --
@@ -924,15 +928,6 @@ local function createBtn(plr)
 
 	Plr.MouseButton1Click:Connect(function()
 		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
-			--[[tFolder[plr.Name]:Destroy()
-			Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
-			if Target.User.Text == plr.Name then
-			    Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-			end
-			local found = table.find(tracking, plr.Name)
-			if found then
-				table.remove(tracking, found)
-			end]]
 			trackRemove(plr)
 		else
 			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
@@ -961,15 +956,6 @@ local function createBtn(plr)
 
 	Img.MouseButton1Click:Connect(function()
 		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
-			--[[tFolder[plr.Name]:Destroy()
-			Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
-			if Target.User.Text == plr.Name then
-			    Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-			end
-			local found = table.find(tracking, plr.Name)
-			if found then
-				table.remove(tracking, found)
-			end]]
 			trackRemove(plr)
 		else
 			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
@@ -1234,6 +1220,7 @@ UIS.InputBegan:Connect(function(input, gpe)
 				if found then
 					table.remove(tracking, found)
 				end
+				trackRemove(plr)
 			else
 				Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 				if Target.User.Text == plr.Name then
@@ -1241,6 +1228,7 @@ UIS.InputBegan:Connect(function(input, gpe)
 				end
 				table.insert(tracking, plr.Name)
 				trackChar(plr.Character)
+				trackList(plr)
 			end
 		end
 	end
