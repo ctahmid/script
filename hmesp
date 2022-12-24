@@ -570,6 +570,7 @@ task.spawn(function()
 				end)
 			else
 				Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+				Target.StompFX.Text = "$"..plr.DataFolder.Currency.Value
 				armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
 					Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
 				end)
@@ -1131,6 +1132,7 @@ local function createBtn(plr)
 				end)
 			else
 				Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+				Target.StompFX.Text = "$"..plr.DataFolder.Currency.Value
 				armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
 					Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
 				end)
