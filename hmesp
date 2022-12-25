@@ -1458,7 +1458,7 @@ plrs.PlayerRemoving:Connect(function(plr)
 		Scroll[plr.Name]:Destroy()
 	end
 	if Options.ScrollE:FindFirstChild(plr.Name) then
-		Options.ScrollE:FindFirstChild(plr.Name).Txt.TextColor3 = Color3.fromRGB(255,0,0)
+		Options.ScrollE:FindFirstChild(plr.Name).Txt.TextColor3 = Color3.fromRGB(255, 50, 50)
 	end
 	if tFolder:FindFirstChild(plr.Name) then
 		tFolder[plr.Name]:Destroy()
