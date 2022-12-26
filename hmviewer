@@ -1,0 +1,194 @@
+if game.CoreGui:FindFirstChild("VIEWER") then
+	game.CoreGui:FindFirstChild("VIEWER"):Destroy()
+	if _G.viewConnection then
+		_G.viewConnection:Disconnect()
+		_G.viewConnection = nil
+	end
+	if workspace:FindFirstChild("Beam/") then
+		workspace:FindFirstChild("Beam/"):Destroy()
+	end
+end
+
+local VIEWER = Instance.new("ScreenGui")
+VIEWER.Name = "VIEWER"
+VIEWER.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+local Drag = Instance.new("Frame")
+Drag.Name = "Drag"
+Drag.Size = UDim2.new(0, 170, 0, 146)
+Drag.Position = UDim2.new(0.6555387, 0, 0.5620806, 0)
+Drag.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Drag.Parent = VIEWER
+
+local User = Instance.new("TextBox")
+User.Name = "User"
+User.Size = UDim2.new(0.9281966, 0, 0.2465753, 0)
+User.Position = UDim2.new(0.0306271, 0, 0.0528767, 0)
+User.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+User.FontSize = Enum.FontSize.Size24
+User.TextWrapped = true
+User.TextSize = 20
+User.TextWrap = true
+User.TextColor3 = Color3.fromRGB(0, 0, 0)
+User.Text = ""
+User.PlaceholderText = "Username"
+User.CursorPosition = -1
+User.Font = Enum.Font.Gotham
+User.Parent = Drag
+
+local View = Instance.new("TextButton")
+View.Name = "View"
+View.Size = UDim2.new(0.443139, 0, 0.2054794, 0)
+View.Position = UDim2.new(0.0306271, 0, 0.3424658, 0)
+View.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+View.FontSize = Enum.FontSize.Size24
+View.TextSize = 20
+View.TextColor3 = Color3.fromRGB(0, 0, 0)
+View.Text = "View"
+View.Font = Enum.Font.Gotham
+View.Parent = Drag
+
+local Stop = Instance.new("TextButton")
+Stop.Name = "Stop"
+Stop.Size = UDim2.new(0.443139, 0, 0.2054794, 0)
+Stop.Position = UDim2.new(0.5156845, 0, 0.3424658, 0)
+Stop.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Stop.FontSize = Enum.FontSize.Size24
+Stop.TextSize = 20
+Stop.TextColor3 = Color3.fromRGB(0, 0, 0)
+Stop.Text = "Stop"
+Stop.Font = Enum.Font.Gotham
+Stop.Parent = Drag
+
+local Spec = Instance.new("TextButton")
+Spec.Name = "Spec"
+Spec.Size = UDim2.new(0.9281966, 0, 0.2054794, 0)
+Spec.Position = UDim2.new(0.0306271, 0, 0.5958904, 0)
+Spec.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Spec.FontSize = Enum.FontSize.Size24
+Spec.TextSize = 20
+Spec.TextColor3 = Color3.fromRGB(0, 0, 0)
+Spec.Text = "Spectate"
+Spec.Font = Enum.Font.Gotham
+Spec.Parent = Drag
+
+local Close = Instance.new("TextButton")
+Close.Name = "Close"
+Close.Size = UDim2.new(0.269, 0, 0.1, 0)
+Close.Position = UDim2.new(0.36, 0, 0.85, 0)
+Close.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
+Close.FontSize = Enum.FontSize.Size18
+Close.TextSize = 15
+Close.TextColor3 = Color3.fromRGB(0, 0, 0)
+Close.Text = "X"
+Close.Font = Enum.Font.Gotham
+Close.Parent = Drag
+
+VIEWER.Parent = game.CoreGui
+
+_G.viewConnection = nil
+
+Close.MouseButton1Click:Connect(function()
+	VIEWER:Destroy()
+	if _G.viewConnection then
+		_G.viewConnection:Disconnect()
+		_G.viewConnection = nil
+	end
+	if workspace:FindFirstChild("Beam/") then
+		workspace:FindFirstChild("Beam/"):Destroy()
+	end
+end)
+
+View.MouseButton1Click:Connect(function()
+	User.BorderColor3 = Color3.fromRGB(27, 42, 53)
+	
+	if _G.viewConnection then
+		_G.viewConnection:Disconnect()
+		_G.viewConnection = nil
+	end
+	if workspace:FindFirstChild("Beam/") then
+		workspace:FindFirstChild("Beam/"):Destroy()
+	end
+
+	local plr = game.Players:FindFirstChild(User.Text)
+
+	if plr then
+		User.BorderColor3 = Color3.fromRGB(0, 255, 0)
+
+		local beam = Instance.new("Part")
+		beam.Name = "Beam/"
+		beam.Anchored = true
+		beam.CanCollide = false
+		beam.Material = "Neon"
+		beam.Transparency = 0.8
+		beam.Color = Color3.fromRGB(255,0,0)
+		beam.Parent = workspace
+
+		_G.viewConnection = plr.Character["I_LOADED_I"].MousePos.Changed:Connect(function()
+			local from = plr.Character.HumanoidRootPart
+			local Target = plr.Character["I_LOADED_I"].MousePos.Value
+			local dist = (from.Position - Target).Magnitude
+			beam.Size = Vector3.new(.1, .1, dist)
+			beam.CFrame = CFrame.new(from.Position, Target) * CFrame.new(0,0,-beam.Size.Z/2)
+		end)
+	end
+end)
+
+Stop.MouseButton1Click:Connect(function()
+	User.BorderColor3 = Color3.fromRGB(27, 42, 53)
+	if _G.viewConnection then
+		_G.viewConnection:Disconnect()
+		_G.viewConnection = nil
+	end
+	if workspace:FindFirstChild("Beam/") then
+		workspace:FindFirstChild("Beam/"):Destroy()
+	end
+end)
+
+Spec.MouseButton1Click:Connect(function()
+	if workspace.CurrentCamera.CameraSubject ~= game.Players.LocalPlayer.Character and workspace.CurrentCamera.CameraSubject ~= game.Players.LocalPlayer.Character.Humanoid then
+		workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+		Spec.BorderColor3 = Color3.fromRGB(27, 42, 53)
+	else
+		workspace.CurrentCamera.CameraSubject = game.Players:FindFirstChild(User.Text).Character.Humanoid
+		Spec.BorderColor3 = Color3.fromRGB(0, 255, 0)
+	end
+end)
+
+-- DRAGGING
+
+local frame = Drag
+local dragToggle = nil
+local dragSpeed = 0.25
+local dragStart = nil
+local startPos = nil
+
+local function updateInput(input)
+	local delta = input.Position - dragStart
+	local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+		startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	game:GetService('TweenService'):Create(frame, TweenInfo.new(dragSpeed), {Position = position}):Play()
+end
+
+frame.InputBegan:Connect(function(input)
+	if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
+		dragToggle = true
+		dragStart = input.Position
+		startPos = frame.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragToggle = false
+			end
+		end)
+	end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+		if dragToggle then
+			updateInput(input)
+		end
+	end
+end)
+
+--
