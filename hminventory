@@ -1,0 +1,353 @@
+local l__LocalPlayer__3 = game:GetService("Players").LocalPlayer
+local l__RunService__6 = game:GetService("RunService")
+local l__PlayerGui__7 = game:GetService("Players").LocalPlayer.PlayerGui
+local l__MainScreenGui__2 = l__LocalPlayer__3.PlayerGui:WaitForChild("MainScreenGui")
+local l__TweenService__3 = game:GetService("TweenService")
+local l__UserInputService__40 = game:GetService("UserInputService")
+local l__ReplicatedStorage__41 = game:GetService("ReplicatedStorage")
+local l__MainScreenGui__42 = l__LocalPlayer__3.PlayerGui:WaitForChild("MainScreenGui", 10)
+
+for v307, v308 in pairs(l__MainScreenGui__42.InventoryUI.ScrollingFrame:GetChildren()) do
+	if v308:IsA("Frame") then
+		v308:Destroy()
+	end
+end
+l__MainScreenGui__42.InventoryUI.Visible = true
+local u57 = {
+	Megalodon = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.294118, 0.635294, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0, 0.733333, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.117647, 0.454902, 1)) }
+	}, 
+	Raycodex = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.407843, 0.407843, 0.407843)), ColorSequenceKeypoint.new(0.5, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.368627, 0.368627, 0.368627)) }
+	}, 
+	RoadRoller = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0.862745, 0.0823529)), ColorSequenceKeypoint.new(0.5, Color3.new(0.792157, 0.701961, 0)), ColorSequenceKeypoint.new(1, Color3.new(1, 0.862745, 0.0823529)) }
+	}, 
+	Shapeshifter = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.105882, 1, 0.00784314)), ColorSequenceKeypoint.new(0.5, Color3.new(0.113725, 0, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.0470588, 1, 0)) }
+	}, 
+	Ornamental = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.290196, 1, 0.490196)), ColorSequenceKeypoint.new(0.25, Color3.new(0.835294, 0.368627, 0.290196)), ColorSequenceKeypoint.new(0.5, Color3.new(0.709804, 0.376471, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.00392157, 0.152941, 1)) }
+	}, 
+	["Candy Cane"] = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(0.2, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(0.75, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(1, Color3.new(1, 1, 1)) }
+	}, 
+	Subzero = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 0.45098, 1)), ColorSequenceKeypoint.new(0.49, Color3.new(0, 0.784314, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0.584314, 0.729412, 1)), ColorSequenceKeypoint.new(1, Color3.new(1, 1, 1)) }
+	}, 
+	Zoku = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0.74902, 0)), ColorSequenceKeypoint.new(0.49, Color3.new(0.835294, 0.568627, 0.0392157)), ColorSequenceKeypoint.new(0.5, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0)) }
+	}, 
+	Sailor = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0.952941, 0.701961)), ColorSequenceKeypoint.new(1, Color3.new(0.901961, 1, 0)) }
+	}, 
+	["Holy Judgment"] = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0.952941, 0.701961)), ColorSequenceKeypoint.new(1, Color3.new(0.901961, 1, 0)) }
+	}, 
+	Hallo = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(0.5, Color3.new(1, 0.254902, 0.0313725)), ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0)) }
+	}, 
+	Samurai = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(0.5, Color3.new(0.564706, 0.564706, 0.564706)), ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0)) }
+	}, 
+	Heaven = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(1, 0.937255, 0.431373)), ColorSequenceKeypoint.new(1, Color3.new(1, 1, 1)) }
+	}, 
+	Boombox = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 0.231373, 1)), ColorSequenceKeypoint.new(1, Color3.new(0, 0.713725, 0.105882)) }
+	}, 
+	Wings = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(1, 0.94902, 0.192157)), ColorSequenceKeypoint.new(1, Color3.new(1, 1, 1)) }
+	}, 
+	Kitten = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.984314, 0.529412, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0.85098, 0.298039, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.882353, 0.52549, 1)) }
+	}, 
+	Plushy = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.988235, 0.847059, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(1, 0.756863, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.988235, 0.847059, 1)) }
+	}, 
+	Tanya = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.992157, 1, 0.470588)), ColorSequenceKeypoint.new(0.5, Color3.new(1, 0.8, 0.00392157)), ColorSequenceKeypoint.new(1, Color3.new(0.992157, 1, 0.470588)) }
+	}, 
+	Plush = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.988235, 0.847059, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0.784314, 0.764706, 0.756863)), ColorSequenceKeypoint.new(1, Color3.new(0.988235, 0.847059, 1)) }
+	}, 
+	Witten = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.984314, 0.529412, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0.556863, 0.0117647, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.882353, 0.52549, 1)) }
+	}, 
+	Spirit = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0.67451, 0.67451, 0.67451)), ColorSequenceKeypoint.new(1, Color3.new(0.67451, 0.67451, 0.67451)) }
+	}, 
+	Ruby = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0.67451, 0.67451, 0.67451)), ColorSequenceKeypoint.new(1, Color3.new(0.67451, 0.67451, 0.67451)) }
+	}, 
+	Lotus = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0.67451, 0.67451, 0.67451)), ColorSequenceKeypoint.new(1, Color3.new(0.67451, 0.67451, 0.67451)) }
+	}, 
+	Pacman = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0.67451, 0.67451, 0.67451)), ColorSequenceKeypoint.new(1, Color3.new(0.67451, 0.67451, 0.67451)) }
+	}, 
+	["Gates of Heaven"] = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.67451, 0.67451, 0.67451)), ColorSequenceKeypoint.new(0.5, Color3.new(0.67451, 0.67451, 0.67451)), ColorSequenceKeypoint.new(1, Color3.new(0.968627, 1, 0.32549)) }
+	}, 
+	Kitty = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.956863, 0.870588, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0.956863, 0.870588, 1)), ColorSequenceKeypoint.new(1, Color3.new(1, 0.647059, 0.996078)) }
+	}, 
+	UFO = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 0.231373, 1)), ColorSequenceKeypoint.new(1, Color3.new(0, 0.713725, 0.105882)) }
+	}, 
+	Lightning = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 0.231373, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0, 0.713725, 0.105882)), ColorSequenceKeypoint.new(1, Color3.new(0.698039, 0.172549, 1)) }
+	}, 
+	["Despair Cage"] = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 0.231373, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0, 0.713725, 0.105882)), ColorSequenceKeypoint.new(1, Color3.new(0.698039, 0.172549, 1)) }
+	}, 
+	Kurumi = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0)) }
+	}, 
+	Money = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0)) }
+	}, 
+	["Primary Bomb"] = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0)) }
+	}, 
+	["Ice Capsule"] = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0)) }
+	}, 
+	Thanos = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.333333, 0, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.333333, 0, 1)) }
+	}, 
+	Goth = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.333333, 0, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.333333, 0, 1)) }
+	}, 
+	Thunder = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.333333, 0, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.333333, 0, 1)) }
+	}, 
+	Confetti = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 1, 0.0823529)), ColorSequenceKeypoint.new(1, Color3.new(0, 1, 0.0823529)) }
+	}, 
+	Wobble = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 1, 0.0823529)), ColorSequenceKeypoint.new(1, Color3.new(0, 1, 0.0823529)) }
+	}, 
+	Serpent = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 1, 0.0823529)), ColorSequenceKeypoint.new(1, Color3.new(0, 1, 0.0823529)) }
+	}, 
+	Rings = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 1, 0.0823529)), ColorSequenceKeypoint.new(1, Color3.new(0, 1, 0.0823529)) }
+	}, 
+	Mario = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.333333, 0, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.333333, 0, 1)) }
+	}, 
+	Glitch = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0)) }
+	}, 
+	Rainbow = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 0.568627, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0, 1, 0.133333)), ColorSequenceKeypoint.new(1, Color3.new(0.8, 0, 1)) }
+	}, 
+	Diamond = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 0.568627, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0, 1, 0.133333)), ColorSequenceKeypoint.new(1, Color3.new(0.8, 0, 1)) }
+	}, 
+	Rock = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 0.568627, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0, 1, 0.133333)), ColorSequenceKeypoint.new(1, Color3.new(0.8, 0, 1)) }
+	}, 
+	Sakura = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 0.568627, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0, 1, 0.133333)), ColorSequenceKeypoint.new(1, Color3.new(0.8, 0, 1)) }
+	}, 
+	D4C = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 0.568627, 1)), ColorSequenceKeypoint.new(1, Color3.new(0, 1, 0.133333)) }
+	}, 
+	Dragon = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(0.5, Color3.new(0.67451, 0.67451, 0.67451)), ColorSequenceKeypoint.new(1, Color3.new(0.67451, 0.67451, 0.67451)) }
+	}, 
+	Dragonite = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0.627451, 0.627451)), ColorSequenceKeypoint.new(0.5, Color3.new(0.67451, 0.384314, 0.384314)), ColorSequenceKeypoint.new(1, Color3.new(0.67451, 0.352941, 0.352941)) }
+	}, 
+	Kurohitsugi = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.415686, 0, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0.701961, 0, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.356863, 0, 0.792157)) }
+	}, 
+	["Ice Phoenix"] = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.14902, 0.658824, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0, 0.65098, 1)), ColorSequenceKeypoint.new(1, Color3.new(0, 0.898039, 1)) }
+	}, 
+	Sero = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 0.568627, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0, 1, 0.133333)), ColorSequenceKeypoint.new(1, Color3.new(0.8, 0, 1)) }
+	}, 
+	Rift = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.129412, 0.258824, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.0313725, 0.164706, 0.654902)) }
+	}, 
+	Rune = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 1, 1)), ColorSequenceKeypoint.new(0.25, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(0.5, Color3.new(0.917647, 1, 0)), ColorSequenceKeypoint.new(0.75, Color3.new(1, 0, 0.917647)), ColorSequenceKeypoint.new(1, Color3.new(0.133333, 1, 0)) }
+	}, 
+	["Dimension Slash "] = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(0.25, Color3.new(0.505882, 0, 0)), ColorSequenceKeypoint.new(0.5, Color3.new(1, 0.352941, 0.352941)), ColorSequenceKeypoint.new(0.75, Color3.new(0.505882, 0, 0)), ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0)) }
+	}, 
+	Jetpack = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 0.231373, 1)), ColorSequenceKeypoint.new(1, Color3.new(0, 0.713725, 0.105882)) }
+	}, 
+	Ghost = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)), ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0)) }
+	}, 
+	Portal = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.333333, 0, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.333333, 0, 1)) }
+	}, 
+	Balloons = {
+		Rotate = false, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.333333, 0, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.333333, 0, 1)) }
+	}, 
+	["Shiny Spirit"] = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0, 1, 1)), ColorSequenceKeypoint.new(0.25, Color3.new(0.596078, 0.933333, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0, 0.45098, 1)), ColorSequenceKeypoint.new(0.75, Color3.new(0.596078, 0.933333, 1)), ColorSequenceKeypoint.new(1, Color3.new(0, 0.568627, 1)) }
+	}, 
+	["Soul Taker"] = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0.819608)), ColorSequenceKeypoint.new(0.25, Color3.new(0.607843, 0.054902, 1)), ColorSequenceKeypoint.new(0.5, Color3.new(0.486275, 0.188235, 1)), ColorSequenceKeypoint.new(0.75, Color3.new(0.615686, 0.227451, 1)), ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0.819608)) }
+	}, 
+	Spooky = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(0.490196, 0, 0.407843)), ColorSequenceKeypoint.new(0.5, Color3.new(0.486275, 0.188235, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.490196, 0, 0.407843)) }
+	}, 
+	Conqueror = {
+		Rotate = true, 
+		Color = { ColorSequenceKeypoint.new(0, Color3.new(1, 0.67451, 0.219608)), ColorSequenceKeypoint.new(0.5, Color3.new(1, 0.545098, 0.145098)), ColorSequenceKeypoint.new(1, Color3.new(1, 0.67451, 0.219608)) }
+	}
+}
+_G.WAIT = 0
+local function u58(p65, p66, p67)
+	if p66 ~= "N" then
+		local v309 = game.ReplicatedStorage.InvB:Clone()
+		v309.Parent = l__MainScreenGui__42.InventoryUI.ScrollingFrame
+		v309.Name = p65
+		v309.TextButton.Text = p65
+		if u57[p65] ~= nil then
+			v309.TextButton.UIGradient.Enabled = true
+			v309.TextButton.UIGradient.Color = ColorSequence.new(u57[p65].Color)
+			if u57[p65].Rotate == true then
+				game.TweenService:Create(v309:FindFirstChild("TextButton"):FindFirstChild("UIGradient"), TweenInfo.new(2.5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), {
+					Rotation = 360
+				}):Play()
+			else
+				v309.TextButton.UIGradient.Rotation = 0
+			end
+		end
+		local u59 = 0
+		local u60 = nil
+		local u61 = nil
+		u60 = v309.Delete.MouseButton1Click:Connect(function()
+			l__MainScreenGui__42.RMB:Play()
+			u59 = u59 + 1
+			if u59 >= 2 then
+				v309:Destroy()
+				game.ReplicatedStorage.MainRemote:FireServer("DeleteEffects", p67)
+				u60:Disconnect()
+				u61:Disconnect()
+			end
+		end)
+		u61 = v309.TextButton.MouseButton1Click:Connect(function()
+			l__MainScreenGui__42.ZAT:Play()
+			if tick() - _G.WAIT >= 1 then
+				_G.WAIT = tick()
+				local v310 = "KillFX"
+				if p66 == "R" then
+					v310 = "RayColor"
+				elseif p66 == "T" then
+					v310 = "Tag"
+				end
+				if p66 ~= "R" then
+					u58(l__LocalPlayer__3.Information[v310].Value, p66, p66 .. "_" .. l__LocalPlayer__3.Information[v310].Value)
+				else
+					u58(BrickColor.new(l__LocalPlayer__3.Information[v310].Value).Name, p66, p66 .. "_" .. BrickColor.new(l__LocalPlayer__3.Information[v310].Value).Name)
+				end
+				game.ReplicatedStorage.MainRemote:FireServer("SwitchEffects", p67)
+				v309:Destroy()
+				u61:Disconnect()
+				u60:Disconnect()
+			end
+		end)
+	end
+end
+l__MainScreenGui__42.InventoryUI.Inventory.TextColor3 = Color3.fromRGB(255, 255, 255)
+local u62 = nil
+u62 = l__LocalPlayer__3.Character.Humanoid:GetPropertyChangedSignal("MoveDirection"):Connect(function()
+	l__MainScreenGui__42.InventoryUI.Visible = false
+	for v317, v318 in pairs(l__MainScreenGui__42.InventoryUI.ScrollingFrame:GetChildren()) do
+		if v318:IsA("Frame") then
+			v318:Destroy()
+		end
+	end
+	u62:Disconnect()
+end)
+
+function load()
+    	for i,v in pairs(l__LocalPlayer__3.Information.Inventory:GetChildren()) do
+	    u58(string.sub(v.Name, 3), string.sub(v.Name, 1, 1), v.Name)
+	end
+	local v314 = #l__LocalPlayer__3.Information.Inventory:GetChildren()
+	local v316
+	if l__LocalPlayer__3.Information.ExtraInv.Value == false then
+		v316 = 100
+	else
+		v316 = 250
+	end
+	l__MainScreenGui__42.InventoryUI.Inventory.Text = "Inventory [" .. v314 .. "/" .. tostring(v316) .. "]"
+	if v316 < v314 then
+		l__MainScreenGui__42.InventoryUI.Inventory.TextColor3 = Color3.fromRGB(200, 0, 0)
+	end	
+end
+
+load()
