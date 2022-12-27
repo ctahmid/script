@@ -15,8 +15,9 @@ VIEWER.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 local Drag = Instance.new("Frame")
 Drag.Name = "Drag"
-Drag.Size = UDim2.new(0, 170, 0, 146)
-Drag.Position = UDim2.new(0.6555387, 0, 0.5620806, 0)
+Drag.BackgroundTransparency = 0.5
+Drag.Size = UDim2.new(0, 170, 0, 115)
+Drag.Position = UDim2.new(0.7, 0, 0.7, 0)--UDim2.new(0.8975, 0, 0.195, 0)
 Drag.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Drag.Parent = VIEWER
 
@@ -99,6 +100,8 @@ Close.MouseButton1Click:Connect(function()
 	end
 end)
 
+local plr
+
 View.MouseButton1Click:Connect(function()
 	User.BorderColor3 = Color3.fromRGB(27, 42, 53)
 	
@@ -109,9 +112,14 @@ View.MouseButton1Click:Connect(function()
 	if workspace:FindFirstChild("Beam/") then
 		workspace:FindFirstChild("Beam/"):Destroy()
 	end
-
-	local plr = game.Players:FindFirstChild(User.Text)
-
+	
+	for i, p in pairs(game.Players:GetPlayers()) do
+        if string.find(string.upper(p.Name), string.upper(User.Text)) then
+            plr = p
+            User.Text = p.Name
+        end
+    end
+    
 	if plr then
 		User.BorderColor3 = Color3.fromRGB(0, 255, 0)
 
@@ -123,7 +131,7 @@ View.MouseButton1Click:Connect(function()
 		beam.Transparency = 0.8
 		beam.Color = Color3.fromRGB(255,0,0)
 		beam.Parent = workspace
-
+		
 		_G.viewConnection = plr.Character["I_LOADED_I"].MousePos.Changed:Connect(function()
 			local from = plr.Character.HumanoidRootPart
 			local Target = plr.Character["I_LOADED_I"].MousePos.Value
@@ -131,6 +139,14 @@ View.MouseButton1Click:Connect(function()
 			beam.Size = Vector3.new(.1, .1, dist)
 			beam.CFrame = CFrame.new(from.Position, Target) * CFrame.new(0,0,-beam.Size.Z/2)
 		end)
+		
+		--[[_G.viewConnection = game:GetService("RunService").RenderStepped:Connect(function()
+            local from = plr.Character["RightHand"]
+            local Target = plr.Character["I_LOADED_I"].MousePos.Value
+            local dist = (from.Position - Target).Magnitude
+            beam.Size = Vector3.new(.1, .1, dist)
+            beam.CFrame = CFrame.new(from.Position, Target) * CFrame.new(0,0,-beam.Size.Z/2)
+		end)]]
 	end
 end)
 
@@ -150,8 +166,17 @@ Spec.MouseButton1Click:Connect(function()
 		workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
 		Spec.BorderColor3 = Color3.fromRGB(27, 42, 53)
 	else
-		workspace.CurrentCamera.CameraSubject = game.Players:FindFirstChild(User.Text).Character.Humanoid
+		workspace.CurrentCamera.CameraSubject = plr.Character.Humanoid
 		Spec.BorderColor3 = Color3.fromRGB(0, 255, 0)
+	end
+end)
+
+game.UserInputService.InputBegan:Connect(function(input, gpe)
+	if gpe then return end
+	if input.UserInputType == Enum.UserInputType.Keyboard then
+		if input.KeyCode == Enum.KeyCode.K then
+			VIEWER.Enabled = not VIEWER.Enabled
+		end
 	end
 end)
 
