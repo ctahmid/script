@@ -155,26 +155,26 @@ Search.TextColor3 = Color3.fromRGB(255, 255, 255)
 Search.TextSize = 16.000
 
 local Hide = Instance.new("TextButton")
-	Hide.Name = "Hide"
-	Hide.Size = UDim2.new(0, 12, 0, 19)
-	Hide.BorderColor3 = Color3.fromRGB(255, 255, 255)
-	Hide.BackgroundTransparency = 0.9
-	Hide.Position = UDim2.new(0, 0, 0, 0)
-	Hide.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-	Hide.FontSize = Enum.FontSize.Size18
-	Hide.TextSize = 16
-	Hide.TextColor3 = Color3.fromRGB(255, 255, 255)
-	Hide.Text = ">"
-	Hide.Font = Enum.Font.GothamMedium
-	Hide.Parent = Frame
-	
+Hide.Name = "Hide"
+Hide.Size = UDim2.new(0, 12, 0, 19)
+Hide.BorderColor3 = Color3.fromRGB(255, 255, 255)
+Hide.BackgroundTransparency = 0.9
+Hide.Position = UDim2.new(0, 0, 0, 0)
+Hide.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+Hide.FontSize = Enum.FontSize.Size18
+Hide.TextSize = 16
+Hide.TextColor3 = Color3.fromRGB(255, 255, 255)
+Hide.Text = ">"
+Hide.Font = Enum.Font.GothamMedium
+Hide.Parent = Frame
+
 Hide.MouseButton1Click:Connect(function()
 	if Hide.Text == ">" then
-	    Hide.Text = "<"
-	    Frame:TweenPosition(UDim2.new(0.8, 370, 0.3, 31), "Out", "Quint", 1, true)
+		Hide.Text = "<"
+		Frame:TweenPosition(UDim2.new(0.8, 370, 0.3, 31), "Out", "Quint", 1, true)
 	else
-	    Hide.Text = ">"
-	    Frame:TweenPosition(UDim2.new(0.8, -2, 0.3, 31), "Out", "Quint", 1, true)
+		Hide.Text = ">"
+		Frame:TweenPosition(UDim2.new(0.8, -2, 0.3, 31), "Out", "Quint", 1, true)
 	end
 end)
 
@@ -189,7 +189,6 @@ local tracking = {}
 
 local visible = true
 local plrNoti = true
-local chatLog = false
 
 local health
 local armour
@@ -263,6 +262,8 @@ Options.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Options.Parent = Clip
 
 local ScrollE = Instance.new("ScrollingFrame")
+
+--
 
 task.spawn(function()
 	local UIGradient = Instance.new("UIGradient")
@@ -352,12 +353,26 @@ task.spawn(function()
 	UIPaddingE.PaddingTop = UDim.new(0, 1)
 	UIPaddingE.Parent = ScrollE
 
+	local Spy = Instance.new("TextButton")
+	Spy.Name = "Spy"
+	Spy.Size = UDim2.new(0.26, 0, 0.074017, 0)
+	Spy.BorderColor3 = Color3.fromRGB(255, 255, 255)
+	Spy.BackgroundTransparency = 0.9
+	Spy.Position = UDim2.new(0.7, 0, 0.2, 0)
+	Spy.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+	Spy.FontSize = Enum.FontSize.Size18
+	Spy.TextSize = 16
+	Spy.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Spy.Text = "CHAT"
+	Spy.Font = Enum.Font.GothamMedium
+	Spy.Parent = Options
+
 	local Rejoin = Instance.new("TextButton")
 	Rejoin.Name = "Rejoin"
 	Rejoin.Size = UDim2.new(0.4696608, 0, 0.074017, 0)
 	Rejoin.BorderColor3 = Color3.fromRGB(255, 255, 255)
 	Rejoin.BackgroundTransparency = 0.9
-	Rejoin.Position = UDim2.new(0.384093, 0, 0.2, 0)
+	Rejoin.Position = UDim2.new(0.23, 0, 0.2, 0)
 	Rejoin.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 	Rejoin.FontSize = Enum.FontSize.Size18
 	Rejoin.TextSize = 16
@@ -365,13 +380,13 @@ task.spawn(function()
 	Rejoin.Text = "REJOIN"
 	Rejoin.Font = Enum.Font.GothamMedium
 	Rejoin.Parent = Options
-	
+
 	local ToggleTarget = Instance.new("TextButton")
 	ToggleTarget.Name = "ToggleTarget"
 	ToggleTarget.Size = UDim2.new(0.1789632, 0, 0.074017, 0)
 	ToggleTarget.BorderColor3 = Color3.fromRGB(255, 255, 255)
 	ToggleTarget.BackgroundTransparency = 0.9
-	ToggleTarget.Position = UDim2.new(0.151535, 0, 0.2, 0)
+	ToggleTarget.Position = UDim2.new(0.05, 0, 0.2, 0)
 	ToggleTarget.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 	ToggleTarget.FontSize = Enum.FontSize.Size18
 	ToggleTarget.TextSize = 16
@@ -383,7 +398,7 @@ task.spawn(function()
 	Rejoin.MouseButton1Click:Connect(function()
 		game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, LPlr)
 	end)
-	
+
 	ToggleTarget.MouseButton1Click:Connect(function()
 		Target.Visible = not Target.Visible
 	end)
@@ -395,6 +410,23 @@ task.spawn(function()
 		else
 			plrNoti = true
 			tws:Create(Colour, TweenInfo.new(.3), {BackgroundColor3 = Color3.fromRGB(47, 255, 0), Position = UDim2.new(0.05, 0, 0.1, 0)}):Play()
+		end
+	end)
+	
+	local spy = false
+	local chatFrame = LPlr.PlayerGui.Chat.Frame
+	local pos1
+	local pos2
+	pos1 = chatFrame.ChatBarParentFrame.Position
+	pos2 = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+	
+	Spy.MouseButton1Click:Connect(function()
+		spy = not spy
+		chatFrame.ChatChannelParentFrame.Visible = spy
+		if spy then
+			chatFrame.ChatBarParentFrame.Position = pos2
+		else
+			chatFrame.ChatBarParentFrame.Position = pos1
 		end
 	end)
 end)
@@ -493,7 +525,7 @@ task.spawn(function()
 	CrewID.TextXAlignment = Enum.TextXAlignment.Left
 	CrewID.TextScaled = true
 	CrewID.Parent = Target
-	
+
 	local CloXse = Instance.new("TextButton")
 	CloXse.Name = "Close"
 	CloXse.Size = UDim2.new(0, 20, 0, 20)
@@ -507,8 +539,8 @@ task.spawn(function()
 	CloXse.Text = "X"
 	CloXse.Font = Enum.Font.GothamMedium
 	CloXse.Parent = Target
-	
-    local Refres = Instance.new("TextButton")
+
+	local Refres = Instance.new("TextButton")
 	Refres.Name = "Refresh"
 	Refres.Size = UDim2.new(0, 20, 0, 20)
 	Refres.BorderColor3 = Color3.fromRGB(255, 255, 255)
@@ -523,13 +555,13 @@ task.spawn(function()
 	Refres.Parent = Target
 
 	CloXse.MouseButton1Click:Connect(function()
-	    Target.Visible = false
+		Target.Visible = false
 	end)
 
-    Refres.MouseButton1Click:Connect(function()
-        local plr = game.Players:FindFirstChild(Target.User.Text)
-        if not plr then return end
-        if gameIs == "HM" or gameIs == "DH" then
+	Refres.MouseButton1Click:Connect(function()
+		local plr = game.Players:FindFirstChild(Target.User.Text)
+		if not plr then return end
+		if gameIs == "HM" or gameIs == "DH" then
 			Target.Visible = true
 			if Scroll[plr.Name].Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 				Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
@@ -632,7 +664,7 @@ task.spawn(function()
 				end
 			end
 		end
-    end)
+	end)
 
 	local View = Instance.new("TextButton")
 	View.Name = "View"
@@ -769,7 +801,7 @@ task.spawn(function()
 	StompFX.Parent = Target
 
 	Target.Visible = false
-	
+
 	Inv.MouseButton1Click:Connect(function()
 		ScrollG.Visible = not ScrollG.Visible
 	end)
@@ -960,9 +992,9 @@ function trackList(plr)
 	Item.MouseButton1Click:Connect(function()
 		trackRemove(plr)
 	end)
-	
+
 	Item.MouseButton2Click:Connect(function()
-	    setclipboard(Txt.Text)
+		setclipboard(Txt.Text)
 	end)
 end
 
@@ -1200,22 +1232,22 @@ local function createBtn(plr)
 		Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 		trackChar(plr.Character)
 	end
-    
-    task.spawn(function()
-    	pcall(function()
-    		if gameIs == "HM" then
-    			local crew = plr:WaitForChild("Information"):WaitForChild("Crew", 3)
-    			if crew then
-    				Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
-    			end
-    		elseif gameIs == "DH" then
-    			local crew = plr:WaitForChild("DataFolder"):WaitForChild("Information"):WaitForChild("Crew", 3)
-    			if crew then
-    				Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
-    			end
-    		end
-    	end)
-    end)
+
+	task.spawn(function()
+		pcall(function()
+			if gameIs == "HM" then
+				local crew = plr:WaitForChild("Information"):WaitForChild("Crew", 3)
+				if crew then
+					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
+				end
+			elseif gameIs == "DH" then
+				local crew = plr:WaitForChild("DataFolder"):WaitForChild("Information"):WaitForChild("Crew", 3)
+				if crew then
+					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
+				end
+			end
+		end)
+	end)
 end
 
 if gameIs == "HM" then
