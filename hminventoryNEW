@@ -2,6 +2,7 @@ local l__MainScreenGui__4 = game.Players.LocalPlayer.PlayerGui.MainScreenGui
 local l__TweenService__5 = game:GetService("TweenService")
 local l__HttpService__7 = game:GetService("HttpService")
 local u4 = require(game.ReplicatedStorage.Modules.MainModule).ReturnList()
+_G.plr = game.Players.LocalPlayer
 
 if l__MainScreenGui__4.TradeUI.Visible == true then
 	l__MainScreenGui__4.TradeUI.Visible = false
