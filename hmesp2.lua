@@ -1035,7 +1035,7 @@ function createBtn(plr)
 					end)
 				end
 			end
-			for i, v in pairs(Target.ScrollG:GetChildren()) do
+			for i, v in pairs(Target.Scroll:GetChildren()) do
 				if v.Name ~= "UIListLayout" and v.Name ~= "UIPadding" then
 					v:Destroy()
 				end
@@ -1054,7 +1054,7 @@ function createBtn(plr)
 					Item.TextColor3 = Color3.fromRGB(255, 255, 255)
 					Item.Text = ""
 					Item.Font = Enum.Font.Gotham
-					Item.Parent = Target.ScrollG
+					Item.Parent = Target.Scroll
 					local Img = Instance.new("ImageLabel")
 					Img.Name = "Img"
 					Img.Size = UDim2.new(0, 30, 0, 30)
@@ -1222,7 +1222,7 @@ Target.Refresh.MouseButton1Click:Connect(function()
 				end)
 			end
 		end
-		for i, v in pairs(Target.ScrollG:GetChildren()) do
+		for i, v in pairs(Target.Scroll:GetChildren()) do
 			if v.Name ~= "UIListLayout" and v.Name ~= "UIPadding" then
 				v:Destroy()
 			end
@@ -1241,7 +1241,7 @@ Target.Refresh.MouseButton1Click:Connect(function()
 				Item.TextColor3 = Color3.fromRGB(255, 255, 255)
 				Item.Text = ""
 				Item.Font = Enum.Font.Gotham
-				Item.Parent = Target.ScrollG
+				Item.Parent = Target.Scroll
 				local Img = Instance.new("ImageLabel")
 				Img.Name = "Img"
 				Img.Size = UDim2.new(0, 30, 0, 30)
