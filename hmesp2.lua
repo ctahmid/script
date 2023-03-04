@@ -1126,17 +1126,21 @@ function updateSearch()
 end
 
 Search.Focused:Connect(function()
+	Main.Scroll.CanvasPosition = Vector2.new(0, 0)
 	tws:Create(Search.UIStroke, TweenInfo.new(0.25), {Thickness = 2}):Play()
 end)
 
 Search.FocusLost:Connect(function()
-	Main.Scroll.CanvasPosition = Vector2.new(0, 0)
 	tws:Create(Search.UIStroke, TweenInfo.new(0.25), {Thickness = 1}):Play()
 end)
 
 Search.Changed:Connect(updateSearch)
 
 -- BUTTONS
+
+Target.Inv.MouseButton1Click:Connect(function()
+	Target.Scroll.Visible = not Target.Scroll.Visible
+end)
 
 Target.Track.MouseButton1Click:Connect(function()
 	local plr = plrs:FindFirstChild(User.Text)
