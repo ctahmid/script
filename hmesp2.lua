@@ -384,6 +384,21 @@ local function trackChar(char)
 		local h = Instance.new("Highlight")
 		h.FillTransparency = 1
 		h.OutlineColor = Color3.fromRGB(0, 255, 255)
+		task.spawn(function()
+			if gameIs == "HM" then
+				if plr.Information.Crew.Value == LPlr.Information.Crew.Value then
+					h.OutlineColor = Color3.fromRGB(0, 255, 255)
+				else
+					h.OutlineColor = Color3.fromRGB(255, 0, 0)
+				end
+			elseif gameIs == "DH" then
+				if plr.DataFolder.Information.Crew.Value == LPlr.DataFolder.Information.Crew.Value then
+					h.OutlineColor = Color3.fromRGB(0, 255, 255)
+				else
+					h.OutlineColor = Color3.fromRGB(255, 0, 0)
+				end
+			end
+		end)
 		h.OutlineTransparency = 0.2
 		h.Name = char.Name
 		h.Parent = tFolder
