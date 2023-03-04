@@ -707,8 +707,11 @@ local plrNoti = true
 local chatLog = false
 local trackNewPlayers = false
 
-local health
-local armour
+if _G.health then _G.health:Disconnect() end
+if _G.armour then _G.armour:Disconnect() end
+
+_G.health = nil
+_G.armour = nil
 local died
 
 --
@@ -994,8 +997,8 @@ function createBtn(plr)
 			else
 				Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 			end
-			if health then health:Disconnect() end
-			if armour then armour:Disconnect() end
+			if _G.health then _G.health:Disconnect() end
+			if _G.armour then _G.armour:Disconnect() end
 			Target.StompFX.Text = "Stomp Effect"
 			Target.Crew.Text = "Crew Name"
 			Target.CrewID.Text = "Crew ID"
@@ -1003,18 +1006,18 @@ function createBtn(plr)
 			Target.Disp.Text = plr.DisplayName
 			Target.ImgPlr.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=100&h=100"
 			Target.Health.Text = math.round(plr.Character.Humanoid.Health)
-			health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+			_G.health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
 				Target.Health.Text = math.round(plr.Character.Humanoid.Health)
 			end)
     	    --[[died = plr.Character.Humanoid.Died:Connect(function()
-    	        health:Disconnect()
-    	        if gameIs == "DH" then armour:Disconnect() end
+    	        _G.health:Disconnect()
+    	        if gameIs == "DH" then _G.armour:Disconnect() end
     	    end)]]
 			if gameIs == "HM" then
 				Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.Information.Crew.Value.."&w=150&h=150"
 				Target.CrewID.Text = plr.Information.Crew.Value
 				Target.Armour.Text = math.round(plr.Information.Armor.Value)
-				armour = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
+				_G.armour = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
 					Target.Armour.Text = math.round(plr.Information.Armor.Value)
 				end)
 				pcall(function()
@@ -1024,7 +1027,7 @@ function createBtn(plr)
 			else
 				Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
 				Target.StompFX.Text = "$"..formatInt(plr.DataFolder.Currency.Value)
-				armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
+				_G.armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
 					Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
 				end)
 				if plr:WaitForChild("DataFolder"):WaitForChild("Information"):FindFirstChild("Crew") then
@@ -1185,8 +1188,8 @@ Target.Refresh.MouseButton1Click:Connect(function()
 		else
 			Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 		end
-		if health then health:Disconnect() end
-		if armour then armour:Disconnect() end
+		if _G.health then _G.health:Disconnect() end
+		if _G.armour then _G.armour:Disconnect() end
 		Target.StompFX.Text = "Stomp Effect"
 		Target.Crew.Text = "Crew Name"
 		Target.CrewID.Text = "Crew ID"
@@ -1194,18 +1197,18 @@ Target.Refresh.MouseButton1Click:Connect(function()
 		Target.Disp.Text = plr.DisplayName
 		Target.ImgPlr.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=100&h=100"
 		Target.Health.Text = math.round(plr.Character.Humanoid.Health)
-		health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+		_G.health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
 			Target.Health.Text = math.round(plr.Character.Humanoid.Health)
 		end)
     	    --[[died = plr.Character.Humanoid.Died:Connect(function()
-    	        health:Disconnect()
-    	        if gameIs == "DH" then armour:Disconnect() end
+    	        _G.health:Disconnect()
+    	        if gameIs == "DH" then _G.armour:Disconnect() end
     	    end)]]
 		if gameIs == "HM" then
 			Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.Information.Crew.Value.."&w=150&h=150"
 			Target.CrewID.Text = plr.Information.Crew.Value
 			Target.Armour.Text = math.round(plr.Information.Armor.Value)
-			armour = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
+			_G.armour = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
 				Target.Armour.Text = math.round(plr.Information.Armor.Value)
 			end)
 			pcall(function()
@@ -1215,7 +1218,7 @@ Target.Refresh.MouseButton1Click:Connect(function()
 		else
 			Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
 			Target.StompFX.Text = "$"..formatInt(plr.DataFolder.Currency.Value)
-			armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
+			_G.armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
 				Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
 			end)
 			if plr:WaitForChild("DataFolder"):WaitForChild("Information"):FindFirstChild("Crew") then
