@@ -723,6 +723,7 @@ function formatInt(number)
 end
 
 function trackChar(char)
+	task.wait()
 	if tFolder:FindFirstChild(char.Name) then
 		tFolder:FindFirstChild(char.Name).Adornee = char
 		tFolder:FindFirstChild(char.Name).Tag.Adornee = char:WaitForChild("Head")
