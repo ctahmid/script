@@ -362,6 +362,7 @@ tFolder.Name = "Tracking"
 tFolder.Parent = macro
 
 _G.tracking = {}
+table.clear(_G.tracking)
 --local connections = {}
 
 local visible = true
@@ -387,15 +388,15 @@ local function trackChar(char)
 		task.spawn(function()
 			if gameIs == "HM" then
 				if plr.Information.Crew.Value == LPlr.Information.Crew.Value then
-					h.OutlineColor = Color3.fromRGB(0, 255, 255)
+					h.OutlineColor = Color3.fromRGB(0, 255, 0)
 				else
-					h.OutlineColor = Color3.fromRGB(255, 0, 0)
+					h.OutlineColor = Color3.fromRGB(0, 255, 255)
 				end
 			elseif gameIs == "DH" then
 				if plr.DataFolder.Information.Crew.Value == LPlr.DataFolder.Information.Crew.Value then
-					h.OutlineColor = Color3.fromRGB(0, 255, 255)
+					h.OutlineColor = Color3.fromRGB(0, 255, 0)
 				else
-					h.OutlineColor = Color3.fromRGB(255, 0, 0)
+					h.OutlineColor = Color3.fromRGB(0, 255, 255)
 				end
 			end
 		end)
@@ -637,6 +638,7 @@ end
 -- SEARCH
 
 function updateSearch()
+	Main.Scroll.CanvasPosition = Vector2.new(0, 0)
 	local InputText = string.upper(Search.Text)
 	for _, button in pairs(Main.Scroll:GetChildren()) do
 		if button:IsA("TextButton") then
