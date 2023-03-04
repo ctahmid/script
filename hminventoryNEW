@@ -1,0 +1,96 @@
+local l__MainScreenGui__4 = game.Players.LocalPlayer.PlayerGui.MainScreenGui
+local l__TweenService__5 = game:GetService("TweenService")
+local l__HttpService__7 = game:GetService("HttpService")
+local u4 = require(game.ReplicatedStorage.Modules.MainModule).ReturnList()
+
+if l__MainScreenGui__4.TradeUI.Visible == true then
+	l__MainScreenGui__4.TradeUI.Visible = false
+end
+if l__MainScreenGui__4.Playerslist.Visible == true then
+	l__MainScreenGui__4.Playerslist.Visible = false
+end
+if l__MainScreenGui__4.MAINHUD.CrewJoining.Visible == true then
+	l__MainScreenGui__4.MAINHUD.CrewJoining.Visible = false
+end
+if l__MainScreenGui__4.MAINHUD.ServerMembers.Visible == true then
+	l__MainScreenGui__4.MAINHUD.ServerMembers.Visible = false
+end
+if l__MainScreenGui__4.MAINHUD.SettingsFrame.Visible == true then
+	l__MainScreenGui__4.MAINHUD.SettingsFrame.Visible = false
+end
+if l__MainScreenGui__4.InventoryUI.Visible ~= false then
+	l__MainScreenGui__4.InventoryUI.Visible = false
+	return
+end
+local v20, v21 = l__MainScreenGui__4.InventoryUI.ScrollingFrame:GetChildren()
+while true do
+	local v22, v23 = next(v20, v21)
+	if not v22 then
+		break
+	end
+	v21 = v22
+	if v23:IsA("Frame") then
+		v23:Destroy()
+	end	
+end
+local function u9(p5, p6, p7, p8)
+	local p4 = true
+	if p6 ~= "N" then
+		local v24 = l__MainScreenGui__4.InventoryUI.Template:Clone()
+		v24.Name = p5
+		v24.TextButton.Text = p5
+		v24.Parent = l__MainScreenGui__4.InventoryUI.ScrollingFrame
+		v24.Visible = true
+		if u4[p5] ~= nil then
+			v24.TextButton.UIGradient.Enabled = true
+			v24.TextButton.UIGradient.Color = ColorSequence.new(u4[p5].Color)
+			if u4[p5].Rotate == true then
+				l__TweenService__5:Create(v24:FindFirstChild("TextButton"):FindFirstChild("UIGradient"), TweenInfo.new(2.5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), {
+					Rotation = 360
+				}):Play()
+			else
+				v24.TextButton.UIGradient.Rotation = 0
+			end
+		end
+		if p4 == true then
+			local u10 = nil
+			u10 = game.Players.LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("MoveDirection"):Connect(function()
+				l__MainScreenGui__4.InventoryUI.Visible = false
+				for v25, v26 in pairs(l__MainScreenGui__4.InventoryUI.ScrollingFrame:GetChildren()) do
+					if v26:IsA("Frame") then
+						v26:Destroy()
+					end
+				end
+				u10:Disconnect()
+			end)
+		end
+		local u11 = 0
+		local u12 = nil
+	end
+end
+l__MainScreenGui__4.InventoryUI.Inventory.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+local v35
+local v36
+
+for i, v in pairs(_G.plr.Information.Inventory:GetChildren()) do
+	u9(string.sub(v.Name, 3), string.sub(v.Name, 1, 1), v.Name, l__HttpService__7:GenerateGUID(true))
+	if _G.plr.Information.ExtraInv.Value == false then
+		v35 = 100
+	else
+		v35 = 250
+	end
+	l__MainScreenGui__4.InventoryUI.Inventory.Text = _G.plr.Name.."'s Inventory [" .. i .. "/" .. tostring(v35) .. "]"
+	if v35 < i then
+		l__MainScreenGui__4.InventoryUI.Inventory.TextColor3 = Color3.fromRGB(200, 0, 0)
+	end
+	if #_G.plr.Information.Inventory:GetChildren() < 1 then
+		if _G.plr.Information.ExtraInv.Value == false then
+			v36 = 100
+		else
+			v36 = 250
+		end
+		l__MainScreenGui__4.InventoryUI.Inventory.Text = _G.plr.Name.."'s Inventory [0/" .. tostring(v36) .. "]"
+	end
+end
+l__MainScreenGui__4.InventoryUI.Visible = true
