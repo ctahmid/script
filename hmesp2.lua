@@ -255,17 +255,17 @@ local UICorner = Instance.new("UICorner")
 UICorner.CornerRadius = UDim.new(1, 0)
 UICorner.Parent = ToggleLog
 
-local Btn = Instance.new("TextButton")
-Btn.Name = "Btn"
-Btn.Size = UDim2.new(1, 0, 1, 0)
-Btn.BackgroundTransparency = 1
-Btn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Btn.FontSize = Enum.FontSize.Size14
-Btn.TextSize = 14
-Btn.TextColor3 = Color3.fromRGB(0, 0, 0)
-Btn.Text = ""
-Btn.Font = Enum.Font.SourceSans
-Btn.Parent = ToggleLog
+local SwitchBtn = Instance.new("TextButton")
+SwitchBtn.Name = "Btn"
+SwitchBtn.Size = UDim2.new(1, 0, 1, 0)
+SwitchBtn.BackgroundTransparency = 1
+SwitchBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SwitchBtn.FontSize = Enum.FontSize.Size14
+SwitchBtn.TextSize = 14
+SwitchBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+SwitchBtn.Text = ""
+SwitchBtn.Font = Enum.Font.SourceSans
+SwitchBtn.Parent = ToggleLog
 
 local Colour = Instance.new("Frame")
 Colour.Name = "Colour"
@@ -310,7 +310,7 @@ Rejoin.Name = "Rejoin"
 Rejoin.Size = UDim2.new(0.4696608, 0, 0.074017, 0)
 Rejoin.BorderColor3 = Color3.fromRGB(255, 255, 255)
 Rejoin.BackgroundTransparency = 0.9
-Rejoin.Position = UDim2.new(0.262, 0, 0.2, 0)
+Rejoin.Position = UDim2.new(0.076, 0, 0.203, 0)
 Rejoin.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 Rejoin.FontSize = Enum.FontSize.Size18
 Rejoin.TextSize = 16
@@ -371,6 +371,30 @@ UIStroke2.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke2.Transparency = 0.8
 UIStroke2.Color = Color3.fromRGB(255, 255, 255)
 UIStroke2.Parent = Full
+
+local Chat = Instance.new("TextButton")
+Chat.Name = "Chat"
+Chat.Size = UDim2.new(0.3533817, 0, 0.074017, 0)
+Chat.BorderColor3 = Color3.fromRGB(255, 255, 255)
+Chat.BackgroundTransparency = 0.9
+Chat.Position = UDim2.new(0.593, 0, 0.203, 0)
+Chat.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+Chat.FontSize = Enum.FontSize.Size18
+Chat.TextSize = 16
+Chat.TextColor3 = Color3.fromRGB(255, 255, 255)
+Chat.Text = "CHAT"
+Chat.Font = Enum.Font.GothamMedium
+
+local UICorner = Instance.new("UICorner")
+UICorner.Parent = Chat
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Transparency = 0.8
+UIStroke.Color = Color3.fromRGB(255, 255, 255)
+UIStroke.Parent = Chat
+
+Chat.Parent = Options
 
 -- TARGET CREATE
 
@@ -718,7 +742,7 @@ table.clear(_G.tracking)
 --local connections = {}
 
 local visible = true
-local plrNoti = true
+_G.plrNoti = true
 local chatLog = false
 local trackNewPlayers = false
 
@@ -1180,6 +1204,33 @@ end)
 Search.Changed:Connect(updateSearch)
 
 -- BUTTONS
+
+SwitchBtn.MouseButton1Click:Connect(function()
+	if _G.plrNoti == true then
+		_G.plrNoti = false
+		tws:Create(Colour, TweenInfo.new(.3), {BackgroundColor3 = Color3.fromRGB(255, 0, 4), Position = UDim2.new(0.55, 0, 0.1, 0)}):Play()
+	else
+		_G.plrNoti = true
+		tws:Create(Colour, TweenInfo.new(.3), {BackgroundColor3 = Color3.fromRGB(47, 255, 0), Position = UDim2.new(0.05, 0, 0.1, 0)}):Play()
+	end
+end)
+
+local spy = false
+local chatFrame = LPlr.PlayerGui.Chat.Frame
+local pos1
+local pos2
+pos1 = chatFrame.ChatBarParentFrame.Position
+pos2 = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+
+Chat.MouseButton1Click:Connect(function()
+	spy = not spy
+	chatFrame.ChatChannelParentFrame.Visible = spy
+	if spy then
+		chatFrame.ChatBarParentFrame.Position = pos2
+	else
+		chatFrame.ChatBarParentFrame.Position = pos1
+	end
+end)
 
 Target.Inv.MouseButton1Click:Connect(function()
 	Target.Scroll.Visible = not Target.Scroll.Visible
@@ -1645,7 +1696,7 @@ end)
 
 plrs.PlayerAdded:Connect(function(plr)
 	if table.find(_G.tracking, plr.Name) then
-		if plrNoti then
+		if _G.plrNoti then
 			sui:SetCore("SendNotification", {
 				Title = plr.Name;
 				Text = "rejoined the game";
@@ -1681,7 +1732,7 @@ plrs.PlayerRemoving:Connect(function(plr)
 	end
 	if tFolder:FindFirstChild(plr.Name) then
 		tFolder[plr.Name]:Destroy()
-		if plrNoti then
+		if _G.plrNoti then
 			sui:SetCore("SendNotification", {
 				Title = plr.Name;
 				Text = "left the game";
