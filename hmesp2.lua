@@ -32,20 +32,20 @@ macro.Name = "macro"
 macro.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 macro.Parent = game.CoreGui
 
-local Txt = Instance.new("TextLabel")
-Txt.Name = "Txt"
-Txt.Size = UDim2.new(0, 72, 0, 10)
-Txt.LayoutOrder = 10
-Txt.ZIndex = 10
-Txt.BackgroundTransparency = 1
-Txt.TextStrokeTransparency = 0
-Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Txt.FontSize = Enum.FontSize.Size14
-Txt.TextSize = 14
-Txt.TextColor3 = Color3.fromRGB(0, 255, 255)
-Txt.Text = ""
-Txt.Font = Enum.Font.GothamMedium
-Txt.Parent = macro
+local Texty = Instance.new("TextLabel")
+Texty.Name = "Txt"
+Texty.Size = UDim2.new(0, 72, 0, 10)
+Texty.LayoutOrder = 10
+Texty.ZIndex = 10
+Texty.BackgroundTransparency = 1
+Texty.TextStrokeTransparency = 0
+Texty.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Texty.FontSize = Enum.FontSize.Size14
+Texty.TextSize = 14
+Texty.TextColor3 = Color3.fromRGB(0, 255, 255)
+Texty.Text = ""
+Texty.Font = Enum.Font.GothamMedium
+Texty.Parent = macro
 
 -- MAIN CREATE
 
@@ -986,11 +986,11 @@ function createBtn(plr)
 	end)
 	
 	Img.MouseLeave:Connect(function()
-		macro.Txt.Text = ""
+		Texty.Text = ""
 	end)
 	
 	Crew.MouseLeave:Connect(function()
-		macro.Txt.Text = ""
+		Texty.Text = ""
 	end)
 	
 	Img.MouseButton1Click:Connect(function()
@@ -1127,11 +1127,11 @@ function createBtn(plr)
 				if crew then
 					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
 					Img.MouseEnter:Connect(function()
-						--macro.Txt.Position = UDim2.new(0, mouse.X, 0, mouse.Y - 5)
-						macro.Txt.Text = plr:GetRoleInGroup(crew.Value)
+						--Texty.Position = UDim2.new(0, mouse.X, 0, mouse.Y - 5)
+						Texty.Text = plr:GetRoleInGroup(crew.Value)
 					end)
 					Crew.MouseEnter:Connect(function()
-						macro.Txt.Text = gps:GetGroupInfoAsync(crew.Value).Name
+						Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name
 					end)
 				end
 			elseif gameIs == "DH" then
@@ -1139,10 +1139,10 @@ function createBtn(plr)
 				if crew then
 					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
 					Img.MouseEnter:Connect(function()
-						macro.Txt.Text = plr:GetRoleInGroup(crew.Value)
+						Texty.Text = plr:GetRoleInGroup(crew.Value)
 					end)
 					Crew.MouseEnter:Connect(function()
-						macro.Txt.Text = gps:GetGroupInfoAsync(crew.Value).Name
+						Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name
 					end)
 				end
 			end
@@ -1157,7 +1157,7 @@ function createBtn(plr)
 end
 
 mouse.Move:Connect(function()
-	macro.Txt.Position = UDim2.new(0, mouse.X, 0, mouse.Y - 5)
+	Texty.Position = UDim2.new(0, mouse.X, 0, mouse.Y - 5)
 end)
 
 -- SEARCH
