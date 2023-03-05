@@ -217,28 +217,28 @@ UIGradient.Rotation = 45
 UIGradient.Color = ColorSequence.new(Color3.fromRGB(87, 29, 112), Color3.fromRGB(48, 74, 124))
 UIGradient.Parent = Options
 
-local Scroll = Instance.new("ScrollingFrame")
-Scroll.Name = "Scroll"
-Scroll.AnchorPoint = Vector2.new(0.5, 0.5)
-Scroll.Size = UDim2.new(0, 157, 0, 190)
-Scroll.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Scroll.BackgroundTransparency = 0.95
-Scroll.Position = UDim2.new(0.495, 0, 0.71, 2)
-Scroll.Active = true
-Scroll.BorderSizePixel = 0
-Scroll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-Scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
-Scroll.VerticalScrollBarInset = Enum.ScrollBarInset.Always
-Scroll.Parent = Options
+local OptsScroll = Instance.new("ScrollingFrame")
+OptsScroll.Name = "Scroll"
+OptsScroll.AnchorPoint = Vector2.new(0.5, 0.5)
+OptsScroll.Size = UDim2.new(0, 157, 0, 190)
+OptsScroll.BorderColor3 = Color3.fromRGB(0, 0, 0)
+OptsScroll.BackgroundTransparency = 0.95
+OptsScroll.Position = UDim2.new(0.495, 0, 0.71, 2)
+OptsScroll.Active = true
+OptsScroll.BorderSizePixel = 0
+OptsScroll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+OptsScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+OptsScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+OptsScroll.VerticalScrollBarInset = Enum.ScrollBarInset.Always
+OptsScroll.Parent = Options
 
 local UIListLayout = Instance.new("UIListLayout")
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 1)
-UIListLayout.Parent = Scroll
+UIListLayout.Parent = OptsScroll
 
 local UIPadding = Instance.new("UIPadding")
-UIPadding.Parent = Scroll
+UIPadding.Parent = OptsScroll
 
 local ToggleLog = Instance.new("Frame")
 ToggleLog.Name = "ToggleLog"
@@ -806,7 +806,7 @@ function trackRemove(plr)
 	if scrolly then
 		scrolly.Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
 	end
-	local scrolly2 = Options.Scroll:FindFirstChild(plr.Name)
+	local scrolly2 = OptsScroll:FindFirstChild(plr.Name)
 	if scrolly2 then
 		scrolly2:Destroy()
 	end
@@ -817,8 +817,8 @@ function trackRemove(plr)
 end
 
 function trackList(plr)
-	if Options.Scroll:FindFirstChild(plr.Name) then
-		Options.Scroll:FindFirstChild(plr.Name):Destroy()
+	if OptsScroll:FindFirstChild(plr.Name) then
+		OptsScroll:FindFirstChild(plr.Name):Destroy()
 	end
 	local Item = Instance.new("TextButton")
 	Item.Name = plr.Name
@@ -832,7 +832,7 @@ function trackList(plr)
 	Item.TextColor3 = Color3.fromRGB(255, 255, 255)
 	Item.Text = ""
 	Item.Font = Enum.Font.Gotham
-	Item.Parent = Options.Scroll
+	Item.Parent = OptsScroll
 	local Img = Instance.new("ImageLabel")
 	Img.Name = "Img"
 	Img.Size = UDim2.new(0, 30, 0, 30)
@@ -985,7 +985,7 @@ function createBtn(plr)
 		end
 	end)
 	
-	Img.MouseLeave:Connect(function()
+	Plr.MouseLeave:Connect(function()
 		Texty.Text = ""
 	end)
 	
@@ -1124,25 +1124,18 @@ function createBtn(plr)
 		pcall(function()
 			if gameIs == "HM" then
 				local crew = plr:WaitForChild("Information"):WaitForChild("Crew", 15)
-				if crew then
+				if crew and tonumber(crew.Value) > 1 then
 					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
-					Img.MouseEnter:Connect(function()
-						--Texty.Position = UDim2.new(0, mouse.X, 0, mouse.Y - 5)
-						Texty.Text = plr:GetRoleInGroup(crew.Value)
-					end)
 					Crew.MouseEnter:Connect(function()
-						Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name
+						Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name.."\n"..plr:GetRoleInGroup(crew.Value)
 					end)
 				end
 			elseif gameIs == "DH" then
 				local crew = plr:WaitForChild("DataFolder"):WaitForChild("Information"):WaitForChild("Crew", 15)
-				if crew then
+				if crew and tonumber(crew.Value) > 1 then
 					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
-					Img.MouseEnter:Connect(function()
-						Texty.Text = plr:GetRoleInGroup(crew.Value)
-					end)
 					Crew.MouseEnter:Connect(function()
-						Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name
+						Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name.."\n"..plr:GetRoleInGroup(crew.Value)
 					end)
 				end
 			end
@@ -1662,8 +1655,8 @@ plrs.PlayerAdded:Connect(function(plr)
 		end
 	end
 	createBtn(plr)
-	if Options.Scroll:FindFirstChild(plr.Name) then
-		Options.Scroll:FindFirstChild(plr.Name).Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
+	if OptsScroll:FindFirstChild(plr.Name) then
+		OptsScroll:FindFirstChild(plr.Name).Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
 	end
 	if gameIs == "HM" then
 		pcall(function()
@@ -1683,8 +1676,8 @@ plrs.PlayerRemoving:Connect(function(plr)
 	if ScrollMain:FindFirstChild(plr.Name) then
 		ScrollMain[plr.Name]:Destroy()
 	end
-	if Options.Scroll:FindFirstChild(plr.Name) then
-		Options.Scroll:FindFirstChild(plr.Name).Txt.TextColor3 = Color3.fromRGB(255, 50, 50)
+	if OptsScroll:FindFirstChild(plr.Name) then
+		OptsScroll:FindFirstChild(plr.Name).Txt.TextColor3 = Color3.fromRGB(255, 50, 50)
 	end
 	if tFolder:FindFirstChild(plr.Name) then
 		tFolder[plr.Name]:Destroy()
