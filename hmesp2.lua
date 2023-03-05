@@ -32,6 +32,21 @@ macro.Name = "macro"
 macro.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 macro.Parent = game.CoreGui
 
+local Txt = Instance.new("TextLabel")
+Txt.Name = "Txt"
+Txt.Size = UDim2.new(0, 72, 0, 10)
+Txt.LayoutOrder = 10
+Txt.ZIndex = 10
+Txt.BackgroundTransparency = 1
+Txt.TextStrokeTransparency = 0
+Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Txt.FontSize = Enum.FontSize.Size14
+Txt.TextSize = 14
+Txt.TextColor3 = Color3.fromRGB(0, 255, 255)
+Txt.Text = ""
+Txt.Font = Enum.Font.GothamMedium
+Txt.Parent = macro
+
 -- MAIN CREATE
 
 local Main = Instance.new("Frame")
@@ -58,30 +73,30 @@ Title.TextWrap = true
 Title.TextScaled = true
 Title.Parent = Main
 
-local Scroll = Instance.new("ScrollingFrame")
-Scroll.Name = "Scroll"
-Scroll.AnchorPoint = Vector2.new(0.5, 0.5)
-Scroll.Size = UDim2.new(0, 240, 0, 245)
-Scroll.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Scroll.BackgroundTransparency = 1
-Scroll.Position = UDim2.new(0.5, 0, 0.6204286, 0)
-Scroll.Active = true
-Scroll.BorderSizePixel = 0
-Scroll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-Scroll.CanvasSize = UDim2.new(0, 0, 1, 0)
-Scroll.ScrollBarImageColor3 = Color3.fromRGB(97, 101, 104)
-Scroll.VerticalScrollBarInset = Enum.ScrollBarInset.Always
-Scroll.Parent = Main
+local ScrollMain = Instance.new("ScrollingFrame")
+ScrollMain.Name = "Scroll"
+ScrollMain.AnchorPoint = Vector2.new(0.5, 0.5)
+ScrollMain.Size = UDim2.new(0, 240, 0, 245)
+ScrollMain.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ScrollMain.BackgroundTransparency = 1
+ScrollMain.Position = UDim2.new(0.5, 0, 0.6204286, 0)
+ScrollMain.Active = true
+ScrollMain.BorderSizePixel = 0
+ScrollMain.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ScrollMain.AutomaticCanvasSize = Enum.AutomaticSize.Y
+ScrollMain.CanvasSize = UDim2.new(0, 0, 1, 0)
+ScrollMain.ScrollBarImageColor3 = Color3.fromRGB(97, 101, 104)
+ScrollMain.VerticalScrollBarInset = Enum.ScrollBarInset.Always
+ScrollMain.Parent = Main
 
 local UIListLayout = Instance.new("UIListLayout")
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 2)
-UIListLayout.Parent = Scroll
+UIListLayout.Parent = ScrollMain
 
 local UIPadding = Instance.new("UIPadding")
 UIPadding.PaddingRight = UDim.new(0, 2)
-UIPadding.Parent = Scroll
+UIPadding.Parent = ScrollMain
 
 local UICorner3 = Instance.new("UICorner")
 UICorner3.Parent = Main
@@ -362,7 +377,7 @@ UIStroke2.Parent = Full
 local Target = Instance.new("Frame")
 Target.Name = "Target"
 Target.Visible = false
-Target.Size = UDim2.new(0, 187, 0, 153)
+Target.Size = UDim2.new(0, 172, 0, 153)
 Target.BorderColor3 = Color3.fromRGB(53, 53, 53)
 Target.Position = UDim2.new(0.6749815, 190, 0.0263158, 14)
 Target.BorderSizePixel = 0
@@ -787,7 +802,7 @@ function trackRemove(plr)
 	if Target.User.Text == plr.Name then
 		Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 	end
-	local scrolly = Main.Scroll:FindFirstChild(plr.Name)
+	local scrolly = ScrollMain:FindFirstChild(plr.Name)
 	if scrolly then
 		scrolly.Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
 	end
@@ -926,8 +941,8 @@ function createBtn(plr)
 	local UICorner2 = Instance.new("UICorner")
 	UICorner2.Parent = Plr
 
-	Plr.Parent = Main.Scroll
-
+	Plr.Parent = ScrollMain
+	
 	if LPlr:IsFriendsWith(plr.UserId) then
 		Plr.LayoutOrder = 1
 		Plr.BackgroundColor3 = Color3.fromRGB(0, 195, 255)
@@ -955,7 +970,7 @@ function createBtn(plr)
 			trackList(plr)
 		end
 	end)
-
+	
 	Plr.MouseButton2Click:Connect(function()
 		if workspace.CurrentCamera.CameraSubject ~= LPlr.Character and workspace.CurrentCamera.CameraSubject ~= LPlr.Character.Humanoid then
 			workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
@@ -969,7 +984,15 @@ function createBtn(plr)
 			end
 		end
 	end)
-
+	
+	Img.MouseLeave:Connect(function()
+		macro.Txt.Text = ""
+	end)
+	
+	Crew.MouseLeave:Connect(function()
+		macro.Txt.Text = ""
+	end)
+	
 	Img.MouseButton1Click:Connect(function()
 		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 			trackRemove(plr)
@@ -1006,6 +1029,7 @@ function createBtn(plr)
 			Target.User.Text = plr.Name
 			Target.Disp.Text = plr.DisplayName
 			Target.ImgPlr.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=100&h=100"
+			Target.ImgCrew.Image = ""
 			Target.Health.Text = math.round(plr.Character.Humanoid.Health)
 			_G.health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
 				Target.Health.Text = math.round(plr.Character.Humanoid.Health)
@@ -1090,6 +1114,11 @@ function createBtn(plr)
 			end
 		end
 	end)
+	
+	if table.find(_G.tracking, plr.Name) then
+		Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+		trackChar(plr.Character)
+	end
 
 	task.spawn(function()
 		pcall(function()
@@ -1097,11 +1126,24 @@ function createBtn(plr)
 				local crew = plr:WaitForChild("Information"):WaitForChild("Crew", 15)
 				if crew then
 					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
+					Img.MouseEnter:Connect(function()
+						--macro.Txt.Position = UDim2.new(0, mouse.X, 0, mouse.Y - 5)
+						macro.Txt.Text = plr:GetRoleInGroup(crew.Value)
+					end)
+					Crew.MouseEnter:Connect(function()
+						macro.Txt.Text = gps:GetGroupInfoAsync(crew.Value).Name
+					end)
 				end
 			elseif gameIs == "DH" then
 				local crew = plr:WaitForChild("DataFolder"):WaitForChild("Information"):WaitForChild("Crew", 15)
 				if crew then
 					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
+					Img.MouseEnter:Connect(function()
+						macro.Txt.Text = plr:GetRoleInGroup(crew.Value)
+					end)
+					Crew.MouseEnter:Connect(function()
+						macro.Txt.Text = gps:GetGroupInfoAsync(crew.Value).Name
+					end)
 				end
 			end
 		end)
@@ -1114,11 +1156,15 @@ function createBtn(plr)
 	end)
 end
 
+mouse.Move:Connect(function()
+	macro.Txt.Position = UDim2.new(0, mouse.X, 0, mouse.Y - 5)
+end)
+
 -- SEARCH
 
 function updateSearch()
 	local InputText = string.upper(Search.Text)
-	for _, button in pairs(Main.Scroll:GetChildren()) do
+	for _, button in pairs(ScrollMain:GetChildren()) do
 		if button:IsA("TextButton") then
 			if InputText == "" or string.find(string.upper(button.Name), InputText) ~= nil or string.find(string.upper(button.Text), InputText) ~= nil then
 				button.Visible = true
@@ -1130,7 +1176,7 @@ function updateSearch()
 end
 
 Search.Focused:Connect(function()
-	Main.Scroll.CanvasPosition = Vector2.new(0, 0)
+	ScrollMain.CanvasPosition = Vector2.new(0, 0)
 	tws:Create(Search.UIStroke, TweenInfo.new(0.25), {Thickness = 2}):Play()
 end)
 
@@ -1149,10 +1195,10 @@ end)
 Target.Track.MouseButton1Click:Connect(function()
 	local plr = plrs:FindFirstChild(User.Text)
 	if not plr then return end
-	if Main.Scroll[plr.Name].Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
+	if ScrollMain[plr.Name].Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 		trackRemove(plr)
 	else
-		Main.Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+		ScrollMain[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 		if Target.User.Text == plr.Name then
 			Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 		end
@@ -1179,7 +1225,7 @@ Target.Refresh.MouseButton1Click:Connect(function()
 	if not plr then return end
 	if gameIs == "HM" or gameIs == "DH" then
 		Target.Visible = true
-		if Main.Scroll[plr.Name].Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
+		if ScrollMain[plr.Name].Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 			Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 		else
 			Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
@@ -1197,6 +1243,7 @@ Target.Refresh.MouseButton1Click:Connect(function()
 		Target.User.Text = plr.Name
 		Target.Disp.Text = plr.DisplayName
 		Target.ImgPlr.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=100&h=100"
+		Target.ImgCrew.Image = ""
 		Target.Health.Text = math.round(plr.Character.Humanoid.Health)
 		_G.health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
 			Target.Health.Text = math.round(plr.Character.Humanoid.Health)
@@ -1396,7 +1443,7 @@ All.MouseButton1Click:Connect(function()
 			if plr.Name ~= LPlr.Name then
 				table.insert(_G.tracking, plr.Name)
 				trackChar(plr.Character or plr.Character:Wait())
-				Main.Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+				ScrollMain[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 				trackList(plr)
 			end
 		end
@@ -1407,7 +1454,7 @@ All.MouseButton1Click:Connect(function()
 		trackNewPlayers = false
 		for i, plr in pairs(plrs:GetPlayers()) do
 			if plr.Name ~= LPlr.Name then
-				Main.Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+				ScrollMain[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
 				trackRemove(plr)
 			end
 		end
@@ -1474,15 +1521,15 @@ uis.InputBegan:Connect(function(input, gpe)
 			plr = plr2
 		end
 		if plr then
-			if Main.Scroll[plr.Name].Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
+			if ScrollMain[plr.Name].Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 				tFolder[plr.Name]:Destroy()
-				Main.Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+				ScrollMain[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
 				local found = table.find(_G.tracking, plr.Name)
 				if found then
 					table.remove(_G.tracking, found)
 				end
 			else
-				Main.Scroll[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+				ScrollMain[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 				table.insert(_G.tracking, plr.Name)
 				trackChar(plr.Character)
 			end
@@ -1633,8 +1680,8 @@ plrs.PlayerAdded:Connect(function(plr)
 end)
 
 plrs.PlayerRemoving:Connect(function(plr)
-	if Main.Scroll:FindFirstChild(plr.Name) then
-		Main.Scroll[plr.Name]:Destroy()
+	if ScrollMain:FindFirstChild(plr.Name) then
+		ScrollMain[plr.Name]:Destroy()
 	end
 	if Options.Scroll:FindFirstChild(plr.Name) then
 		Options.Scroll:FindFirstChild(plr.Name).Txt.TextColor3 = Color3.fromRGB(255, 50, 50)
