@@ -1151,7 +1151,7 @@ function createBtn(plr)
 				if crew and tonumber(crew.Value) > 1 then
 					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
 					Crew.MouseEnter:Connect(function()
-						Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name.."\n"..plr:GetRoleInGroup(crew.Value)
+						--Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name.."\n"..plr:GetRoleInGroup(crew.Value)
 					end)
 				end
 			elseif gameIs == "DH" then
@@ -1159,7 +1159,7 @@ function createBtn(plr)
 				if crew and tonumber(crew.Value) > 1 then
 					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
 					Crew.MouseEnter:Connect(function()
-						Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name.."\n"..plr:GetRoleInGroup(crew.Value)
+						--Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name.."\n"..plr:GetRoleInGroup(crew.Value)
 					end)
 				end
 			end
