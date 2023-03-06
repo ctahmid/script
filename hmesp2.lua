@@ -1070,7 +1070,7 @@ function createBtn(plr)
 					Target.Armour.Text = math.round(plr.Information.Armor.Value)
 				end)
 				pcall(function()
-					Target.StompFX.Text = plr.Information.KillFX.Value
+					Target.StompFX.Text = plr.Information.KillFX.Value.." • "..plr.Information.Tag.Value
 					Target.Crew.Text = gps:GetGroupInfoAsync(plr.Information.Crew.Value).Name
 				end)
 			else
@@ -1304,7 +1304,7 @@ Target.Refresh.MouseButton1Click:Connect(function()
 				Target.Armour.Text = math.round(plr.Information.Armor.Value)
 			end)
 			pcall(function()
-				Target.StompFX.Text = plr.Information.KillFX.Value
+				Target.StompFX.Text = plr.Information.KillFX.Value.." • "..plr.Information.Tag.Value
 				Target.Crew.Text = gps:GetGroupInfoAsync(plr.Information.Crew.Value).Name
 			end)
 		else
