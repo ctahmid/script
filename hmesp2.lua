@@ -1577,7 +1577,7 @@ uis.InputBegan:Connect(function(input, gpe)
 		if plr2 then
 			plr = plr2
 		end
-		if plr then
+		if plr and plr ~= LPlr then
 			if not ScrollMain:FindFirstChild(plr.Name) then
 				createBtn(plr)
 			end
