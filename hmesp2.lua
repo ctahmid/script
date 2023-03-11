@@ -731,6 +731,13 @@ local UICorner6 = Instance.new("UICorner")
 UICorner6.CornerRadius = UDim.new(0, 4)
 UICorner6.Parent = Refresh
 
+local LocalHighlight = Instance.new("Highlight")
+LocalHighlight.OutlineTransparency = 0.2
+LocalHighlight.OutlineColor = Color3.fromRGB(255, 183, 0)
+LocalHighlight.FillColor = Color3.fromRGB(255, 183, 0)
+LocalHighlight.Enabled = false
+LocalHighlight.Parent = macro
+
 --
 
 local tFolder = Instance.new("Folder")
@@ -773,20 +780,20 @@ function trackChar(char)
 		h.OutlineColor = Color3.fromRGB(0, 255, 255)
 		task.spawn(function()
 			if gameIs == "HM" then
-				if plr.Information.Crew.Value == LPlr.Information.Crew.Value then
+				if plr.Information.Crew.Value ~= "" and plr.Information.Crew.Value == LPlr.Information.Crew.Value then
 					h.OutlineColor = Color3.fromRGB(0, 255, 0)
 				else
 					h.OutlineColor = Color3.fromRGB(0, 255, 255)
 				end
 			elseif gameIs == "DH" then
-				if plr.DataFolder.Information.Crew.Value == LPlr.DataFolder.Information.Crew.Value then
+				if plr.DataFolder.Information.Crew.Value ~= "" and plr.DataFolder.Information.Crew.Value == LPlr.DataFolder.Information.Crew.Value then
 					h.OutlineColor = Color3.fromRGB(0, 255, 0)
 				else
 					h.OutlineColor = Color3.fromRGB(0, 255, 255)
 				end
 			end
 		end)
-		h.OutlineTransparency = 0.2
+		h.OutlineTransparency = 0.18
 		h.Name = char.Name
 		h.Parent = tFolder
 		h.Adornee = char
@@ -875,7 +882,7 @@ function trackList(plr)
 	Txt.FontSize = Enum.FontSize.Size14
 	Txt.TextSize = 14
 	Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
-	Txt.Text = plr.Name
+	Txt.Text = plr.DisplayName.."\n@"..plr.Name
 	Txt.TextWrapped = true
 	Txt.Font = Enum.Font.GothamMedium
 	Txt.TextWrap = true
@@ -884,6 +891,10 @@ function trackList(plr)
 
 	Item.MouseButton1Click:Connect(function()
 		trackRemove(plr)
+	end)
+
+	Item.MouseButton2Click:Connect(function()
+		setclipboard(plr.Name)
 	end)
 end
 
@@ -966,7 +977,7 @@ function createBtn(plr)
 	UICorner2.Parent = Plr
 
 	Plr.Parent = ScrollMain
-	
+
 	if LPlr:IsFriendsWith(plr.UserId) then
 		Plr.LayoutOrder = 1
 		Plr.BackgroundColor3 = Color3.fromRGB(0, 195, 255)
@@ -994,29 +1005,31 @@ function createBtn(plr)
 			trackList(plr)
 		end
 	end)
-	
+
 	Plr.MouseButton2Click:Connect(function()
 		if workspace.CurrentCamera.CameraSubject ~= LPlr.Character and workspace.CurrentCamera.CameraSubject ~= LPlr.Character.Humanoid then
+			LocalHighlight.Enabled = false
 			workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
 			if Target.User.Text == plr.Name then
 				Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 			end
 		else
+			LocalHighlight.Enabled = true
 			workspace.CurrentCamera.CameraSubject = plr.Character.Humanoid
 			if Target.User.Text == plr.Name then
 				Target.View.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 			end
 		end
 	end)
-	
+
 	Plr.MouseLeave:Connect(function()
 		Texty.Text = ""
 	end)
-	
+
 	Crew.MouseLeave:Connect(function()
 		Texty.Text = ""
 	end)
-	
+
 	Img.MouseButton1Click:Connect(function()
 		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 			trackRemove(plr)
@@ -1138,7 +1151,7 @@ function createBtn(plr)
 			end
 		end
 	end)
-	
+
 	if table.find(_G.tracking, plr.Name) then
 		Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 		trackChar(plr.Character)
@@ -1565,6 +1578,9 @@ uis.InputBegan:Connect(function(input, gpe)
 			plr = plr2
 		end
 		if plr then
+			if not ScrollMain:FindFirstChild(plr.Name) then
+				createBtn(plr)
+			end
 			if ScrollMain[plr.Name].Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 				tFolder[plr.Name]:Destroy()
 				ScrollMain[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -1651,18 +1667,27 @@ end)
 
 if gameIs == "HM" then
 	workspace.Characters.ChildAdded:Connect(function(char)
+		if char == LPlr.Character then
+			LocalHighlight.Adornee = char
+		end
 		if table.find(_G.tracking, char.Name) then
 			trackChar(char)
 		end
 	end)
 elseif gameIs == "DH" then
 	workspace.Players.ChildAdded:Connect(function(char)
+		if char == LPlr.Character then
+			LocalHighlight.Adornee = char
+		end
 		if table.find(_G.tracking, char.Name) then
 			trackChar(char)
 		end
 	end)
 else
 	workspace.ChildAdded:Connect(function(char)
+		if char == LPlr.Character then
+			LocalHighlight.Adornee = char
+		end
 		if table.find(_G.tracking, char.Name) then
 			trackChar(char)
 		end
@@ -1695,6 +1720,9 @@ local success, err = pcall(function()
 end)
 
 plrs.PlayerAdded:Connect(function(plr)
+	if OptsScroll:FindFirstChild(plr.Name) then
+		OptsScroll:FindFirstChild(plr.Name).Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
+	end
 	if table.find(_G.tracking, plr.Name) then
 		if _G.plrNoti then
 			sui:SetCore("SendNotification", {
@@ -1706,9 +1734,6 @@ plrs.PlayerAdded:Connect(function(plr)
 		end
 	end
 	createBtn(plr)
-	if OptsScroll:FindFirstChild(plr.Name) then
-		OptsScroll:FindFirstChild(plr.Name).Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
-	end
 	if gameIs == "HM" then
 		pcall(function()
 			if plr:GetRankInGroup(10878346) >= 5 then
@@ -1742,3 +1767,5 @@ plrs.PlayerRemoving:Connect(function(plr)
 		end
 	end
 end)
+
+LocalHighlight.Adornee = LPlr.Character
