@@ -793,7 +793,7 @@ function trackChar(char)
 				end
 			end
 		end)
-		h.OutlineTransparency = 0.18
+		h.OutlineTransparency = 0.19
 		h.Name = char.Name
 		h.Parent = tFolder
 		h.Adornee = char
