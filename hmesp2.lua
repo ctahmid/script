@@ -780,13 +780,13 @@ function trackChar(char)
 		h.OutlineColor = Color3.fromRGB(0, 255, 255)
 		task.spawn(function()
 			if gameIs == "HM" then
-				if plr.Information.Crew.Value ~= "" and plr.Information.Crew.Value == LPlr.Information.Crew.Value then
+				if (plr.Information.Crew.Value ~= "" and plr.Information.Crew.Value ~= nil) and plr.Information.Crew.Value == LPlr.Information.Crew.Value then
 					h.OutlineColor = Color3.fromRGB(0, 255, 0)
 				else
 					h.OutlineColor = Color3.fromRGB(0, 255, 255)
 				end
 			elseif gameIs == "DH" then
-				if plr.DataFolder.Information.Crew.Value ~= "" and plr.DataFolder.Information.Crew.Value == LPlr.DataFolder.Information.Crew.Value then
+				if (plr.DataFolder.Information.Crew.Value ~= "" and plr.DataFolder.Information.Crew.Value ~= nil) and plr.DataFolder.Information.Crew.Value == LPlr.DataFolder.Information.Crew.Value then
 					h.OutlineColor = Color3.fromRGB(0, 255, 0)
 				else
 					h.OutlineColor = Color3.fromRGB(0, 255, 255)
@@ -1592,6 +1592,7 @@ uis.InputBegan:Connect(function(input, gpe)
 				ScrollMain[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 				table.insert(_G.tracking, plr.Name)
 				trackChar(plr.Character)
+				trackList(plr)
 			end
 		end
 	end
