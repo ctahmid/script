@@ -1582,12 +1582,7 @@ uis.InputBegan:Connect(function(input, gpe)
 				createBtn(plr)
 			end
 			if ScrollMain[plr.Name].Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
-				tFolder[plr.Name]:Destroy()
-				ScrollMain[plr.Name].Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
-				local found = table.find(_G.tracking, plr.Name)
-				if found then
-					table.remove(_G.tracking, found)
-				end
+				trackRemove(plr)
 			else
 				ScrollMain[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 				table.insert(_G.tracking, plr.Name)
