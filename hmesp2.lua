@@ -1160,7 +1160,7 @@ function createBtn(plr)
 	task.spawn(function()
 		pcall(function()
 			if gameIs == "HM" then
-				local crew = plr:WaitForChild("Information"):WaitForChild("Crew", 15)
+				local crew = plr:WaitForChild("Information", 15):WaitForChild("Crew", 15)
 				if crew and tonumber(crew.Value) > 1 then
 					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
 					Crew.MouseEnter:Connect(function()
@@ -1168,7 +1168,7 @@ function createBtn(plr)
 					end)
 				end
 			elseif gameIs == "DH" then
-				local crew = plr:WaitForChild("DataFolder"):WaitForChild("Information"):WaitForChild("Crew", 15)
+				local crew = plr:WaitForChild("DataFolder", 15):WaitForChild("Information", 15):WaitForChild("Crew", 15)
 				if crew and tonumber(crew.Value) > 1 then
 					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
 					Crew.MouseEnter:Connect(function()
