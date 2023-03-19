@@ -1357,6 +1357,7 @@ Target.Refresh.MouseButton1Click:Connect(function()
 		end
 		if _G.health then _G.health:Disconnect() end
 		if _G.armour then _G.armour:Disconnect() end
+		if _G.fire then _G.fire:Disconnect() end
 		Target.StompFX.Text = "Stomp Effect"
 		Target.Crew.Text = "Crew Name"
 		Target.CrewID.Text = "Crew ID"
@@ -1385,9 +1386,13 @@ Target.Refresh.MouseButton1Click:Connect(function()
 			end)
 		else
 			Healthy.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+			Healthy.Fire.Text = math.round(plr.Character.BodyEffects.FireArmor.Value)
 			Target.StompFX.Text = "$"..formatInt(plr.DataFolder.Currency.Value)
 			_G.armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
 				Healthy.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+			end)
+			_G.fire = plr.Character.BodyEffects.FireArmor:GetPropertyChangedSignal("Value"):Connect(function()
+				Healthy.Fire.Text = math.round(plr.Character.BodyEffects.FireArmor.Value)
 			end)
 			if plr:WaitForChild("DataFolder"):WaitForChild("Information"):FindFirstChild("Crew") then
 				Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.DataFolder.Information.Crew.Value.."&w=150&h=150"
@@ -1638,7 +1643,9 @@ uis.InputBegan:Connect(function(input, gpe)
 				v:Destroy()
 			end
 			for i, v in pairs(tracking) do
-				trackChar(plrs[v].Character)
+				if plrs:FindFirstChild(v) then
+					trackChar(plrs[v].Character)
+				end
 			end
 		end
 	elseif input.UserInputType == Enum.UserInputType.MouseButton3 then
