@@ -66,7 +66,7 @@ Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Title.FontSize = Enum.FontSize.Size14
 Title.TextSize = 14
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.Text = "K TO HIDE, J TO TOGGLE ESP"
+Title.Text = "K = GUI | J = ESP | P = REFRESH ESP"
 Title.TextWrapped = true
 Title.Font = Enum.Font.GothamMedium
 Title.TextWrap = true
@@ -572,9 +572,16 @@ Disp.TextWrap = true
 Disp.TextScaled = true
 Disp.Parent = Target
 
+local Healthy = Instance.new("Frame")
+Healthy.Name = "Healthy"
+Healthy.Size = UDim2.new(1, 0, 0.099, 0)
+Healthy.BackgroundTransparency = 1
+Healthy.Position = UDim2.new(0, 0, 0.42, 0)
+Healthy.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+
 local Health = Instance.new("TextLabel")
 Health.Name = "Health"
-Health.Size = UDim2.new(0.788295, -58, 0.098986, 0)
+Health.Size = UDim2.new(0.2, 0, 1, 0)
 Health.BackgroundTransparency = 1
 Health.Position = UDim2.new(-0.2856141, 54, 0.4197008, 0)
 Health.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -585,26 +592,58 @@ Health.Text = "100"
 Health.TextWrapped = true
 Health.Font = Enum.Font.GothamBold
 Health.TextWrap = true
-Health.TextXAlignment = Enum.TextXAlignment.Right
 Health.TextScaled = true
-Health.Parent = Target
+Health.Parent = Healthy
+
+local UIListLayout = Instance.new("UIListLayout")
+UIListLayout.FillDirection = Enum.FillDirection.Horizontal
+UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Parent = Healthy
 
 local Armour = Instance.new("TextLabel")
 Armour.Name = "Armour"
-Armour.Size = UDim2.new(0.788, -58, 0.099, 0)
+Armour.Size = UDim2.new(0.2, 0, 1, 0)
 Armour.BackgroundTransparency = 1
-Armour.Position = UDim2.new(0.215, 54, 0.42, 0)
+Armour.Position = UDim2.new(-0.2856141, 54, 0.4197008, 0)
 Armour.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Armour.FontSize = Enum.FontSize.Size14
 Armour.TextSize = 14
 Armour.TextColor3 = Color3.fromRGB(0, 183, 255)
 Armour.Text = "100"
+Armour.Visible = false
 Armour.TextWrapped = true
 Armour.Font = Enum.Font.GothamBold
 Armour.TextWrap = true
-Armour.TextXAlignment = Enum.TextXAlignment.Left
 Armour.TextScaled = true
-Armour.Parent = Target
+Armour.Parent = Healthy
+
+if gameIs == "DH" or gameIs == "HM" then
+	Armour.Visible = true
+end
+
+local Fire = Instance.new("TextLabel")
+Fire.Name = "Fire"
+Fire.Size = UDim2.new(0.2, 0, 1, 0)
+Fire.BackgroundTransparency = 1
+Fire.Position = UDim2.new(-0.2856141, 54, 0.4197008, 0)
+Fire.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Fire.FontSize = Enum.FontSize.Size14
+Fire.TextSize = 14
+Fire.TextColor3 = Color3.fromRGB(255, 119, 0)
+Fire.Text = "100"
+Fire.Visible = false
+Fire.TextWrapped = true
+Fire.Font = Enum.Font.GothamBold
+Fire.TextWrap = true
+Fire.TextScaled = true
+Fire.Parent = Healthy
+
+if gameIs == "DH" then
+	Fire.Visible = true
+end
+
+Healthy.Parent = Target
 
 local Inv = Instance.new("TextButton")
 Inv.Name = "Inv"
@@ -744,8 +783,8 @@ local tFolder = Instance.new("Folder")
 tFolder.Name = "Tracking"
 tFolder.Parent = macro
 
-_G.tracking = {}
-table.clear(_G.tracking)
+local tracking = {}
+--table.clear(tracking)
 --local connections = {}
 
 local visible = true
@@ -755,9 +794,11 @@ local trackNewPlayers = false
 
 if _G.health then _G.health:Disconnect() end
 if _G.armour then _G.armour:Disconnect() end
+if _G.fire then _G.fire:Disconnect() end
 
 _G.health = nil
 _G.armour = nil
+_G.fire = nil
 local died
 
 --
@@ -841,9 +882,9 @@ function trackRemove(plr)
 	if scrolly2 then
 		scrolly2:Destroy()
 	end
-	local found = table.find(_G.tracking, plr.Name)
+	local found = table.find(tracking, plr.Name)
 	if found then
-		table.remove(_G.tracking, found)
+		table.remove(tracking, found)
 	end
 end
 
@@ -993,6 +1034,10 @@ function createBtn(plr)
 	end
 
 	Plr.MouseButton1Click:Connect(function()
+		if not plrs:FindFirstChild(plr.Name) then
+			Plr:Destroy()
+			return
+		end
 		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 			trackRemove(plr)
 		else
@@ -1000,13 +1045,22 @@ function createBtn(plr)
 			if Target.User.Text == plr.Name then
 				Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 			end
-			table.insert(_G.tracking, plr.Name)
+			table.insert(tracking, plr.Name)
 			trackChar(plr.Character)
 			trackList(plr)
 		end
 	end)
 
 	Plr.MouseButton2Click:Connect(function()
+		if not plrs:FindFirstChild(plr.Name) then
+			LocalHighlight.Enabled = false
+			workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
+			if Target.User.Text == plr.Name then
+				Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+			end
+			Plr:Destroy()
+			return
+		end
 		if workspace.CurrentCamera.CameraSubject ~= LPlr.Character and workspace.CurrentCamera.CameraSubject ~= LPlr.Character.Humanoid then
 			LocalHighlight.Enabled = false
 			workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
@@ -1031,6 +1085,10 @@ function createBtn(plr)
 	end)
 
 	Img.MouseButton1Click:Connect(function()
+		if not plrs:FindFirstChild(plr.Name) then
+			Plr:Destroy()
+			return
+		end
 		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 			trackRemove(plr)
 		else
@@ -1038,7 +1096,7 @@ function createBtn(plr)
 			if Target.User.Text == plr.Name then
 				Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 			end
-			table.insert(_G.tracking, plr.Name)
+			table.insert(tracking, plr.Name)
 			trackChar(plr.Character)
 			trackList(plr)
 		end
@@ -1060,6 +1118,7 @@ function createBtn(plr)
 			end
 			if _G.health then _G.health:Disconnect() end
 			if _G.armour then _G.armour:Disconnect() end
+			if _G.fire then _G.fire:Disconnect() end
 			Target.StompFX.Text = "Stomp Effect"
 			Target.Crew.Text = "Crew Name"
 			Target.CrewID.Text = "Crew ID"
@@ -1067,9 +1126,9 @@ function createBtn(plr)
 			Target.Disp.Text = plr.DisplayName
 			Target.ImgPlr.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=100&h=100"
 			Target.ImgCrew.Image = ""
-			Target.Health.Text = math.round(plr.Character.Humanoid.Health)
+			Healthy.Health.Text = math.round(plr.Character.Humanoid.Health)
 			_G.health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
-				Target.Health.Text = math.round(plr.Character.Humanoid.Health)
+				Healthy.Health.Text = math.round(plr.Character.Humanoid.Health)
 			end)
     	    --[[died = plr.Character.Humanoid.Died:Connect(function()
     	        _G.health:Disconnect()
@@ -1078,19 +1137,23 @@ function createBtn(plr)
 			if gameIs == "HM" then
 				Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.Information.Crew.Value.."&w=150&h=150"
 				Target.CrewID.Text = plr.Information.Crew.Value
-				Target.Armour.Text = math.round(plr.Information.Armor.Value)
+				Healthy.Armour.Text = math.round(plr.Information.Armor.Value)
 				_G.armour = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
-					Target.Armour.Text = math.round(plr.Information.Armor.Value)
+					Healthy.Armour.Text = math.round(plr.Information.Armor.Value)
 				end)
 				pcall(function()
 					Target.StompFX.Text = plr.Information.KillFX.Value.." • "..plr.Information.Tag.Value
 					Target.Crew.Text = gps:GetGroupInfoAsync(plr.Information.Crew.Value).Name
 				end)
 			else
-				Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+				Healthy.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+				Healthy.Fire.Text = math.round(plr.Character.BodyEffects.FireArmor.Value)
 				Target.StompFX.Text = "$"..formatInt(plr.DataFolder.Currency.Value)
 				_G.armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
-					Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+					Healthy.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+				end)
+				_G.fire = plr.Character.BodyEffects.FireArmor:GetPropertyChangedSignal("Value"):Connect(function()
+					Healthy.Fire.Text = math.round(plr.Character.BodyEffects.FireArmor.Value)
 				end)
 				if plr:WaitForChild("DataFolder"):WaitForChild("Information"):FindFirstChild("Crew") then
 					Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.DataFolder.Information.Crew.Value.."&w=150&h=150"
@@ -1152,7 +1215,7 @@ function createBtn(plr)
 		end
 	end)
 
-	if table.find(_G.tracking, plr.Name) then
+	if table.find(tracking, plr.Name) then
 		Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 		trackChar(plr.Character)
 	end
@@ -1179,7 +1242,7 @@ function createBtn(plr)
 		end)
 		if trackNewPlayers == true then
 			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
-			table.insert(_G.tracking, plr.Name)
+			table.insert(tracking, plr.Name)
 			trackChar(plr.Character or plr.Character:Wait())
 			trackList(plr)
 		end
@@ -1259,7 +1322,7 @@ Target.Track.MouseButton1Click:Connect(function()
 		if Target.User.Text == plr.Name then
 			Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 		end
-		table.insert(_G.tracking, plr.Name)
+		table.insert(tracking, plr.Name)
 		trackChar(plr.Character)
 		trackList(plr)
 	end
@@ -1301,9 +1364,9 @@ Target.Refresh.MouseButton1Click:Connect(function()
 		Target.Disp.Text = plr.DisplayName
 		Target.ImgPlr.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=100&h=100"
 		Target.ImgCrew.Image = ""
-		Target.Health.Text = math.round(plr.Character.Humanoid.Health)
+		Healthy.Health.Text = math.round(plr.Character.Humanoid.Health)
 		_G.health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
-			Target.Health.Text = math.round(plr.Character.Humanoid.Health)
+			Healthy.Health.Text = math.round(plr.Character.Humanoid.Health)
 		end)
     	    --[[died = plr.Character.Humanoid.Died:Connect(function()
     	        _G.health:Disconnect()
@@ -1312,19 +1375,19 @@ Target.Refresh.MouseButton1Click:Connect(function()
 		if gameIs == "HM" then
 			Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.Information.Crew.Value.."&w=150&h=150"
 			Target.CrewID.Text = plr.Information.Crew.Value
-			Target.Armour.Text = math.round(plr.Information.Armor.Value)
+			Healthy.Armour.Text = math.round(plr.Information.Armor.Value)
 			_G.armour = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
-				Target.Armour.Text = math.round(plr.Information.Armor.Value)
+				Healthy.Armour.Text = math.round(plr.Information.Armor.Value)
 			end)
 			pcall(function()
 				Target.StompFX.Text = plr.Information.KillFX.Value.." • "..plr.Information.Tag.Value
 				Target.Crew.Text = gps:GetGroupInfoAsync(plr.Information.Crew.Value).Name
 			end)
 		else
-			Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+			Healthy.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
 			Target.StompFX.Text = "$"..formatInt(plr.DataFolder.Currency.Value)
 			_G.armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
-				Target.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+				Healthy.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
 			end)
 			if plr:WaitForChild("DataFolder"):WaitForChild("Information"):FindFirstChild("Crew") then
 				Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.DataFolder.Information.Crew.Value.."&w=150&h=150"
@@ -1498,7 +1561,7 @@ All.MouseButton1Click:Connect(function()
 		trackNewPlayers = true
 		for i, plr in pairs(plrs:GetPlayers()) do
 			if plr.Name ~= LPlr.Name then
-				table.insert(_G.tracking, plr.Name)
+				table.insert(tracking, plr.Name)
 				trackChar(plr.Character or plr.Character:Wait())
 				ScrollMain[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 				trackList(plr)
@@ -1506,7 +1569,7 @@ All.MouseButton1Click:Connect(function()
 		end
 	else
 		All.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-		table.clear(_G.tracking)
+		table.clear(tracking)
 		tFolder:ClearAllChildren()
 		trackNewPlayers = false
 		for i, plr in pairs(plrs:GetPlayers()) do
@@ -1570,6 +1633,13 @@ uis.InputBegan:Connect(function(input, gpe)
 					v.Tag.Enabled = true
 				end
 			end
+		elseif input.KeyCode == Enum.KeyCode.P then
+			for i, v in pairs(tFolder:GetChildren()) do
+				v:Destroy()
+			end
+			for i, v in pairs(tracking) do
+				trackChar(plrs[v].Character)
+			end
 		end
 	elseif input.UserInputType == Enum.UserInputType.MouseButton3 then
 		local plr = plrs:FindFirstChild(mouse.Target.Parent.Name)
@@ -1585,7 +1655,7 @@ uis.InputBegan:Connect(function(input, gpe)
 				trackRemove(plr)
 			else
 				ScrollMain[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
-				table.insert(_G.tracking, plr.Name)
+				table.insert(tracking, plr.Name)
 				trackChar(plr.Character)
 				trackList(plr)
 			end
@@ -1666,7 +1736,7 @@ if gameIs == "HM" then
 		if char == LPlr.Character then
 			LocalHighlight.Adornee = char
 		end
-		if table.find(_G.tracking, char.Name) then
+		if table.find(tracking, char.Name) then
 			trackChar(char)
 		end
 	end)
@@ -1675,7 +1745,7 @@ elseif gameIs == "DH" then
 		if char == LPlr.Character then
 			LocalHighlight.Adornee = char
 		end
-		if table.find(_G.tracking, char.Name) then
+		if table.find(tracking, char.Name) then
 			trackChar(char)
 		end
 	end)
@@ -1684,7 +1754,7 @@ else
 		if char == LPlr.Character then
 			LocalHighlight.Adornee = char
 		end
-		if table.find(_G.tracking, char.Name) then
+		if table.find(tracking, char.Name) then
 			trackChar(char)
 		end
 	end)
@@ -1719,7 +1789,7 @@ plrs.PlayerAdded:Connect(function(plr)
 	if OptsScroll:FindFirstChild(plr.Name) then
 		OptsScroll:FindFirstChild(plr.Name).Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
 	end
-	if table.find(_G.tracking, plr.Name) then
+	if table.find(tracking, plr.Name) then
 		if _G.plrNoti then
 			sui:SetCore("SendNotification", {
 				Title = plr.Name;
