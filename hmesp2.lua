@@ -1509,7 +1509,7 @@ Aim.MouseButton1Click:Connect(function()
 		beam.Anchored = true
 		beam.CanCollide = false
 		beam.Material = "Neon"
-		beam.Transparency = 0
+		beam.Transparency = 0.3
 		beam.Color = Color3.fromRGB(255, 0, 0)
 		beam.Parent = workspace
 		_G.viewConnection = PLAYA.Character["I_LOADED_I"].MousePos.Changed:Connect(function()
