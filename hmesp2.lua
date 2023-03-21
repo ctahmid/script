@@ -695,32 +695,61 @@ UIGradient.Parent = Target
 local UICorner3 = Instance.new("UICorner")
 UICorner3.Parent = Target
 
+local Aim = Instance.new("TextButton")
+Aim.Name = "Aim"
+Aim.Size = UDim2.new(0.2913948, 0, 0.154017, 0)
+Aim.BorderColor3 = Color3.fromRGB(255, 255, 255)
+Aim.BackgroundTransparency = 0.9
+Aim.Position = UDim2.new(0.3510871, 0, -0.1779679, 0)
+Aim.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+Aim.FontSize = Enum.FontSize.Size18
+Aim.TextSize = 16
+Aim.TextColor3 = Color3.fromRGB(255, 255, 255)
+Aim.Text = "AIM"
+Aim.Font = Enum.Font.GothamMedium
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Transparency = 0.8
+UIStroke.Color = Color3.fromRGB(255, 255, 255)
+UIStroke.Parent = Aim
+
+local UICorner = Instance.new("UICorner")
+UICorner.Parent = Aim
+
+Aim.Parent = Target
+
+if gameIs ~= "DH" and gameIs ~= "HM" then
+	Aim.Visible = false
+end
+
 local HM = Instance.new("TextButton")
 HM.Name = "HM"
 HM.Size = UDim2.new(0.2913948, 0, 0.154017, 0)
 HM.BorderColor3 = Color3.fromRGB(255, 255, 255)
 HM.BackgroundTransparency = 0.9
-HM.Position = UDim2.new(0.3510871, 0, -0.1779679, 0)
+HM.Position = UDim2.new(0.6882964, 0, -0.1779679, 0)
 HM.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
 HM.FontSize = Enum.FontSize.Size18
 HM.TextSize = 16
 HM.TextColor3 = Color3.fromRGB(255, 255, 255)
 HM.Text = "HM"
 HM.Font = Enum.Font.GothamMedium
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Transparency = 0.8
+UIStroke.Color = Color3.fromRGB(255, 255, 255)
+UIStroke.Parent = HM
+
+local UICorner = Instance.new("UICorner")
+UICorner.Parent = HM
+
 HM.Parent = Target
 
 if gameIs ~= "HM" then
 	HM.Visible = false
 end
-
-local UIStroke3 = Instance.new("UIStroke")
-UIStroke3.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-UIStroke3.Transparency = 0.8
-UIStroke3.Color = Color3.fromRGB(255, 255, 255)
-UIStroke3.Parent = HM
-
-local UICorner4 = Instance.new("UICorner")
-UICorner4.Parent = HM
 
 local Close = Instance.new("TextButton")
 Close.Name = "Close"
@@ -795,7 +824,15 @@ local trackNewPlayers = false
 if _G.health then _G.health:Disconnect() end
 if _G.armour then _G.armour:Disconnect() end
 if _G.fire then _G.fire:Disconnect() end
+if _G.viewConnection then
+	_G.viewConnection:Disconnect()
+end
 
+if workspace:FindFirstChild("BEAM/") then
+	workspace:FindFirstChild("BEAM/"):Destroy()
+end
+
+_G.viewConnection = nil
 _G.health = nil
 _G.armour = nil
 _G.fire = nil
@@ -940,313 +977,315 @@ function trackList(plr)
 end
 
 function createBtn(plr)
-	local Plr = Instance.new("TextButton")
-	Plr.Name = plr.Name
-	Plr.LayoutOrder = 3
-	Plr.Size = UDim2.new(1, 0, 0, 50)
-	Plr.BorderColor3 = Color3.fromRGB(255, 255, 255)
-	Plr.BackgroundTransparency = 0.9
-	Plr.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-	Plr.FontSize = Enum.FontSize.Size24
-	Plr.TextSize = 20
-	Plr.TextTransparency = 1
-	Plr.TextColor3 = Color3.fromRGB(255, 255, 255)
-	Plr.Text = plr.DisplayName
-	Plr.Font = Enum.Font.Gotham
+	if not ScrollMain:FindFirstChild(plr.Name) then
+		local Plr = Instance.new("TextButton")
+		Plr.Name = plr.Name
+		Plr.LayoutOrder = 3
+		Plr.Size = UDim2.new(1, 0, 0, 50)
+		Plr.BorderColor3 = Color3.fromRGB(255, 255, 255)
+		Plr.BackgroundTransparency = 0.9
+		Plr.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		Plr.FontSize = Enum.FontSize.Size24
+		Plr.TextSize = 20
+		Plr.TextTransparency = 1
+		Plr.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Plr.Text = plr.DisplayName
+		Plr.Font = Enum.Font.Gotham
 
-	local Img = Instance.new("ImageButton")
-	Img.Name = "Img"
-	Img.Size = UDim2.new(0, 50, 0, 50)
-	Img.BorderColor3 = Color3.fromRGB(255, 255, 255)
-	Img.BackgroundTransparency = 1
-	Img.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-	Img.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150"
-	Img.Parent = Plr
+		local Img = Instance.new("ImageButton")
+		Img.Name = "Img"
+		Img.Size = UDim2.new(0, 50, 0, 50)
+		Img.BorderColor3 = Color3.fromRGB(255, 255, 255)
+		Img.BackgroundTransparency = 1
+		Img.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		Img.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=150&h=150"
+		Img.Parent = Plr
 
-	local UICorner = Instance.new("UICorner")
-	UICorner.Parent = Img
+		local UICorner = Instance.new("UICorner")
+		UICorner.Parent = Img
 
-	local User = Instance.new("TextLabel")
-	User.Name = "User"
-	User.Size = UDim2.new(0.9561403, -58, 0.405, 0)
-	User.BackgroundTransparency = 1
-	User.Position = UDim2.new(0.0175439, 54, 0.495, 0)
-	User.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	User.FontSize = Enum.FontSize.Size14
-	User.TextSize = 14
-	User.TextColor3 = Color3.fromRGB(185, 190, 190)
-	User.Text = plr.Name
-	User.TextWrapped = true
-	User.Font = Enum.Font.GothamMedium
-	User.TextWrap = true
-	User.TextXAlignment = Enum.TextXAlignment.Left
-	User.TextScaled = true
-	User.Parent = Plr
+		local User = Instance.new("TextLabel")
+		User.Name = "User"
+		User.Size = UDim2.new(0.9561403, -58, 0.405, 0)
+		User.BackgroundTransparency = 1
+		User.Position = UDim2.new(0.0175439, 54, 0.495, 0)
+		User.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		User.FontSize = Enum.FontSize.Size14
+		User.TextSize = 14
+		User.TextColor3 = Color3.fromRGB(185, 190, 190)
+		User.Text = plr.Name
+		User.TextWrapped = true
+		User.Font = Enum.Font.GothamMedium
+		User.TextWrap = true
+		User.TextXAlignment = Enum.TextXAlignment.Left
+		User.TextScaled = true
+		User.Parent = Plr
 
-	local Disp = Instance.new("TextLabel")
-	Disp.Name = "Disp"
-	Disp.Size = UDim2.new(0.9561409, -58, 0.405, 0)
-	Disp.BackgroundTransparency = 1
-	Disp.Position = UDim2.new(0.0175436, 54, 0.09, 0)
-	Disp.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	Disp.FontSize = Enum.FontSize.Size14
-	Disp.TextSize = 14
-	Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
-	Disp.Text = plr.DisplayName
-	Disp.TextWrapped = true
-	Disp.Font = Enum.Font.GothamMedium
-	Disp.TextWrap = true
-	Disp.TextXAlignment = Enum.TextXAlignment.Left
-	Disp.TextScaled = true
-	Disp.Parent = Plr
+		local Disp = Instance.new("TextLabel")
+		Disp.Name = "Disp"
+		Disp.Size = UDim2.new(0.9561409, -58, 0.405, 0)
+		Disp.BackgroundTransparency = 1
+		Disp.Position = UDim2.new(0.0175436, 54, 0.09, 0)
+		Disp.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Disp.FontSize = Enum.FontSize.Size14
+		Disp.TextSize = 14
+		Disp.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Disp.Text = plr.DisplayName
+		Disp.TextWrapped = true
+		Disp.Font = Enum.Font.GothamMedium
+		Disp.TextWrap = true
+		Disp.TextXAlignment = Enum.TextXAlignment.Left
+		Disp.TextScaled = true
+		Disp.Parent = Plr
 
-	local Crew = Instance.new("ImageLabel")
-	Crew.Name = "Crew"
-	Crew.Size = UDim2.new(0, 24, 0, 24)
-	Crew.BorderColor3 = Color3.fromRGB(255, 255, 255)
-	Crew.BackgroundTransparency = 1
-	Crew.Position = UDim2.new(1, -29, 0.08, 0)
-	Crew.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-	Crew.Image = ""
-	Crew.Parent = Plr
+		local Crew = Instance.new("ImageLabel")
+		Crew.Name = "Crew"
+		Crew.Size = UDim2.new(0, 24, 0, 24)
+		Crew.BorderColor3 = Color3.fromRGB(255, 255, 255)
+		Crew.BackgroundTransparency = 1
+		Crew.Position = UDim2.new(1, -29, 0.08, 0)
+		Crew.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		Crew.Image = ""
+		Crew.Parent = Plr
 
-	local UICorner1 = Instance.new("UICorner")
-	UICorner1.CornerRadius = UDim.new(0, 4)
-	UICorner1.Parent = Crew
+		local UICorner1 = Instance.new("UICorner")
+		UICorner1.CornerRadius = UDim.new(0, 4)
+		UICorner1.Parent = Crew
 
-	local UICorner2 = Instance.new("UICorner")
-	UICorner2.Parent = Plr
+		local UICorner2 = Instance.new("UICorner")
+		UICorner2.Parent = Plr
 
-	Plr.Parent = ScrollMain
+		Plr.Parent = ScrollMain
 
-	if LPlr:IsFriendsWith(plr.UserId) then
-		Plr.LayoutOrder = 1
-		Plr.BackgroundColor3 = Color3.fromRGB(0, 195, 255)
-	end
+		if LPlr:IsFriendsWith(plr.UserId) then
+			Plr.LayoutOrder = 1
+			Plr.BackgroundColor3 = Color3.fromRGB(0, 195, 255)
+		end
 
-	if gameIs == "HM" then
-		pcall(function()
-			if plr:GetRankInGroup(10878346) >= 5 then
-				Plr.LayoutOrder = 2
-				Plr.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
+		if gameIs == "HM" then
+			pcall(function()
+				if plr:GetRankInGroup(10878346) >= 5 then
+					Plr.LayoutOrder = 2
+					Plr.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
+				end
+			end)
+		end
+
+		Plr.MouseButton1Click:Connect(function()
+			if not plrs:FindFirstChild(plr.Name) then
+				Plr:Destroy()
+				return
+			end
+			if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
+				trackRemove(plr)
+			else
+				Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+				if Target.User.Text == plr.Name then
+					Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+				end
+				table.insert(tracking, plr.Name)
+				trackChar(plr.Character)
+				trackList(plr)
 			end
 		end)
-	end
 
-	Plr.MouseButton1Click:Connect(function()
-		if not plrs:FindFirstChild(plr.Name) then
-			Plr:Destroy()
-			return
-		end
-		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
-			trackRemove(plr)
-		else
-			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
-			if Target.User.Text == plr.Name then
-				Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		Plr.MouseButton2Click:Connect(function()
+			if not plrs:FindFirstChild(plr.Name) then
+				LocalHighlight.Enabled = false
+				workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
+				if Target.User.Text == plr.Name then
+					Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+				end
+				Plr:Destroy()
+				return
 			end
-			table.insert(tracking, plr.Name)
-			trackChar(plr.Character)
-			trackList(plr)
-		end
-	end)
-
-	Plr.MouseButton2Click:Connect(function()
-		if not plrs:FindFirstChild(plr.Name) then
-			LocalHighlight.Enabled = false
-			workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
-			if Target.User.Text == plr.Name then
-				Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+			if workspace.CurrentCamera.CameraSubject ~= LPlr.Character and workspace.CurrentCamera.CameraSubject ~= LPlr.Character.Humanoid then
+				LocalHighlight.Enabled = false
+				workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
+				if Target.User.Text == plr.Name then
+					Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+				end
+			else
+				LocalHighlight.Enabled = true
+				workspace.CurrentCamera.CameraSubject = plr.Character.Humanoid
+				if Target.User.Text == plr.Name then
+					Target.View.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+				end
 			end
-			Plr:Destroy()
-			return
-		end
-		if workspace.CurrentCamera.CameraSubject ~= LPlr.Character and workspace.CurrentCamera.CameraSubject ~= LPlr.Character.Humanoid then
-			LocalHighlight.Enabled = false
-			workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
-			if Target.User.Text == plr.Name then
-				Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		end)
+
+		Plr.MouseLeave:Connect(function()
+			Texty.Text = ""
+		end)
+
+		Crew.MouseLeave:Connect(function()
+			Texty.Text = ""
+		end)
+
+		Img.MouseButton1Click:Connect(function()
+			if not plrs:FindFirstChild(plr.Name) then
+				Plr:Destroy()
+				return
 			end
-		else
-			LocalHighlight.Enabled = true
-			workspace.CurrentCamera.CameraSubject = plr.Character.Humanoid
-			if Target.User.Text == plr.Name then
-				Target.View.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-			end
-		end
-	end)
-
-	Plr.MouseLeave:Connect(function()
-		Texty.Text = ""
-	end)
-
-	Crew.MouseLeave:Connect(function()
-		Texty.Text = ""
-	end)
-
-	Img.MouseButton1Click:Connect(function()
-		if not plrs:FindFirstChild(plr.Name) then
-			Plr:Destroy()
-			return
-		end
-		if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
-			trackRemove(plr)
-		else
-			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
-			if Target.User.Text == plr.Name then
-				Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-			end
-			table.insert(tracking, plr.Name)
-			trackChar(plr.Character)
-			trackList(plr)
-		end
-	end)
-
-	Img.MouseButton2Click:Connect(function()
-		if gameIs == "HM" or gameIs == "DH" then
-			Target.Visible = true
-			PLAYA = plr
 			if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
-				Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+				trackRemove(plr)
 			else
-				Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+				Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+				if Target.User.Text == plr.Name then
+					Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+				end
+				table.insert(tracking, plr.Name)
+				trackChar(plr.Character)
+				trackList(plr)
 			end
-			if workspace.CurrentCamera.CameraSubject == plr.Character.Humanoid then
-				Target.View.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-			else
-				Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-			end
-			if _G.health then _G.health:Disconnect() end
-			if _G.armour then _G.armour:Disconnect() end
-			if _G.fire then _G.fire:Disconnect() end
-			Target.StompFX.Text = "Stomp Effect"
-			Target.Crew.Text = "Crew Name"
-			Target.CrewID.Text = "Crew ID"
-			Target.User.Text = plr.Name
-			Target.Disp.Text = plr.DisplayName
-			Target.ImgPlr.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=100&h=100"
-			Target.ImgCrew.Image = ""
-			Healthy.Health.Text = math.round(plr.Character.Humanoid.Health)
-			_G.health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+		end)
+
+		Img.MouseButton2Click:Connect(function()
+			if gameIs == "HM" or gameIs == "DH" then
+				Target.Visible = true
+				PLAYA = plr
+				if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
+					Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+				else
+					Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+				end
+				if workspace.CurrentCamera.CameraSubject == plr.Character.Humanoid then
+					Target.View.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+				else
+					Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+				end
+				if _G.health then _G.health:Disconnect() end
+				if _G.armour then _G.armour:Disconnect() end
+				if _G.fire then _G.fire:Disconnect() end
+				Target.StompFX.Text = "Stomp Effect"
+				Target.Crew.Text = "Crew Name"
+				Target.CrewID.Text = "Crew ID"
+				Target.User.Text = plr.Name
+				Target.Disp.Text = plr.DisplayName
+				Target.ImgPlr.Image = "rbxthumb://type=AvatarHeadShot&id="..plr.UserId.."&w=100&h=100"
+				Target.ImgCrew.Image = ""
 				Healthy.Health.Text = math.round(plr.Character.Humanoid.Health)
-			end)
+				_G.health = plr.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+					Healthy.Health.Text = math.round(plr.Character.Humanoid.Health)
+				end)
     	    --[[died = plr.Character.Humanoid.Died:Connect(function()
     	        _G.health:Disconnect()
     	        if gameIs == "DH" then _G.armour:Disconnect() end
     	    end)]]
-			if gameIs == "HM" then
-				Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.Information.Crew.Value.."&w=150&h=150"
-				Target.CrewID.Text = plr.Information.Crew.Value
-				Healthy.Armour.Text = math.round(plr.Information.Armor.Value)
-				_G.armour = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
+				if gameIs == "HM" then
+					Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.Information.Crew.Value.."&w=150&h=150"
+					Target.CrewID.Text = plr.Information.Crew.Value
 					Healthy.Armour.Text = math.round(plr.Information.Armor.Value)
-				end)
-				pcall(function()
-					Target.StompFX.Text = plr.Information.KillFX.Value.." • "..plr.Information.Tag.Value
-					Target.Crew.Text = gps:GetGroupInfoAsync(plr.Information.Crew.Value).Name
-				end)
-			else
-				Healthy.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
-				Healthy.Fire.Text = math.round(plr.Character.BodyEffects.FireArmor.Value)
-				Target.StompFX.Text = "$"..formatInt(plr.DataFolder.Currency.Value)
-				_G.armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
-					Healthy.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
-				end)
-				_G.fire = plr.Character.BodyEffects.FireArmor:GetPropertyChangedSignal("Value"):Connect(function()
-					Healthy.Fire.Text = math.round(plr.Character.BodyEffects.FireArmor.Value)
-				end)
-				if plr:WaitForChild("DataFolder"):WaitForChild("Information"):FindFirstChild("Crew") then
-					Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.DataFolder.Information.Crew.Value.."&w=150&h=150"
-					Target.CrewID.Text = plr.DataFolder.Information.Crew.Value
-					pcall(function()
-						Target.Crew.Text = gps:GetGroupInfoAsync(plr.DataFolder.Information.Crew.Value).Name
+					_G.armour = plr.Information.Armor:GetPropertyChangedSignal("Value"):Connect(function()
+						Healthy.Armour.Text = math.round(plr.Information.Armor.Value)
 					end)
+					pcall(function()
+						Target.StompFX.Text = plr.Information.KillFX.Value.." • "..plr.Information.Tag.Value
+						Target.Crew.Text = gps:GetGroupInfoAsync(plr.Information.Crew.Value).Name
+					end)
+				else
+					Healthy.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+					Healthy.Fire.Text = math.round(plr.Character.BodyEffects.FireArmor.Value)
+					Target.StompFX.Text = "$"..formatInt(plr.DataFolder.Currency.Value)
+					_G.armour = plr.Character.BodyEffects.Armor:GetPropertyChangedSignal("Value"):Connect(function()
+						Healthy.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
+					end)
+					_G.fire = plr.Character.BodyEffects.FireArmor:GetPropertyChangedSignal("Value"):Connect(function()
+						Healthy.Fire.Text = math.round(plr.Character.BodyEffects.FireArmor.Value)
+					end)
+					if plr:WaitForChild("DataFolder"):WaitForChild("Information"):FindFirstChild("Crew") then
+						Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.DataFolder.Information.Crew.Value.."&w=150&h=150"
+						Target.CrewID.Text = plr.DataFolder.Information.Crew.Value
+						pcall(function()
+							Target.Crew.Text = gps:GetGroupInfoAsync(plr.DataFolder.Information.Crew.Value).Name
+						end)
+					end
 				end
-			end
-			for i, v in pairs(Target.Scroll:GetChildren()) do
-				if v.Name ~= "UIListLayout" and v.Name ~= "UIPadding" then
-					v:Destroy()
+				for i, v in pairs(Target.Scroll:GetChildren()) do
+					if v.Name ~= "UIListLayout" and v.Name ~= "UIPadding" then
+						v:Destroy()
+					end
 				end
-			end
-			for i, tool in pairs(plr.Backpack:GetChildren()) do
-				if tool:IsA("Tool") then
-					local Item = Instance.new("TextButton")
-					Item.Name = "Item"
-					Item.LayoutOrder = 1
-					Item.Size = UDim2.new(1, 0, 0, 30)
-					Item.BorderColor3 = Color3.fromRGB(255, 255, 255)
-					Item.BackgroundTransparency = 0.9
-					Item.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-					Item.FontSize = Enum.FontSize.Size24
-					Item.TextSize = 20
-					Item.TextColor3 = Color3.fromRGB(255, 255, 255)
-					Item.Text = ""
-					Item.Font = Enum.Font.Gotham
-					Item.Parent = Target.Scroll
-					local Img = Instance.new("ImageLabel")
-					Img.Name = "Img"
-					Img.Size = UDim2.new(0, 30, 0, 30)
-					Img.BorderColor3 = Color3.fromRGB(255, 255, 255)
-					Img.BackgroundTransparency = 0.9
-					Img.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
-					Img.Image = tool.TextureId
-					Img.Parent = Item
-					local Txt = Instance.new("TextLabel")
-					Txt.Name = "Txt"
-					Txt.AnchorPoint = Vector2.new(0, 0.5)
-					Txt.Size = UDim2.new(0.727, 0, 0.8, 0)
-					Txt.BackgroundTransparency = 1
-					Txt.Position = UDim2.new(-0.14, 54, 0.5, 0)
-					Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-					Txt.FontSize = Enum.FontSize.Size14
-					Txt.TextSize = 14
-					Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
-					Txt.Text = tool.Name
-					Txt.TextWrapped = true
-					Txt.Font = Enum.Font.GothamMedium
-					Txt.TextWrap = true
-					Txt.TextScaled = true
-					Txt.Parent = Item
-					if tool:FindFirstChild("GunScript") then
-						Item.LayoutOrder = 0
+				for i, tool in pairs(plr.Backpack:GetChildren()) do
+					if tool:IsA("Tool") then
+						local Item = Instance.new("TextButton")
+						Item.Name = "Item"
+						Item.LayoutOrder = 1
+						Item.Size = UDim2.new(1, 0, 0, 30)
+						Item.BorderColor3 = Color3.fromRGB(255, 255, 255)
+						Item.BackgroundTransparency = 0.9
+						Item.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+						Item.FontSize = Enum.FontSize.Size24
+						Item.TextSize = 20
+						Item.TextColor3 = Color3.fromRGB(255, 255, 255)
+						Item.Text = ""
+						Item.Font = Enum.Font.Gotham
+						Item.Parent = Target.Scroll
+						local Img = Instance.new("ImageLabel")
+						Img.Name = "Img"
+						Img.Size = UDim2.new(0, 30, 0, 30)
+						Img.BorderColor3 = Color3.fromRGB(255, 255, 255)
+						Img.BackgroundTransparency = 0.9
+						Img.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+						Img.Image = tool.TextureId
+						Img.Parent = Item
+						local Txt = Instance.new("TextLabel")
+						Txt.Name = "Txt"
+						Txt.AnchorPoint = Vector2.new(0, 0.5)
+						Txt.Size = UDim2.new(0.727, 0, 0.8, 0)
+						Txt.BackgroundTransparency = 1
+						Txt.Position = UDim2.new(-0.14, 54, 0.5, 0)
+						Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+						Txt.FontSize = Enum.FontSize.Size14
+						Txt.TextSize = 14
+						Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
+						Txt.Text = tool.Name
+						Txt.TextWrapped = true
+						Txt.Font = Enum.Font.GothamMedium
+						Txt.TextWrap = true
+						Txt.TextScaled = true
+						Txt.Parent = Item
+						if tool:FindFirstChild("GunScript") then
+							Item.LayoutOrder = 0
+						end
 					end
 				end
 			end
+		end)
+
+		if table.find(tracking, plr.Name) then
+			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+			trackChar(plr.Character)
 		end
-	end)
 
-	if table.find(tracking, plr.Name) then
-		Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
-		trackChar(plr.Character)
-	end
-
-	task.spawn(function()
-		pcall(function()
-			if gameIs == "HM" then
-				local crew = plr:WaitForChild("Information", 15):WaitForChild("Crew", 15)
-				if crew and tonumber(crew.Value) > 1 then
-					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
-					Crew.MouseEnter:Connect(function()
-						--Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name.."\n"..plr:GetRoleInGroup(crew.Value)
-					end)
+		task.spawn(function()
+			pcall(function()
+				if gameIs == "HM" then
+					local crew = plr:WaitForChild("Information", 15):WaitForChild("Crew", 15)
+					if crew and tonumber(crew.Value) > 1 then
+						Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
+						Crew.MouseEnter:Connect(function()
+							--Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name.."\n"..plr:GetRoleInGroup(crew.Value)
+						end)
+					end
+				elseif gameIs == "DH" then
+					local crew = plr:WaitForChild("DataFolder", 15):WaitForChild("Information", 15):WaitForChild("Crew", 15)
+					if crew and tonumber(crew.Value) > 1 then
+						Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
+						Crew.MouseEnter:Connect(function()
+							--Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name.."\n"..plr:GetRoleInGroup(crew.Value)
+						end)
+					end
 				end
-			elseif gameIs == "DH" then
-				local crew = plr:WaitForChild("DataFolder", 15):WaitForChild("Information", 15):WaitForChild("Crew", 15)
-				if crew and tonumber(crew.Value) > 1 then
-					Crew.Image = "rbxthumb://type=GroupIcon&id="..crew.Value.."&w=150&h=150"
-					Crew.MouseEnter:Connect(function()
-						--Texty.Text = gps:GetGroupInfoAsync(crew.Value).Name.."\n"..plr:GetRoleInGroup(crew.Value)
-					end)
-				end
+			end)
+			if trackNewPlayers == true then
+				Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
+				table.insert(tracking, plr.Name)
+				trackChar(plr.Character or plr.Character:Wait())
+				trackList(plr)
 			end
 		end)
-		if trackNewPlayers == true then
-			Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
-			table.insert(tracking, plr.Name)
-			trackChar(plr.Character or plr.Character:Wait())
-			trackList(plr)
-		end
-	end)
+	end
 end
 
 mouse.Move:Connect(function()
@@ -1454,6 +1493,45 @@ Target.Refresh.MouseButton1Click:Connect(function()
 	end
 end)
 
+Aim.MouseButton1Click:Connect(function()
+	if Aim.BackgroundColor3 == Color3.fromRGB(138, 138, 138) then
+		Aim.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		Aim.UIStroke.Color = Color3.fromRGB(0, 255, 0)
+		if _G.viewConnection then
+			_G.viewConnection:Disconnect()
+			_G.viewConnection = nil
+		end
+		if workspace:FindFirstChild("BEAM/") then
+			workspace:FindFirstChild("BEAM/"):Destroy()
+		end
+		local beam = Instance.new("Part")
+		beam.Name = "BEAM/"
+		beam.Anchored = true
+		beam.CanCollide = false
+		beam.Material = "Neon"
+		beam.Transparency = 0
+		beam.Color = Color3.fromRGB(255, 0, 0)
+		beam.Parent = workspace
+		_G.viewConnection = PLAYA.Character["I_LOADED_I"].MousePos.Changed:Connect(function()
+			local from = PLAYA.Character.HumanoidRootPart
+			local Target = PLAYA.Character["I_LOADED_I"].MousePos.Value
+			local dist = (from.Position - Target).Magnitude
+			beam.Size = Vector3.new(.1, .1, dist)
+			beam.CFrame = CFrame.new(from.Position, Target) * CFrame.new(0,0,-beam.Size.Z/2)
+		end)
+	else
+		Aim.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		Aim.UIStroke.Color = Color3.fromRGB(255, 255, 255)
+		if _G.viewConnection then
+			_G.viewConnection:Disconnect()
+			_G.viewConnection = nil
+		end
+		if workspace:FindFirstChild("BEAM/") then
+			workspace:FindFirstChild("BEAM/"):Destroy()
+		end
+	end
+end)
+
 HM.MouseButton1Click:Connect(function()
 	local l__MainScreenGui__4 = LPlr.PlayerGui.MainScreenGui
 	local l__HttpService__7 = game:GetService("HttpService")
@@ -1563,6 +1641,7 @@ end)
 All.MouseButton1Click:Connect(function()
 	if All.BackgroundColor3 == Color3.fromRGB(138, 138, 138) then
 		All.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		All.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 		trackNewPlayers = true
 		for i, plr in pairs(plrs:GetPlayers()) do
 			if plr.Name ~= LPlr.Name then
@@ -1574,6 +1653,7 @@ All.MouseButton1Click:Connect(function()
 		end
 	else
 		All.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		All.UIStroke.Color = Color3.fromRGB(255, 255, 255)
 		table.clear(tracking)
 		tFolder:ClearAllChildren()
 		trackNewPlayers = false
@@ -1589,9 +1669,11 @@ end)
 Opts.MouseButton1Click:Connect(function()
 	if Opts.BackgroundColor3 == Color3.fromRGB(138, 138, 138) then
 		Opts.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		Opts.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 		Options:TweenPosition(UDim2.new(0, 0, 0, 0), "Out", "Quint", 0.5, true)
 	else
 		Opts.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		Opts.UIStroke.Color = Color3.fromRGB(255, 255, 255)
 		Options:TweenPosition(UDim2.new(1, 0, 0, 0), "Out", "Quint", 0.5, true)
 	end
 end)
@@ -1601,6 +1683,7 @@ local LightingCache = {}
 Full.MouseButton1Click:Connect(function()
 	if Full.BackgroundColor3 == Color3.fromRGB(138, 138, 138) then
 		Full.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		Full.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 		LightingCache = {game.Lighting.OutdoorAmbient, game.Lighting.Brightness, game.Lighting.FogEnd, game.Lighting.ClockTime}
 		game.Lighting.GlobalShadows = false
 		game.Lighting.OutdoorAmbient = Color3.fromRGB(128, 128, 128)
@@ -1609,6 +1692,7 @@ Full.MouseButton1Click:Connect(function()
 		game.Lighting.ClockTime = 14
 	else
 		Full.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		Full.UIStroke.Color = Color3.fromRGB(255, 255, 255)
 		game.Lighting.GlobalShadows = true
 		game.Lighting.OutdoorAmbient = LightingCache[1]
 		game.Lighting.Brightness = LightingCache[2]
