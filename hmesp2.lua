@@ -1853,6 +1853,7 @@ if gameIs == "HM" then
 	workspace.Characters.ChildAdded:Connect(function(char)
 		if char == LPlr.Character then
 			LocalHighlight.Adornee = char
+			LocalHighlight.Enabled = false
 		end
 		if table.find(tracking, char.Name) then
 			trackChar(char)
@@ -1862,6 +1863,7 @@ elseif gameIs == "DH" then
 	workspace.Players.ChildAdded:Connect(function(char)
 		if char == LPlr.Character then
 			LocalHighlight.Adornee = char
+			LocalHighlight.Enabled = false
 		end
 		if table.find(tracking, char.Name) then
 			trackChar(char)
@@ -1871,6 +1873,7 @@ else
 	workspace.ChildAdded:Connect(function(char)
 		if char == LPlr.Character then
 			LocalHighlight.Adornee = char
+			LocalHighlight.Enabled = false
 		end
 		if table.find(tracking, char.Name) then
 			trackChar(char)
