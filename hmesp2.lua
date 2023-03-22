@@ -910,6 +910,7 @@ function trackRemove(plr)
 	end
 	if Target.User.Text == plr.Name then
 		Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		Target.Track.UIStroke.Color = Color3.fromRGB(255, 255, 255)
 	end
 	local scrolly = ScrollMain:FindFirstChild(plr.Name)
 	if scrolly then
@@ -1082,6 +1083,7 @@ function createBtn(plr)
 				Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 				if Target.User.Text == plr.Name then
 					Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+					Target.Track.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 				end
 				table.insert(tracking, plr.Name)
 				trackChar(plr.Character)
@@ -1095,6 +1097,7 @@ function createBtn(plr)
 				workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
 				if Target.User.Text == plr.Name then
 					Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+					Target.View.UIStroke.Color = Color3.fromRGB(255, 255, 255)
 				end
 				Plr:Destroy()
 				return
@@ -1104,12 +1107,14 @@ function createBtn(plr)
 				workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
 				if Target.User.Text == plr.Name then
 					Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+					Target.View.UIStroke.Color = Color3.fromRGB(255, 255, 255)
 				end
 			else
 				LocalHighlight.Enabled = true
 				workspace.CurrentCamera.CameraSubject = plr.Character.Humanoid
 				if Target.User.Text == plr.Name then
 					Target.View.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+					Target.View.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 				end
 			end
 		end)
@@ -1133,6 +1138,7 @@ function createBtn(plr)
 				Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 				if Target.User.Text == plr.Name then
 					Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+					Target.Track.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 				end
 				table.insert(tracking, plr.Name)
 				trackChar(plr.Character)
@@ -1146,13 +1152,17 @@ function createBtn(plr)
 				PLAYA = plr
 				if Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 					Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+					Target.Track.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 				else
 					Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+					Target.Track.UIStroke.Color = Color3.fromRGB(255, 255, 255)
 				end
 				if workspace.CurrentCamera.CameraSubject == plr.Character.Humanoid then
 					Target.View.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+					Target.View.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 				else
 					Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+					Target.View.UIStroke.Color = Color3.fromRGB(255, 255, 255)
 				end
 				if _G.health then _G.health:Disconnect() end
 				if _G.armour then _G.armour:Disconnect() end
@@ -1331,24 +1341,34 @@ SwitchBtn.MouseButton1Click:Connect(function()
 end)
 
 local spy = false
-local chatFrame = LPlr.PlayerGui.Chat.Frame
-local pos1
-local pos2
-pos1 = chatFrame.ChatBarParentFrame.Position
-pos2 = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+if LPlr.PlayerGui:FindFirstChild("Chat") then
+	local chatFrame = LPlr.PlayerGui.Chat.Frame
+	local pos1
+	local pos2
+	pos1 = chatFrame.ChatBarParentFrame.Position
+	pos2 = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
 
-Chat.MouseButton1Click:Connect(function()
-	spy = not spy
-	chatFrame.ChatChannelParentFrame.Visible = spy
-	if spy then
-		chatFrame.ChatBarParentFrame.Position = pos2
-	else
-		chatFrame.ChatBarParentFrame.Position = pos1
-	end
-end)
+	Chat.MouseButton1Click:Connect(function()
+		spy = not spy
+		chatFrame.ChatChannelParentFrame.Visible = spy
+		if spy then
+			chatFrame.ChatBarParentFrame.Position = pos2
+		else
+			chatFrame.ChatBarParentFrame.Position = pos1
+		end
+	end)
+end
 
 Target.Inv.MouseButton1Click:Connect(function()
-	Target.Scroll.Visible = not Target.Scroll.Visible
+	if Target.Inv.BackgroundColor3 == Color3.fromRGB(138, 138, 138) then
+		Target.Inv.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		Target.Inv.UIStroke.Color = Color3.fromRGB(0, 255, 0)
+		Target.Scroll.Visible = true
+	else
+		Target.Inv.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		Target.Inv.UIStroke.Color = Color3.fromRGB(255, 255, 255)
+		Target.Scroll.Visible = false
+	end
 end)
 
 Target.Track.MouseButton1Click:Connect(function()
@@ -1360,6 +1380,7 @@ Target.Track.MouseButton1Click:Connect(function()
 		ScrollMain[plr.Name].Disp.TextColor3 = Color3.fromRGB(17, 255, 0)
 		if Target.User.Text == plr.Name then
 			Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+			Target.Track.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 		end
 		table.insert(tracking, plr.Name)
 		trackChar(plr.Character)
@@ -1373,9 +1394,11 @@ Target.View.MouseButton1Click:Connect(function()
 	if workspace.CurrentCamera.CameraSubject ~= LPlr.Character and workspace.CurrentCamera.CameraSubject ~= LPlr.Character.Humanoid then
 		workspace.CurrentCamera.CameraSubject = LPlr.Character.Humanoid
 		Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+		Target.View.UIStroke.Color = Color3.fromRGB(255, 255, 255)
 	else
 		workspace.CurrentCamera.CameraSubject = plr.Character.Humanoid
 		Target.View.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		Target.View.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 	end
 end)
 
@@ -1386,13 +1409,17 @@ Target.Refresh.MouseButton1Click:Connect(function()
 		Target.Visible = true
 		if ScrollMain[plr.Name].Disp.TextColor3 == Color3.fromRGB(17, 255, 0) then
 			Target.Track.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+			Target.Track.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 		else
 			Target.Track.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+			Target.Track.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 		end
 		if workspace.CurrentCamera.CameraSubject == plr.Character.Humanoid then
 			Target.View.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+			Target.View.UIStroke.Color = Color3.fromRGB(0, 255, 0)
 		else
 			Target.View.BackgroundColor3 = Color3.fromRGB(138, 138, 138)
+			Target.View.UIStroke.Color = Color3.fromRGB(255, 255, 255)
 		end
 		if _G.health then _G.health:Disconnect() end
 		if _G.armour then _G.armour:Disconnect() end
@@ -1509,7 +1536,7 @@ Aim.MouseButton1Click:Connect(function()
 		beam.Anchored = true
 		beam.CanCollide = false
 		beam.Material = "Neon"
-		beam.Transparency = 0.3
+		beam.Transparency = 0
 		beam.Color = Color3.fromRGB(255, 0, 0)
 		beam.Parent = workspace
 		_G.viewConnection = PLAYA.Character["I_LOADED_I"].MousePos.Changed:Connect(function()
