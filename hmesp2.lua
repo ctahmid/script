@@ -1183,6 +1183,7 @@ function createBtn(plr)
     	        if gameIs == "DH" then _G.armour:Disconnect() end
     	    end)]]
 				if gameIs == "HM" then
+					Plr.Crew.Image = "rbxthumb://type=GroupIcon&id="..plr.Information.Crew.Value.."&w=150&h=150"
 					Target.ImgCrew.Image = "rbxthumb://type=GroupIcon&id="..plr.Information.Crew.Value.."&w=150&h=150"
 					Target.CrewID.Text = plr.Information.Crew.Value
 					Healthy.Armour.Text = math.round(plr.Information.Armor.Value)
@@ -1194,6 +1195,7 @@ function createBtn(plr)
 						Target.Crew.Text = gps:GetGroupInfoAsync(plr.Information.Crew.Value).Name
 					end)
 				else
+					Plr.Crew.Image = "rbxthumb://type=GroupIcon&id="..plr.DataFolder.Information.Crew.Value.."&w=150&h=150"
 					Healthy.Armour.Text = math.round(plr.Character.BodyEffects.Armor.Value)
 					Healthy.Fire.Text = math.round(plr.Character.BodyEffects.FireArmor.Value)
 					Target.StompFX.Text = "$"..formatInt(plr.DataFolder.Currency.Value)
